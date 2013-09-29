@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="SteerRent.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+        <link rel="stylesheet" href="Content/CSS/slidetabs.css" media="all" type="text/css" />
+    <link type="text/css" rel="stylesheet" media="all" href="Content/CSS/default.css" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="ContentPageHead" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="Contentform" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPage" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+
+    <script type="text/javascript" src="scirpts/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="scirpts/jquery-migrate-1.1.1.js"></script>
+<script type="text/javascript" src="scirpts/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="scirpts/slidetabs.mousewheel.easing.js"></script> 
+<script type="text/javascript" src="scirpts/jquery.slidetabs.js"></script>
+<script type="text/javascript" src="scirpts/slidetabs.touch.js"></script>     
+<script type="text/javascript" src="scirpts/script.js"></script>
+
+</body>
+</html>
