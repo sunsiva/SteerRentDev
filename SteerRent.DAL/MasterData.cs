@@ -1,6 +1,7 @@
 ﻿using SteerRent.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -8,34 +9,50 @@ using System.Threading.Tasks;
 
 namespace SteerRent.DAL
 {
-    class MasterData
+   public class MasterData
     {
-        public MasterDataModel GetMasterData()
+        public List<MasterDataModel> GetMasterData()
         {
             string connectionString = Helper.Helper.GetConnectionString();
+            List<MasterDataModel> lstOfData = new List<MasterDataModel>();
             string queryString =
-                "SELECT [LookupCategoryCode], [LookupCategoryDesc] FROM dbo.[LookupCategories];";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+                "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM dbo.[LookupCategories];";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand command = connection.CreateCommand();
+                SqlCommand command = con.CreateCommand();
                 command.CommandText = queryString;
 
                 try
                 {
-                    connection.Open();
+                    con.Open();
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    //SqlDataReader reader = command.ExecuteReader();
 
-                    while (reader.Read())
+                    //while (reader.Read())
+                    //{
+                    //    Console.WriteLine("\t{0}\t{1}",
+                    //        reader[0], reader[1]);
+                    //}
+                    command.CommandType = CommandType.Text;
+                    DataSet ds = new DataSet();
+                    SqlDataAdapter da = new SqlDataAdapter(command);
+                    da.Fill(ds);
+                    lstOfData = ds.Tables[0].AsEnumerable().Select(row =>
+                    new MasterDataModel
                     {
-                        Console.WriteLine("\t{0}\t{1}",
-                            reader[0], reader[1]);
-                    }
-                    reader.Close();
+
+                        LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
+                        LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
+                        LookupCategoryDesc = row.Field<string>("LookupCategoryDesc")
+
+                    }).ToList();
+
+                    //reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    //Console.WriteLine(ex.Message);
                 }
             }
 
@@ -69,7 +86,8 @@ namespace SteerRent.DAL
             //Dynamic - type4
             //to convert entity collections to a dataset?
             //forums.asp.net/t/1559861.aspx
-            return new MasterDataModel();
+
+            return lstOfData;
 
         }
     }

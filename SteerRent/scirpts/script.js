@@ -67,6 +67,7 @@ $(document).ready(function(e) {
 		closeBtnInside: true,
 		preloader: false,
 		midClick: true,
+		closeOnBgClick:false,
 		removalDelay: 300,
 		mainClass: 'my-mfp-zoom-in',
 		closeMarkup: '<a href="javascript:;" class="mfp-close"></a>'

@@ -93,6 +93,7 @@
     <Content Include="images\cancel_btn.png" />
     <Content Include="images\down_arrow.png" />
     <Content Include="images\down_arrow_user.png" />
+    <Content Include="images\error_icon.png" />
     <Content Include="images\logo.png" />
     <Content Include="images\popup-close.png" />
     <Content Include="images\search_icon.png" />
@@ -102,6 +103,7 @@
     <Content Include="images\ui-icons_0073ea_256x240.png" />
     <Content Include="Index.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="Master\GeneralLookups_A001.aspx" />
     <Content Include="PreLogin.aspx" />
     <Content Include="scirpts\jquery-1.9.1.js" />
     <Content Include="scirpts\jquery-migrate-1.1.1.js" />
@@ -109,7 +111,6 @@
     <Content Include="scirpts\jquery.backstretch.min.js" />
     <Content Include="scirpts\jquery.magnific-popup.js" />
     <Content Include="scirpts\jquery.slidetabs.js" />
-    <Content Include="scirpts\jquery.stylish-select %282%29.js" />
     <Content Include="scirpts\jquery.stylish-select.js" />
     <Content Include="scirpts\jquery.ui.datepicker.js" />
     <Content Include="scirpts\script.js" />
@@ -151,6 +152,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Master\GeneralLookups_A001.aspx.cs">
+      <DependentUpon>GeneralLookups_A001.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\GeneralLookups_A001.aspx.designer.cs">
+      <DependentUpon>GeneralLookups_A001.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PreLogin.aspx.cs">
       <DependentUpon>PreLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +192,16 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SteerRent.BAL\SteerRent.BAL.csproj">
+      <Project>{d52c16cd-4e1c-4cad-9771-fe30540a8ed2}</Project>
+      <Name>SteerRent.BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SteerRent.Model\SteerRent.Model.csproj">
+      <Project>{418aa8bf-4fe7-4f63-96a6-6b4c802f80ae}</Project>
+      <Name>SteerRent.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

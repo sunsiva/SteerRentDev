@@ -130,22 +130,22 @@ body {
 	background:url(/images/search_icon.png) no-repeat center center;
 }
 .menu_item{
-	background:#6699FF url(/images/down_arrow.png) no-repeat 70px center;
-	padding:8px 6px 8px 6px;
+	background:#006699 url(/images/down_arrow.png) no-repeat 70px center;
+	padding:7px 6px 9px 6px;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:11px;
+	font-size:12px;
 	color:#FFF;
 	display:block;
 	width:75px;
 }
 .menu_space{
-	width:502px;
+	width:505px;
 	display:none;
 	position:absolute;
 	right:0px;
-	top:29px;
+	top:0px;
 	z-index:1000;
-	background:#6699FF;
+	background:#006699;
 
 }
 .ie9 .menu_space{
@@ -160,7 +160,7 @@ body {
 }
 .menu_box_title{
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:20px;
+	font-size:12px;
 	color:#fff;
 	line-height:100%;
 	margin-bottom:20px;
@@ -293,7 +293,7 @@ body {
 .user_name span{
 	position:absolute;
 	width:9px;
-	height:6px;
+	height:5px;
 	right:5px;
 	top:50%;
 	margin-top:-2.5px;
@@ -332,9 +332,11 @@ body {
 .error_msg_bg{
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
+	font-weight:bold;
 	color:#F00;
 	display:block;
 	margin-bottom:8px;
+	background:url(/images/error_icon.png) no-repeat 0 0;
 }
 .error_popup_bg{
 	font-family:Arial, Helvetica, sans-serif;
@@ -345,7 +347,7 @@ body {
 }
 .success_msg_bg{
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:12px;
+	font-size:12px;	
 	color:#090;
 	display:block;
 	margin-bottom:8px;
@@ -451,7 +453,7 @@ body {
 	width:150px;
 	height:24px;
 	display:block;
-	background:#6699FF;
+	background:#006699;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -533,7 +535,7 @@ body {
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:14px;
 	color:#FFF !important;
-	background:#6699FF;
+	background:#006699;
 }
 .popup-detail{
 	font-family:Arial, Helvetica, sans-serif;
@@ -552,14 +554,27 @@ body {
 	margin-bottom:10px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+table.gridtable {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#333333;
+	width: 670px;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #dedede;
+	text-align: left;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #ffffff;
+}

@@ -11,7 +11,7 @@ namespace SteerRent.DAL.Helper
     {
         static public string GetConnectionString()
         {
-            return ConfigurationManager.AppSettings.Get("SteerRentConnection").ToString(); ;
+            return ConfigurationManager.ConnectionStrings["SteerRentConnection"].ToString();
         }
     }
 }

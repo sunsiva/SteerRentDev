@@ -39,10 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="MasterData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SteerRent.DAL\SteerRent.DAL.csproj">
+      <Project>{9da5ff09-360e-41cc-9e58-752c4d1c7aeb}</Project>
+      <Name>SteerRent.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SteerRent.Model\SteerRent.Model.csproj">
       <Project>{418aa8bf-4fe7-4f63-96a6-6b4c802f80ae}</Project>
       <Name>SteerRent.Model</Name>

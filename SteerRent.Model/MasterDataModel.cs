@@ -9,7 +9,7 @@ namespace SteerRent.Model
 {
     public class MasterDataModel
     {
-        public int LookupCategoryID { get; set; }
+        public decimal LookupCategoryID { get; set; }
         public string LookupCategoryCode { get; set; }
         public string LookupCategoryDesc { get; set; }
     }

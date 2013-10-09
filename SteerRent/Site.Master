@@ -13,6 +13,10 @@
 <body>
     <form id="Contentform" runat="server">
     <div>
+                <asp:ScriptManager ID="ScriptManager1" runat="server">
+            <Services>
+            </Services>
+        </asp:ScriptManager>
         <asp:ContentPlaceHolder ID="ContentPage" runat="server">
         
         </asp:ContentPlaceHolder>

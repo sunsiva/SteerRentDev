@@ -45,7 +45,7 @@
             <div class="header_right_part">
                 <div class="serch_box_outter">
                     <form method="post" name="serch-box">
-                        <div class="serch_box_inner"><input name="" class="serch_input" placeholder="Enter Keyword To search.." type="text"></div>
+                        <div class="serch_box_inner"><input name="" class="serch_input" placeholder="Enter Keyword To search.." type="text" /></div>
                         <button type="button" class="serch_btn"></button>
                         <div class="clear"></div>
                   </form>
@@ -63,7 +63,7 @@
                                     <div class="submodule_colume">
                                         <h5 class="menu_box_submodule">Sub Module Name</h5>
                                         <ul class="page_ul">
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="Master/GeneralLookups_A001.aspx">General Lookups</a></li>
                                             <li><a class="page_name" data-url="content.html">Page Name</a></li>
                                             <li><a class="page_name" data-url="content.html">Page Name</a></li>
                                             <li><a class="page_name" data-url="content.html">Page Name</a></li>
