@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SteerRent.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="SteerRent.Dashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="SteerRent.Dashboard" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -29,8 +29,8 @@
 
                                            
                                     </div>
-                                    <h1><a href="#add-product-popup" class="popup-link">Click to open popup</a></h1>
-                                    <%--<form name="frmDash" method="post">--%>
+                                 <%--   <h1><a href="#add-product-popup" class="popup-link">Click to open popup</a></h1>
+                                    <form name="frmDash" method="post">
                                            
                                         <div class="contain_row">
                                         	<h5 class="contain_title">Form Sub Section</h5>
@@ -62,11 +62,11 @@
                                             	<div class="clear"></div>                                                                                                
                                             </div>
                                         </div>
-                                        
+                                        --%>
                                         <div class="contain_row">
-                                        	<h5 class="contain_title">Form Sub Section</h5>
+                                        	<h5 class="contain_title">Notifications</h5>
                                             <div class="contain_sub_row">
-                                            	<p class="label_part exlabel">Label</p>
+                                            	<p class="label_part exlabel"></p>
                                                 <div class="label_textarea_part">
                                                 	<textarea name="" cols="" rows=""></textarea>
                                                 </div>
@@ -74,7 +74,7 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="contain_row">
+                                        <%--<div class="contain_row">
                                         	<h5 class="contain_title">Form Sub Section</h5>
                                             <div class="contain_sub_row">
                                             	<div class="contain_left_part">
@@ -102,7 +102,7 @@
                                             	<button type="submit" class="submit_btn" value="Submit">Submit</button>
                                             </div>
                                         </div>
-                                        	
+                                        	--%>
                                    <%-- </form>--%>
                                 </div>
                             </div>

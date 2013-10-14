@@ -12,7 +12,7 @@ namespace SteerRent.BAL
     {
 
         dal.MasterData objDAL;
-        public List<MasterDataModel> GetMasterData()
+        public List<LookupCategoryModel> GetMasterData()
         {
             objDAL = new dal.MasterData();
             return objDAL.GetMasterData();

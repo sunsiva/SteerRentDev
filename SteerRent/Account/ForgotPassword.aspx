@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SteerRent.Master" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="SteerRent.Account.ForgotPassword" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="SteerRent.Account.ForgotPassword" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

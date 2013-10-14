@@ -1,0 +1,115 @@
+﻿@model SteerRent.Model.LookupCategoryModel
+
+@{
+    ViewBag.Title = "GeneralLookups_A001";
+    //Layout = "~/Views/Shared/_Layout.cshtml";          
+}
+
+<h2>GeneralLookups_A001</h2>
+@*@using(Html.BeginForm())
+{
+
+                *@<!--- A001 - General Lookups -->
+                        <div class="A001 st_view">
+                            <div class="st_view_inner">
+                            	<div class="tab_contant_inner">
+                           			<div class="contain_row" style="display:none">
+                                    	<p class="error_msg_bg">&nbsp;</p>
+                                        <p class="error_msg_sm">Please enter all required fields.</p>
+                                        <p class="error_msg_sm">The chosen value already exists in the system.</p>
+                                        <p class="error_msg_sm">Special characters are not allowed.</p>
+                                        <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                    </div>
+                                    
+                                        <div class="contain_row">
+                                        	<h5 class="contain_title">General Lookups</h5>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Category<span></span></p>
+                                                    <div class="label_combo_part">
+                                                    	<select name="ddlCategory">
+                                                        	<option></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Sub-Category<span></span></p>
+                                                    <div class="label_combo_part">
+                                                        
+                                                        
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contain_row">
+                                        	<h5 class="contain_title">Existing Values</h5>
+                                            <div class="contain_sub_row">
+                                            	<p class="label_part exlabel">List of Values</p>
+                                                <div class="label_textarea_part">
+                                                grid goes here
+                                                    <h5><span runat="server" id="spnTotCnt"></span></h5>
+                                                  </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contain_row">
+                                        	<h5 class="contain_title">Add Lookup Data for "Category - Sub-Category"</h5>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Enter New Value <span>*</span></p>
+                                                    <div class="label_input_part">
+                                                    	<input name="txtNewValue" type="text" placeholder="" />
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>   
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="submit_part">
+                                            <div class="contain_submit_row">
+                                            	<input type="button" ID="btnSubmitA1" class="submit_btn" value="Submit" />
+                                            </div>
+                                        </div>
+                                        	
+                                    
+                                </div>
+                            </div>    
+                        </div>
+                <!-- END A001 -->
+    
+    
+    <script lang="ja" type="text/javascript">
+        $(document).ready(function () {
+
+            $('#btnSubmitA1').click(function () {
+                var href = '@Url.Action("GeneralLookups_A001","Master")';
+                $.ajax({
+                    url: href,
+                    data: "ss",
+                    type: "POST",
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        //$('#contain_part').html(data);
+                        //document.location.href = href;
+                        alert('Glookup');
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        alert("CustomizeRoomInformationError");
+                    }
+                });
+
+            });
+        });
+    </script>
+
+@*}*@

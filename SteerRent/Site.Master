@@ -13,15 +13,30 @@
 <body>
     <form id="Contentform" runat="server">
     <div>
-                <asp:ScriptManager ID="ScriptManager1" runat="server">
-            <Services>
-            </Services>
-        </asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+    
+        </asp:ScriptManager> 
         <asp:ContentPlaceHolder ID="ContentPage" runat="server">
-        
+         
         </asp:ContentPlaceHolder>
     </div>
     </form>
+
+<%--      <script lang="ja" type="text/javascript">
+          $("#btnSubmit").click(function () {
+              alert();
+              $.ajax({
+                  type: "POST",
+                  url: "GeneralLookups_A001.aspx/BindData",
+                  data: "{}",
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (msg) {
+                      alert(msg);
+                  }
+              });
+          });
+    </script>--%>
 
     <script type="text/javascript" src="scirpts/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="scirpts/jquery-migrate-1.1.1.js"></script>

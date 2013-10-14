@@ -103,7 +103,10 @@
     <Content Include="images\ui-icons_0073ea_256x240.png" />
     <Content Include="Index.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="Master\Employee_A007.aspx" />
     <Content Include="Master\GeneralLookups_A001.aspx" />
+    <Content Include="Master\HierarchicalLookup_A002.aspx" />
+    <Content Include="Master\Location_A004.aspx" />
     <Content Include="PreLogin.aspx" />
     <Content Include="scirpts\jquery-1.9.1.js" />
     <Content Include="scirpts\jquery-migrate-1.1.1.js" />
@@ -152,12 +155,33 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Master\Employee_A007.aspx.cs">
+      <DependentUpon>Employee_A007.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\Employee_A007.aspx.designer.cs">
+      <DependentUpon>Employee_A007.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Master\GeneralLookups_A001.aspx.cs">
       <DependentUpon>GeneralLookups_A001.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Master\GeneralLookups_A001.aspx.designer.cs">
       <DependentUpon>GeneralLookups_A001.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\HierarchicalLookup_A002.aspx.cs">
+      <DependentUpon>HierarchicalLookup_A002.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\HierarchicalLookup_A002.aspx.designer.cs">
+      <DependentUpon>HierarchicalLookup_A002.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Location_A004.aspx.cs">
+      <DependentUpon>Location_A004.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\Location_A004.aspx.designer.cs">
+      <DependentUpon>Location_A004.aspx</DependentUpon>
     </Compile>
     <Compile Include="PreLogin.aspx.cs">
       <DependentUpon>PreLogin.aspx</DependentUpon>
@@ -174,16 +198,16 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
-    <Compile Include="SteerRent.Master.cs">
-      <DependentUpon>SteerRent.Master</DependentUpon>
+    <Compile Include="Menu.Master.cs">
+      <DependentUpon>Menu.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SteerRent.Master.designer.cs">
-      <DependentUpon>SteerRent.Master</DependentUpon>
+    <Compile Include="Menu.Master.designer.cs">
+      <DependentUpon>Menu.Master</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SteerRent.Master" />
+    <Content Include="Menu.Master" />
     <Content Include="packages.config" />
     <Content Include="Site.Master" />
     <None Include="Web.Debug.config">

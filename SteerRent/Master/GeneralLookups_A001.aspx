@@ -1,10 +1,27 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="GeneralLookups_A001.aspx.cs" Inherits="SteerRent.Master.GeneralLookups_A001" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPageHead" runat="server">
+   
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPage" runat="server">
 
-    <asp:UpdatePanel runat="server" ID="up"  UpdateMode="Always">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPage" runat="server">
+    
+    <asp:ScriptManagerProxy runat="server">
+        <Services>
+            <asp:ServiceReference Path="~/Master/GeneralLookups_A001.aspx" />
+        </Services>
+    </asp:ScriptManagerProxy>
+                
+<%--<script type="text/javascript">
+                Sys.WebForms.PageRequestManager.getInstance().add_endRequest(InIEvent);
+    </script>--%>
+
+    <asp:UpdatePanel runat="server" ID="up"  UpdateMode="Conditional">
+        
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnSubmit" EventName="Click" />
+        </Triggers>
             <ContentTemplate>
+                
                 <!--- A001 - General Lookups -->
                         <div class="A001 st_view">
                             <div class="st_view_inner">
@@ -54,34 +71,29 @@
                                             	<p class="label_part exlabel">List of Values</p>
                                                 <div class="label_textarea_part">
                                                 
-                                                    <asp:GridView ID="gvCategory" ClientIDMode="Static" AutoGenerateColumns="false"  CssClass="gridtable" ForeColor="Black" AllowPaging="true" Width="450px" PageSize="5" AllowSorting="true" runat="server">
+                                                     <asp:GridView EmptyDataText="No record(s) found." DataKeyNames="LookupCategoryID" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="error_msg_bg" 
+                                                         ID="gvCategory" ClientIDMode="Static" AutoGenerateColumns="false"  CssClass="gridtable" ForeColor="Black" 
+                                                         AllowPaging="true" Width="450px" PageSize="5" AllowSorting="true" runat="server">
                                                          <Columns>
                                                                 <asp:BoundField HeaderText="Category" DataField="LookupCategoryCode" 
-                                                                   SortExpression="LastName"></asp:BoundField>
+                                                                   SortExpression="LookupCategoryCode"></asp:BoundField>
                                                                 <asp:BoundField HeaderText="Sub-Category" DataField="LookupCategoryDesc" 
-                                                                   SortExpression="FirstName"></asp:BoundField>
+                                                                   SortExpression="LookupCategoryDesc"></asp:BoundField>
                                                                 <asp:BoundField HeaderText="Value" DataField="LookupCategoryDesc" 
-                                                                   SortExpression="HireDate" />
+                                                                   SortExpression="LookupCategoryDesc" />
                                                                 <asp:BoundField HeaderText="Status" DataField="LookupCategoryDesc" 
-                                                                   SortExpression="HireDate" > </asp:BoundField>
+                                                                   SortExpression="LookupCategoryDesc" > </asp:BoundField>
+                                                              <asp:CheckBoxField DataField="IsActive" ReadOnly="false" HeaderText="Activate"  />
                                                                 <asp:TemplateField HeaderText="Activate">
                                                                     <ItemTemplate>
-                                                                       <input type="checkbox" class="checkbox-mrg" id="chkAction" runat="server" />
+                                                                       <input type="checkbox" class="checkbox-mrg" checked="checked" id="chkAction" onclick="" runat="server"/>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                             </Columns>
+                                                         
                                                     </asp:GridView>
-                                                    <br />
-                                                    <br></br>
-                                                    <h5>xx records found. xx - Active, xx - Inactive. </h5>
-                                                    <br></br>
-                                                    <br></br>
-                                                    <br></br>
-                                                    </br>
-                                                    </br>
-                                                    </br>
-                                                    </br>
-                                                </div>
+                                                    <h5><span runat="server" id="spnTotCnt"></span></h5>
+                                                  </div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -97,7 +109,6 @@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                	
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>   
@@ -106,7 +117,7 @@
                                         
                                         <div class="submit_part">
                                             <div class="contain_submit_row">
-                                            	<asp:Button runat="server" type="submit" class="submit_btn" value="Submit" Text="Submit"></asp:Button>
+                                            	<asp:Button runat="server" ID="btnSubmit" ClientIDMode="Static" class="submit_btn" value="Submit" OnClick="btnSubmit_Click" Text="Submit"></asp:Button>
                                             </div>
                                         </div>
                                         	
@@ -117,5 +128,21 @@
                 <!-- END A001 -->
             </ContentTemplate>
     </asp:UpdatePanel>
-
+     <script lang="ja" type="text/javascript">
+         $("#btnSubmit").click(function () {
+             alert();
+             $.ajax({
+                 type: "POST",
+                 url: "Master/GeneralLookups_A001.aspx/BindData",
+                 data: "{}",
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (msg) {
+                     alert(msg);
+                 },
+                 failure: function (error)
+                 { alert('error');}
+             });
+         });
+    </script>
 </asp:Content>

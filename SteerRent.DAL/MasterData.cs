@@ -11,7 +11,7 @@ namespace SteerRent.DAL
 {
    public class MasterData
     {
-        public List<MasterDataModel> GetMasterData()
+        public List<MasterDataModel> GetMasterData(string str)
         {
             string connectionString = Helper.Helper.GetConnectionString();
             List<MasterDataModel> lstOfData = new List<MasterDataModel>();
@@ -90,5 +90,64 @@ namespace SteerRent.DAL
             return lstOfData;
 
         }
+
+        public List<LookupCategoryModel> GetMasterData()
+        {
+            string connectionString = Helper.Helper.GetConnectionString();
+            List<LookupCategoryModel> lstOfData = new List<LookupCategoryModel>();
+            string queryString = "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM [LookupCategories]";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandText = "usp_LookupCategoriesSelect";// queryString;
+                try
+                {
+                    con.Open();
+
+                    //DATAREADER EXAMPLE : BEGIN
+                    //SqlDataReader reader = command.ExecuteReader();
+                    //string GetOutputFileInfoCmd = "SELECT Content.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() FROM tableName WHERE containerID = @ContainerID";
+                    //SqlTransaction txn = null;
+                    //SqlCommand cmd = new SqlCommand(GetOutputFileInfoCmd, con, txn);
+                    //cmd.Parameters.Add("@ContainerID", SqlDbType.UniqueIdentifier).Value = fileID;
+                    //using (SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                    //{
+                    //    rdr.Read();
+                    //    txnToken = rdr.GetSqlBinary(1).Value;
+                    //    filePath = rdr.GetSqlString(0).Value;
+                    //    rdr.Close();
+                    //}
+                    //DATAREADER EXAMPLE : END
+
+                    
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
+                    DataSet ds = new DataSet();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(ds);
+                    lstOfData = ds.Tables[0].AsEnumerable().Select(row =>
+                    new LookupCategoryModel
+                    {
+                        LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
+                        LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
+                        LookupCategoryDesc = row.Field<string>("LookupCategoryDesc"),
+                        IsActive = row.Field<bool>("IsActive")
+
+                    }).ToList();
+
+                    //reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine(ex.Message);
+                }
+            }
+
+            return lstOfData;
+
+        }
+
+
     }
 }

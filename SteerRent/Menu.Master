@@ -1,0 +1,231 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Menu.Master.cs" Inherits="SteerRent.SteerRent" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+        
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=975" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <link rel="stylesheet"  media="all" type="text/css" href="Content/CSS/slidetabs.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="Content/CSS/jquery-ui-1.10.3.custom.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="Content/CSS/magnific-popup.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="Content/CSS/default.css" />
+    
+    <title>Steer Rent</title>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+    <body>
+    
+<!-- Start layout
+==================================================-->
+<div class="layout">
+	<div class="part_inner">
+    
+    	<!-- Start Header Part
+		==================================================-->
+        <div class="header_space">
+    		<a class="logo_part" href="index.html"></a>
+            <div class="header_dropdown">
+                <a class="user_name">First Name Last Name <span>&nbsp;</span></a>
+                <div class="user_part">
+                	<div class="user_part_inner">
+                    	<a class="user_item">Update Profile</a>
+                    	<a class="user_item">Change Password</a>
+                    	<a class="user_item">Log out</a>                                                
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header_right_part">
+                <div class="serch_box_outter">
+                    <form method="post" name="serch-box">
+                        <div class="serch_box_inner"><input name="" class="serch_input" placeholder="Enter Keyword To search.." type="text" /></div>
+                        <button type="button" class="serch_btn"></button>
+                        <div class="clear"></div>
+                  </form>
+                </div>  
+            	<!--Start Menu--> 
+                <div class="menu_part">
+                    <a class="menu_item" id="menu_item">Menu</a>
+                    <div class="menu_space">
+                        <div class="menu_space_inner">
+                            <!-- <h4 class="menu_box_title">Menu</h4> --> 
+                            <div class="menu_outter_scrl">
+                            	<h5 class="menu_box_subtitle">Masters</h5> 
+                                <div class="sub_module_row">
+                                    <!--Start Menu Colume--> 
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Administration</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="Master/GeneralLookups_A001.aspx">General Lookups</a></li>
+                                            <li><a class="page_name" data-url="Master/HierarchicalLookup_A002.aspx">Hierarchical Lookups</a></li>
+                                            <li><a class="page_name" data-url="Master/Location_A004.aspx">Location</a></li>
+                                            <li><a class="page_name" data-url="Master/Employee_A007.aspx">Employee</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    <div class="clear"></div>                                                                                    
+                                 </div>
+                       <%--     	<h5 class="menu_box_subtitle">Module Name</h5> 
+                                <div class="sub_module_row">
+                                    <!--Start Menu Colume--> 
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    <div class="clear"></div>                                                                                    
+                                </div>
+                                <h5 class="menu_box_subtitle">Module Name</h5> 
+                                <div class="sub_module_row">
+                                    <!--Start Menu Colume--> 
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    
+                                    <!--Start Menu Colume-->
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                        <ul class="page_ul">
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    <div class="clear"></div>                                                                                    
+                                </div>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            	<!--End Menu-->
+                <div class="clear"></div>      
+			</div>
+        	<div class="clear"></div>
+        </div>
+        <!-- End Header part
+		==================================================-->
+
+         <form id="Form1" name="MainForm" method="post" runat="server">
+             <asp:ScriptManager runat="server" EnablePartialRendering="true"></asp:ScriptManager>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    <div></div>                       
+                </asp:ContentPlaceHolder>
+         </form>
+        <!-- Start Footer Part
+    	==================================================-->
+        <div class="footer_part">
+            <p class="copyright_part">&copy;2013 SteerRent</p>
+            <div class="footer_menu_part">
+                <a class="footer_item" href="javascript:;">Help</a>
+                <div class="diwider">|</div>
+                <a class="footer_item" href="javascript:;">Report</a>
+                <div class="diwider">|</div>
+                <a class="footer_item" href="javascript:;">Bug</a>
+                <div class="diwider">|</div>
+                <a class="footer_item" href="javascript:;">Contact</a>
+                <div class="clear"></div>                                                                
+            </div>
+            <div class="clear"></div>
+        </div>    
+        <!-- End Footer Part
+        ==================================================-->
+        
+    </div>
+</div>
+<!-- End layout
+==================================================-->
+
+<script type="text/javascript" src="scirpts/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="scirpts/jquery-migrate-1.1.1.js"></script>
+<script type="text/javascript" src="scirpts/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="scirpts/slidetabs.mousewheel.easing.js"></script> 
+<script type="text/javascript" src="scirpts/jquery.slidetabs.js"></script>
+<script type="text/javascript" src="scirpts/slidetabs.touch.js"></script>     
+<script type="text/javascript" src="scirpts/script.js"></script>
+<script type="text/javascript" src="scirpts/jquery.magnific-popup.js"></script>
+<script type="text/javascript" src="scirpts/jquery-ui-1.10.3.custom.js"></script>     
+
+</body>
+
+</html>

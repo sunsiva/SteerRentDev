@@ -5,6 +5,7 @@ $(document).ready(function(e) {
 	$('.menu_part').on({
 		mouseenter:function(){
 			$('.menu_space').stop(true,true).slideDown();
+			alert();
 		},mouseleave:function(){
 			$('.menu_space').stop(true,true).slideUp('fast');
 		}
