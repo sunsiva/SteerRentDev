@@ -1,6 +1,4 @@
-﻿@model SteerRent.Model.LookupCategoryModel
-
-@{
+﻿@{
     ViewBag.Title = "GeneralLookups_A001";
     //Layout = "~/Views/Shared/_Layout.cshtml";          
 }
@@ -91,7 +89,7 @@
         $(document).ready(function () {
 
             $('#btnSubmitA1').click(function () {
-                var href = '@Url.Action("GeneralLookups_A001","Master")';
+                var href = '@Url.Action("GeneralLookupSubmit","Master")';
                 $.ajax({
                     url: href,
                     data: "ss",

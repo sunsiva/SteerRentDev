@@ -10,7 +10,6 @@ namespace SteerRentMVC.Controllers
     {
         //
         // GET: /Master/
-
         public ActionResult GeneralLookups_A001()
         {
 
@@ -18,11 +17,10 @@ namespace SteerRentMVC.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult GeneralLookups_A001(int id)
+        public ActionResult GeneralLookupSubmit()
         {
 
-                return PartialView();
+            return PartialView("GeneralLookups_A001");
                        
         }
 
