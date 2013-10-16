@@ -95,12 +95,11 @@ namespace SteerRent.DAL
         {
             string connectionString = Helper.Helper.GetConnectionString();
             List<LookupCategoryModel> lstOfData = new List<LookupCategoryModel>();
-            string queryString = "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM [LookupCategories]";
+            //string queryString = "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM [LookupCategories]";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "usp_LookupCategoriesSelect";// queryString;
+                
                 try
                 {
                     con.Open();
@@ -120,18 +119,31 @@ namespace SteerRent.DAL
                     //}
                     //DATAREADER EXAMPLE : END
 
-                    
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandText = "usp_LookupCategoriesSelect";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
                     DataSet ds = new DataSet();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
+
+                    //SqlCommand cmd1 = con.CreateCommand();
+                    //cmd1.CommandText = "usp_LookupCategoriesSelect";
+                    //cmd1.CommandType = CommandType.StoredProcedure;
+                    //cmd1.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
+                    //DataSet ds1 = new DataSet();
+                    //SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                    //da1.Fill(ds1);
+
+
+
                     lstOfData = ds.Tables[0].AsEnumerable().Select(row =>
                     new LookupCategoryModel
                     {
                         LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
                         LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
                         LookupCategoryDesc = row.Field<string>("LookupCategoryDesc"),
+                        HierarchyLevel = row.Field<int>("HierarchyLevel"),
                         IsActive = row.Field<bool>("IsActive")
 
                     }).ToList();

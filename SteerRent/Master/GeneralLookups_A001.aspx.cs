@@ -25,7 +25,7 @@ namespace SteerRent.Master
             }
         }
 
-           public void BindData()
+        public void BindData()
         {
             objBal = new MasterData();
             objModel = new LookupCategoryModel();

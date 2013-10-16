@@ -12,6 +12,7 @@ namespace SteerRent.Model
         public decimal LookupCategoryID { get; set; }
         public string LookupCategoryCode { get; set; }
         public string LookupCategoryDesc { get; set; }
+        public List<LookupCategoryModel> LookupCategoryList { get; set; }
     }
 
     public class LookupCategoryModel
@@ -20,6 +21,10 @@ namespace SteerRent.Model
         public string LookupCategoryCode { get; set; }
         public string LookupCategoryDesc { get; set; }
         public bool IsActive { get; set; }
+        public int HierarchyLevel { get; set; }
+        public List<GLookupDataModel> GLookupList { get; set; }
+        public List<HLookupDataModel> HLookupList { get; set; }
+        public List<LookupCategoryModel> LookupCategoryList { get; set; }
     }
 
     public class GLookupDataModel

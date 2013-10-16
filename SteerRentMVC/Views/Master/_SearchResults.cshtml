@@ -1,0 +1,38 @@
+﻿@model SteerRent.Model.LookupCategoryModel
+
+    <table class="gridtable">
+        <tr>
+            <th>
+                Category
+            </th>
+            <th>
+                Sub-Category
+            </th>
+            <th>
+                Value
+            </th>
+        </tr>
+        @if(Model != null)
+        {
+         foreach (var item in Model.LookupCategoryList){
+            <tr>
+                <td >
+                    @item.LookupCategoryCode
+                </td>
+                <td>
+                    @item.LookupCategoryDesc
+                </td>
+                <td>
+                    <input type="checkbox" checked="@item.IsActive" class="checkbox-mrg" />
+                </td>
+            </tr>
+         }
+        }
+        else
+         {
+            <tr><td colspan="2">No records found.</td></tr>
+        }
+</table>
+    <h5>xx records found. xx - Active, xx - Inactive.</h5>
+                <h5><span runat="server" id="spnTotCnt"></span></h5>
+

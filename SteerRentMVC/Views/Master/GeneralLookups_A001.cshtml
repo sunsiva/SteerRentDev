@@ -1,12 +1,14 @@
-﻿@{
+﻿@model SteerRent.Model.LookupCategoryModel
+
+@{
+    var cat = Model.LookupCategoryList.Where(m => m.HierarchyLevel == 1).ToList();
+    var scat = Model.LookupCategoryList.Where(m => m.HierarchyLevel == 2).ToList();
     ViewBag.Title = "GeneralLookups_A001";
-    //Layout = "~/Views/Shared/_Layout.cshtml";          
+    //Layout = "~/Views/Shared/_Layout.cshtml";  
 }
 
-<h2>GeneralLookups_A001</h2>
-@*@using(Html.BeginForm())
+@*@using (Ajax.BeginForm("GeneralLookups_A001", null, new AjaxOptions { HttpMethod = "POST" }, new { id = "frmGlookup" }))
 {
-
                 *@<!--- A001 - General Lookups -->
                         <div class="A001 st_view">
                             <div class="st_view_inner">
@@ -25,30 +27,29 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Category<span></span></p>
                                                     <div class="label_combo_part">
-                                                    	<select name="ddlCategory">
-                                                        	<option></option>
-                                                        </select>
+                                                        @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id ="ddlCategory" })
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Sub-Category<span></span></p>
                                                     <div class="label_combo_part">
-                                                        
-                                                        
+                                                       @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(scat, "LookupCategoryID", "LookupCategoryCode"),"--Select Sub-Category--")
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
                                             </div>
                                         </div>
-                                        
+                                       
                                         <div class="contain_row">
                                         	<h5 class="contain_title">Existing Values</h5>
                                             <div class="contain_sub_row">
                                             	<p class="label_part exlabel">List of Values</p>
                                                 <div class="label_textarea_part">
-                                                grid goes here
+                                                    <span id="srchList">
+                                                         @Html.Partial("_SearchResults",Model)
+                                                    </span>
                                                     <h5><span runat="server" id="spnTotCnt"></span></h5>
                                                   </div>
                                                 <div class="clear"></div>
@@ -61,7 +62,7 @@
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Enter New Value <span>*</span></p>
                                                     <div class="label_input_part">
-                                                    	<input name="txtNewValue" type="text" placeholder="" />
+                                                    	@Html.TextBoxFor(model => model.LookupCategoryCode, new { name="txtNewValue", id="LookupCategoryCode",placeholder="Category"})
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -77,37 +78,77 @@
                                             	<input type="button" ID="btnSubmitA1" class="submit_btn" value="Submit" />
                                             </div>
                                         </div>
-                                        	
+                                    
+                                    <div id="grdList"></div>    	
                                     
                                 </div>
                             </div>    
                         </div>
                 <!-- END A001 -->
-    
+@*    }*@
     
     <script lang="ja" type="text/javascript">
         $(document).ready(function () {
 
+        //    var gridDataUrl = '/Master/JsonSalesCollection';
+        //    var gridimgpath = '~/Scripts/jqgrid/themes/redmond/images';
+
+        //    jQuery("#grdList").jqGrid(
+        //        {url: gridDataUrl,
+        //    datatype: "json",
+        //    mtype: 'GET',
+        //    colNames: ['LookupCategoryID', 'LookupCategoryDesc'],
+        //    colModel: [
+        //                 { name: 'LookupCategoryID', index: 'LookupCategoryID', width: 50, align: 'left' },
+        //                 { name: 'LookupCategoryDesc', index: 'LookupCategoryDesc', width: 100, align: 'right' }],
+        //    rowNum: 20,
+        //    rowList: [10, 20, 30],
+        //   // imgpath: gridimgpath,
+        //    height: 'auto',
+        //    width: '700',
+        //    pager: jQuery('#pager'),
+        //    sortname: 'LookupCategoryID',
+        //    viewrecords: true,
+        //    sortorder: "LookupCategoryDesc",
+        //    caption: "Look"
+        //});
+
+            $('#ddlCategory').change(function () {
+                RefreshGrid();
+            });
+
             $('#btnSubmitA1').click(function () {
+                RefreshGrid();
+            });
+
+            function RefreshGrid()
+            {
                 var href = '@Url.Action("GeneralLookupSubmit","Master")';
+                //var datavalues = $('#frmGlookup').serialize();
+                debugger;
                 $.ajax({
                     url: href,
-                    data: "ss",
+                    data: { id: $('#ddlCategory').val() },
                     type: "POST",
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-                        //$('#contain_part').html(data);
-                        //document.location.href = href;
+                        $('#srchList').html(data);
+                        debugger;
+                        alert(data);
+                        var productDropdown = $("#ddlCategory");
+                        productDropdown.empty();
+                        for (var i = 0; i < data.length; i++) {
+                            productDropdown.append('<option value?+data[i].LookupCategoryId+?="">' + data[i].LookupCategoryCode + '</option>');
+                        }
+
                         alert('Glookup');
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
-                        alert("CustomizeRoomInformationError");
+                        alert("Error:Action is aborted.Please try again later.");
                     }
                 });
-
-            });
+            }
         });
     </script>
 
-@*}*@
