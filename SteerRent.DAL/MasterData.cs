@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 namespace SteerRent.DAL
 {
    public class MasterData
-    {
-        public List<MasterDataModel> GetMasterData(string str)
+   {
+       static string connectionString = Helper.Helper.GetConnectionString();
+
+       #region "Lookup"
+       public List<MasterDataModel> GetMasterData(string str)
         {
             string connectionString = Helper.Helper.GetConnectionString();
             List<MasterDataModel> lstOfData = new List<MasterDataModel>();
@@ -91,11 +94,10 @@ namespace SteerRent.DAL
 
         }
 
-        public List<LookupCategoryModel> GetMasterData()
+       public LookupCategoryModel GetLookupData(LookupCategoryModel obj)
         {
             string connectionString = Helper.Helper.GetConnectionString();
-            List<LookupCategoryModel> lstOfData = new List<LookupCategoryModel>();
-            //string queryString = "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM [LookupCategories]";
+            LookupCategoryModel objLookup = new LookupCategoryModel();
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -120,46 +122,277 @@ namespace SteerRent.DAL
                     //DATAREADER EXAMPLE : END
 
                     SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "usp_LookupCategoriesSelect";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
                     DataSet ds = new DataSet();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(ds);
+                    SqlDataAdapter da = new SqlDataAdapter();
 
-                    //SqlCommand cmd1 = con.CreateCommand();
-                    //cmd1.CommandText = "usp_LookupCategoriesSelect";
-                    //cmd1.CommandType = CommandType.StoredProcedure;
-                    //cmd1.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
-                    //DataSet ds1 = new DataSet();
-                    //SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
-                    //da1.Fill(ds1);
-
-
-
-                    lstOfData = ds.Tables[0].AsEnumerable().Select(row =>
-                    new LookupCategoryModel
+                    if (obj.PageMode == GlobalEnum.MasterPages.Lookup)
                     {
-                        LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
-                        LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
-                        LookupCategoryDesc = row.Field<string>("LookupCategoryDesc"),
-                        HierarchyLevel = row.Field<int>("HierarchyLevel"),
-                        IsActive = row.Field<bool>("IsActive")
+                        cmd.CommandText = "SELECT[LookupCategoryID],[LookupCategoryCode],[LookupCategoryDesc],IsActive,IsGLookup FROM [LookupCategories]";// "usp_LookupCategoriesSelect";
+                        cmd.CommandType = CommandType.Text;
+                        //cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
+                        ds = new DataSet();
+                        da = new SqlDataAdapter(cmd);
+                        da.Fill(ds);
 
-                    }).ToList();
+                        objLookup.LookupCategoryList = ds.Tables[0].AsEnumerable().Select(row =>
+                        new LookupCategoryModel
+                        {
+                            LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
+                            LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
+                            LookupCategoryDesc = row.Field<string>("LookupCategoryDesc"),
+                            IsActive = row.Field<bool>("IsActive"),
+                            IsGLookup = row.Field<bool>("IsGLookup")
+                        }).ToList();
+                    }
+
+                    if (obj.PageMode == GlobalEnum.MasterPages.GLookup)
+                    {
+                        cmd = con.CreateCommand();
+                        cmd.CommandText = "usp_GLookupSelect";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
+                        ds = new DataSet();
+                        da = new SqlDataAdapter(cmd);
+                        da.Fill(ds);
+
+                         objLookup.GLookupList = ds.Tables[0].AsEnumerable().Select(row =>
+                         new GLookupDataModel
+                         {
+                             GLookupID = row.Field<decimal>("GLookupID"),
+                             LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
+                             GLookupDesc = row.Field<string>("GLookupDesc"),
+                             IsActive = row.Field<bool>("IsActive")
+                         }).ToList();
+                    }
 
                     //reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine(ex.Message);
+                    throw ex;
                 }
             }
 
-            return lstOfData;
+            return objLookup;
 
         }
 
+       /// <summary>
+       /// Insert General lookup category data
+       /// </summary>
+       /// <param name="objData"></param>
+       /// <returns></returns>
+       public LookupCategoryModel LookupInsertUpdate(LookupCategoryModel objData)
+       {
+           LookupCategoryModel objReturn = new LookupCategoryModel();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   if (objData.ActionMode == GlobalEnum.Flag.Insert)
+                   {
+                       cmd.CommandText = "usp_GLookupInsert";
+                       cmd.Parameters.AddWithValue("@LookupCategoryID", objData.LookupCategoryID);
+                       cmd.Parameters.AddWithValue("@GLookupDesc", objData.LookupCategoryDesc);
+                       cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
+                       cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                       cmd.ExecuteNonQuery();
+                       objReturn.PageMode = GlobalEnum.MasterPages.GLookup;
+                       objReturn = GetLookupData(objReturn);
+                   }
+                   //if (objData.Mode == GlobalEnum.Flag.Update)
+                   //{
+                   //    cmd.CommandText = "usp_LocationsUpdate";
+                   //    cmd.Parameters.AddWithValue("@LocationId", objData.LocationId);
+                   //    cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                   //    cmd.ExecuteNonQuery();
+                   //}
 
-    }
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+           return objReturn;
+       }
+       #endregion
+
+       #region "Location"
+       /// <summary>
+       /// Get location data
+       /// </summary>
+       /// <returns></returns>
+       public LocationModel GetLocationData(decimal LocId)
+       {
+           LocationModel objData = new LocationModel();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandText = "usp_LocationsSelect";
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   if(LocId>0)
+                    cmd.Parameters.AddWithValue("@LocationId", LocId);
+                   else
+                       cmd.Parameters.AddWithValue("@LocationId", DBNull.Value);
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(cmd);
+                   da.Fill(ds);
+
+                   //foreach(DataRow item in ds.Tables[0].Rows)
+                   //{
+                   //    objData.LocationId = Convert.ToInt32(item["LocationId"]);
+                   //    objData.LocationCode = item["LocationCode"].ToString();
+                   //    objData.LocationName = item["LocationName"].ToString();
+                       //objData.ListedInWeb = Convert.ToBoolean(item["ListedInWeb"]);
+                       //objData.WorkingHrs = Convert.ToDecimal(item["WorkingHrs"]);
+                       //objData.WorkFrom = Convert.ToDateTime(item["WorkFrom"]);
+                       //objData.WorksTill = Convert.ToDateTime(item["WorksTill"]);
+                       //objData.Phone = item["Phone"].ToString();
+                       //objData.Fax = item["Fax"].ToString();
+                       //objData.Email = item["Email"];
+                       //objData.ReciptNoStart = item["ReciptNoStart"];
+                       //objData.ReceiptNoCurrent = item["ReceiptNoCurrent"];
+                       //objData.RentalAgreementNoStart = item["RentalAgreementNoStart"];
+                       //objData.RentalAgreementNoCurrent = item["RentalAgreementNoCurrent"];
+                       //objData.LeaseAgreementNoStart = item["LeaseAgreementNoStart"];
+                       //objData.LeaseAgreementNoCurrent = item["LeaseAgreementNoCurrent"];
+                       //objData.IsARevenue = item["IsARevenue"];
+                       //objData.IsACounter = item["IsACounter"];
+                       //objData.IsAWorkShop = item["IsAWorkShop"];
+                       //objData.IsAVirtual = item["IsAVirtual"];
+                       //objData.LeasingAllowed = item["LeasingAllowed"];
+                       //objData.RentingAllowed = item["RentingAllowed"];
+                       //objData.BuId = item["BuId"];
+                       ////objData.UserId = item["CreatedBy"];
+                       //objData.IsActive = item["IsActive"];
+                   //}
+
+                   objData.lstLocation = ds.Tables[0].AsEnumerable().Select(row =>
+                   new LocationModel
+                   {
+                       LocationId = row.Field<decimal>("LocationId"),
+                       LocationCode = row.Field<string>("LocationCode"),
+                       LocationName = row.Field<string>("LocationName")
+                       //ListedInWeb = row.Field<bool>("ListedInWeb"),
+                       //WorkingHrs = row.Field<int>("WorkingHrs"),
+                       //WorkFrom = row.Field<DateTime>("WorkFrom"),
+                       //WorksTill = row.Field<DateTime>("WorksTill"),
+                       //Phone = row.Field<string>("Phone"),
+                       //Fax = row.Field<string>("Fax"),
+                       //Email = row.Field<string>("Email"),
+                       //ReciptNoStart = row.Field<int>("ReciptNoStart"),
+                       //ReceiptNoCurrent = row.Field<int>("ReceiptNoCurrent"),
+                       //RentalAgreementNoStart = row.Field<int>("RentalAgreementNoStart"),
+                       //RentalAgreementNoCurrent = row.Field<int>("RentalAgreementNoCurrent"),
+                       //LeaseAgreementNoStart = row.Field<int>("LeaseAgreementNoStart"),
+                       //LeaseAgreementNoCurrent = row.Field<int>("LeaseAgreementNoCurrent"),
+                       //IsARevenue = row.Field<bool>("IsARevenue"),
+                       //IsACounter = row.Field<bool>("IsACounter"),
+                       //IsAWorkShop = row.Field<bool>("IsAWorkShop"),
+                       //IsAVirtual = row.Field<bool>("IsAVirtual"),
+                       //LeasingAllowed = row.Field<bool>("LeasingAllowed"),
+                       //RentingAllowed = row.Field<bool>("RentingAllowed"),
+                       //BuId = row.Field<int>("BuId"),
+                       //UserId = row.Field<int>("CreatedBy"),
+                       //IsActive = row.Field<bool>("IsActive")
+
+                   }).ToList();
+
+                   //reader.Close();
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+           return objData;
+       }
+
+       /// <summary>
+       /// Insert location data
+       /// </summary>
+       /// <param name="objData"></param>
+       /// <returns></returns>
+       public LocationModel LocationInsertUpdate(LocationModel objData)
+       {
+           LocationModel objReturn = new LocationModel();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   int returnData = 0;
+                   if (objData.ActionMode == GlobalEnum.Flag.Select)
+                   {
+                       objReturn = GetLocationData(objData.LocationId);
+                   }
+                   if (objData.ActionMode == GlobalEnum.Flag.Insert)
+                   {
+                       cmd.CommandText = "usp_LocationsInsert";
+                       returnData = ExecuteLocationInsertUpdate(cmd, objData);
+                       objReturn = GetLocationData(returnData);
+                   }
+                   if (objData.ActionMode == GlobalEnum.Flag.Update)
+                   {
+                       cmd.CommandText = "usp_LocationsUpdate";
+                       returnData = ExecuteLocationInsertUpdate(cmd, objData);
+                       objReturn = GetLocationData(returnData);
+                   }
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+           return objReturn;
+       }
+
+       private int ExecuteLocationInsertUpdate(SqlCommand cmd, LocationModel objData)
+       {
+           if(objData.ActionMode == GlobalEnum.Flag.Update)
+               cmd.Parameters.AddWithValue("@LocationID", objData.LocationId);
+
+           cmd.Parameters.AddWithValue("@LocationCode", objData.LocationCode);
+           cmd.Parameters.AddWithValue("@LocationName", objData.LocationName);
+           cmd.Parameters.AddWithValue("@ListedInWeb", objData.ListedInWeb);
+           cmd.Parameters.AddWithValue("@WorkingHrs", objData.WorkingHrs);
+           cmd.Parameters.AddWithValue("@WorkFrom", objData.WorkFrom);
+           cmd.Parameters.AddWithValue("@WorksTill", objData.WorksTill);
+           cmd.Parameters.AddWithValue("@Phone", objData.Phone);
+           cmd.Parameters.AddWithValue("@Fax", objData.Fax);
+           cmd.Parameters.AddWithValue("@Email", objData.Email);
+           cmd.Parameters.AddWithValue("@ReciptNoStart", objData.ReciptNoStart);
+           cmd.Parameters.AddWithValue("@ReceiptNoCurrent", objData.ReceiptNoCurrent);
+           cmd.Parameters.AddWithValue("@RentalAgreementNoStart", objData.RentalAgreementNoStart);
+           cmd.Parameters.AddWithValue("@RentalAgreementNoCurrent", objData.RentalAgreementNoCurrent);
+           cmd.Parameters.AddWithValue("@LeaseAgreementNoStart", objData.LeaseAgreementNoStart);
+           cmd.Parameters.AddWithValue("@LeaseAgreementNoCurrent", objData.LeaseAgreementNoCurrent);
+           cmd.Parameters.AddWithValue("@IsARevenue", objData.IsARevenue);
+           cmd.Parameters.AddWithValue("@IsACounter", objData.IsACounter);
+           cmd.Parameters.AddWithValue("@IsAWorkShop", objData.IsAWorkShop);
+           cmd.Parameters.AddWithValue("@IsAVirtual", objData.IsAVirtual);
+           cmd.Parameters.AddWithValue("@LeasingAllowed", objData.LeasingAllowed);
+           cmd.Parameters.AddWithValue("@RentingAllowed", objData.RentingAllowed);
+           cmd.Parameters.AddWithValue("@BuId", objData.BuId);
+           cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
+           cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+
+           int id = cmd.ExecuteNonQuery();
+           return id;
+       }
+       #endregion
+
+   }
 }

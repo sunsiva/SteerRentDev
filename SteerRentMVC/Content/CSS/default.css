@@ -445,35 +445,49 @@ body {
 .label_radio.last{
 	margin-right:0px;
 }
+.submit_part{
+	width:975px;
+}
 .contain_submit_row{
 	background:#f0f0f0;
 	padding:20px;
 }
 .submit_btn{
-	border-style: none;
-    border-color: inherit;
-    border-width: medium;
-    width:150px;
+	width:150px;
+	height:24px;
 	display:block;
 	background:#006699;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	outline:none;
+	border:none;
 	cursor:pointer;
 	margin-left:145px;
 }
-
+.addnew_btn{
+	width:100px;
+	height:24px;
+	display:block;
+	float:left;
+	background:#555555;
+	color:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	outline:none;
+	border:none;
+	cursor:pointer;
+    margin-top:15px;
+}
 .popup-link{
 	display:block;
 	color:#000;
 }
-
 .add-timeline-popup {
 	width: 700px;
 	position: relative;
 	background:#FFF;
-	zoom:1;
+	zoom;1;
 	padding: 15px;
 	margin: 0 auto;
 }

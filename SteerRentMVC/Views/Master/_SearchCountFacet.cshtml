@@ -1,0 +1,5 @@
+﻿@model SteerRent.Model.LocationModel
+
+<h5> <span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>

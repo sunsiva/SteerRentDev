@@ -21,7 +21,10 @@ namespace SteerRent.Model
         public string LookupCategoryCode { get; set; }
         public string LookupCategoryDesc { get; set; }
         public bool IsActive { get; set; }
-        public int HierarchyLevel { get; set; }
+        public bool IsGLookup { get; set; }
+        public int UserId { get; set; }
+        public GlobalEnum.MasterPages PageMode { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
         public List<GLookupDataModel> GLookupList { get; set; }
         public List<HLookupDataModel> HLookupList { get; set; }
         public List<LookupCategoryModel> LookupCategoryList { get; set; }
@@ -31,8 +34,10 @@ namespace SteerRent.Model
     {
         public decimal GLookupID { get; set; }
         public decimal LookupCategoryID { get; set; }
-        public string GLookupCode { get; set; }
         public string GLookupDesc { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
+        public int UserId { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class HLookupDataModel
@@ -40,15 +45,17 @@ namespace SteerRent.Model
         public decimal HLookupID { get; set; }
         public decimal GlookupID { get; set; }
         public decimal LookupCategoryID { get; set; }
-        public string HLookupCode { get; set; }
         public string HLookupDesc { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
+        public int UserId { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class LocationModel
     {
         public decimal LocationId { get; set; }
         public string LocationCode { get; set; }
-	    public string LocationDesc { get; set; }
+	    public string LocationName { get; set; }
 	    public bool ListedInWeb { get; set; }
 	    public decimal WorkingHrs { get; set; }
 	    public DateTime WorkFrom { get; set; }
@@ -69,8 +76,10 @@ namespace SteerRent.Model
 	    public bool LeasingAllowed { get; set; }
 	    public bool RentingAllowed { get; set; }
 	    public decimal BuId { get; set; }
-	    public string CreatedBy { get; set; }
+        public int UserId { get; set; }
 	    public bool IsActive { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
+        public IList<LocationModel> lstLocation { get; set; }
     }
 
     public class EmployeeModel
@@ -78,5 +87,9 @@ namespace SteerRent.Model
         public decimal LookupCategoryID { get; set; }
         public string LookupCategoryCode { get; set; }
         public string LookupCategoryDesc { get; set; }
+
+        public GlobalEnum.Flag ActionMode { get; set; }
+        public int UserId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

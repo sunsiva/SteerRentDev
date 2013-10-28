@@ -1,0 +1,276 @@
+﻿@model SteerRent.Model.LocationModel
+
+<div id="locAddUpdate">
+<div class="contain_row">
+      @{ if (Model != null){ 
+    <h5 class="contain_title">Update Location</h5>}
+       else
+       {<h5 class="contain_title">Add Location</h5>} 
+                                                    }
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Location Name <span>*</span></p>
+            <div class="label_input_part">
+                @Html.TextBoxFor(model => model.lstLocation[0].LocationName, new { name = "txtLocationName", id = "txtLocationName", placeholder = "Location Name" })
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Location Code <span>*</span></p>
+            <div class="label_input_part">
+                @Html.TextBoxFor(model => model.lstLocation[0].LocationCode, new { name = "txtLocationCode", id = "txtLocationCode", placeholder = "Location Code" })
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Address Line 1 <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtAddressLine1" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Address Line 2 <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtAddressLine2" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Address Line 3 <span></span></p>
+            <div class="label_input_part">
+                <input name="txtAddressLine3" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">City <span>*</span></p>
+            <div class="label_input_part">
+                @Html.TextBoxFor(model => model.lstLocation[0].ListedInWeb, new { name = "txtListedInWeb", id = "txtListedInWeb", placeholder = "Listed InWeb" })
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Country <span>*</span></p>
+            <div class="label_combo_part">
+                <select name="ddlCountry">
+                    <option></option>
+                </select>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">State/Emirate <span>*</span></p>
+            <div class="label_combo_part">
+                <select name="ddlStateEmirate">
+                    <option></option>
+                </select>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Pin/Zip <span></span></p>
+            <div class="label_input_part">
+                <input name="txtPinZip" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Location Incharge <span>*</span></p>
+            <div class="label_combo_part">
+                <select name="ddlLocationIncharge">
+                    <option></option>
+                </select>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Designation <span></span></p>
+            <div class="label_input_part">
+                <input name="txtDesignation" disabled type="text" placeholder="RO value. Fetch from Emp Master" value="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Landline No. <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtLandlineNo" type="number" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Mobile No. <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtMobile" disabled type="number" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">E-Mail ID <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtEmail" type="email" placeholder="">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Fax No. <span></span></p>
+            <div class="label_input_part">
+                <input name="txtFax" disabled type="number">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Working Hrs - From <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtWorkingTimeFrom" type="number" placeholder="">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Working Hrs - To <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtWorkingTimeTo" type="number" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Location Type <span>*</span></p>
+            <div class="label_combo_part">
+                <label class="label_radio">
+                    <input name="chkRevenue" type="checkbox" value="Revenue"  />
+                    Revenue</label></br>
+                        <label class="label_radio">
+                            <input name="chkCounter" type="checkbox" value="Counter" />
+                            Counter</label></br>
+                        <label class="label_radio">
+                            <input name="chkWorkshop" type="checkbox" value="Workshop" />
+                            Workshop</label></br>
+                        <label class="label_radio">
+                            <input name="chkVirtual" type="checkbox" value="Virtual" />
+                            Virtual</label>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Operations <span>*</span></p>
+            <div class="label_combo_part">
+                <label class="label_radio">
+                    <input name="chkRenting" type="checkbox" value="Revenue" />
+                    Renting Allowed</label></br>
+                    <label class="label_radio">
+                    <input name="chkLeasing" type="checkbox" value="Counter" />
+                    Leasing Allowed</label></br>   
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Receipt No. Start <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtRecNoStart" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Receipt No. Current <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtRecNoCurrent" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Rental Agmt No. Start <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtRentAgmtNoStart" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Rental Agmt No. Current <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtRentAgmtNoCurrent" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="contain_sub_row">
+        <div class="contain_left_part">
+            <p class="label_part">Lease Agmt No. Start <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtLeaseAgmtNoStart" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_left_part">
+            <p class="label_part">Lease Agmt No. Current <span>*</span></p>
+            <div class="label_input_part">
+                <input name="txtLeaseAgmtNoCurrent" type="text" placeholder="" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="submit_part">
+    <div class="contain_submit_row">
+        <input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />
+    </div>
+</div>
+   </div> 
+<script>$('#btnSubmitA4').click(function () {
+    alert();
+});</script>
+    

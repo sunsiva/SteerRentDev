@@ -6,16 +6,19 @@ using System.Web.Mvc;
 
 namespace SteerRentMVC.Controllers
 {
-    public class DashboardController : Controller
+    public class AccountController : Controller
     {
         //
-        // GET: /Dashboard/
+        // GET: /Account/
 
-        public ActionResult Dashboard()
+        public ActionResult Index()
         {
             return View();
         }
 
-
+        public ActionResult Login()
+        {
+            return View("Login");
+        }
     }
 }

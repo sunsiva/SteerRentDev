@@ -1,0 +1,84 @@
+﻿@model SteerRent.Model.LocationModel
+
+<!--- START A004 - Locations -->
+<div class="A004 st_view">
+                            <div class="st_view_inner">
+                            	<div class="tab_contant_inner">
+                           			<div class="contain_row">
+                                    	<p id="errImg" class="error_msg_bg" style="display:none">&nbsp;</p>
+                                        <p id="valMsg" class="error_msg_sm" style="display:none">Please enter all required fields.</p>
+                                        <p id="errMsg" class="error_msg_sm" style="display:none">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                    </div>
+                                    <div id="srchList">
+                                         @Html.Partial("_LocationSearchResults",Model)                                
+                                        </div>
+                                        <div id="locAddUpdate">
+                                        </div>
+                                        <span id="spnResultsMsg"></span>
+                                </div>
+                            </div>    
+                        </div>
+<!-- END A004 -->
+    
+     <script lang="ja" type="text/javascript">
+     $(document).ready(function () {
+         $('#LocationName').focus(function () { $('#errImg').hide(); $('#valMsg').hide(); $('#errMsg').hide(); });
+         $('#btnSubmitA4').click(function () {
+             if ($('#LocationName').val() == '' || $('#LocationCode').val() == '') {
+                 $('#errImg').show(); $('#valMsg').show();
+                 return;
+             }
+             RefreshGrid();
+         });
+
+         //Updating Active/Inactive status when clicking on checkbox
+         $("input[type=checkbox]").change(function () {
+             var LocId = this.id;
+             var State = $(this).is(':checked');
+             var href = '@Url.Action("LocationUpdate","Master")';
+        $.ajax({
+            url: href,
+            data: { Id: LocId, Status: State },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function () {
+                if (State == true) {
+                    $('#dvInActivate-' + LocId).text('Active').removeClass("error_msg_sm").addClass("label_part");
+                    $('#dvInActivate-' + LocId).attr('id', 'dvActivate-' + LocId);
+                    $('#dvDelete-' + LocId).text('');
+                    $('#dvNoDelete-' + LocId).text('');
+                }
+                else {
+                    $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg_sm");
+                    $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
+                    $('#dvDelete-' + LocId).text('X'); $('#dvNoDelete-' + LocId).text('X');
+                }
+                //$('#srchList').html(data);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+            }
+        });
+         });
+
+         function RefreshGrid() {
+             var href = '@Url.Action("LocationInsert")';
+                $.ajax({
+                    url: href,
+                    data:  { LocName: $('#LocationName').val(), LocCode: $('#LocationCode').val() },
+                    type: "POST",
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#srchList').html(data);
+                        $('#spnResultsMsg').html('Successfully inserted.');
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('#errMsg').show();
+                        //alert("Error:Action is aborted.Please try again later.");
+                    }
+                });
+            }
+        });
+    </script>

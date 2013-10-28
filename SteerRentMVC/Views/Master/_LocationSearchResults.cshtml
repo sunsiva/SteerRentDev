@@ -1,0 +1,107 @@
+﻿@model SteerRent.Model.LocationModel
+
+<div class="contain_row">
+                                        	<h5 class="contain_title">Locations</h5>
+                                            <div class="contain_sub_row">
+                                            	<p class="label_part">Current Locations</p>
+                                                <div class="label_textarea_part">
+                                                	 <div id="srchList">
+                                                         <table class="gridtable">
+                                                                <tr>
+                                                                   @* <th>
+                                                                        Sl.No
+                                                                    </th>*@
+                                                                    <th>
+                                                                        Location Name
+                                                                    </th>
+                                                                    <th>
+                                                                        Location Code
+                                                                    </th>
+                                                                    <th>
+                                                                        Status
+                                                                    </th>
+                                                                        <th>
+                                                                        Activate
+                                                                    </th>
+                                                                    <th>
+                                                                        Delete
+                                                                    </th>
+                                                                </tr>
+                                                                @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
+                                                                {
+                                                                    var cnt=0;
+                                                                    foreach (var item in Model.lstLocation){
+                                                                        cnt = cnt + 1;
+                                                                    <tr>
+                                                                        @*<td >
+                                                                            @Html.Raw(cnt)
+                                                                        </td>*@
+                                                                        <td >
+                                                                            <a href='#' onclick="fnLocAddUpdate(@item.LocationId)">@item.LocationName</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.LocationCode
+                                                                        </td>
+                                                                        <td>
+                                                                            @if(item.IsActive == true)
+                                                                            {<div id="dvActivate-@item.LocationId" class="label_part">Active</div>}
+                                                                            else
+                                                                            {
+                                                                                <div id='dvInActivate-@item.LocationId' class="error_msg_sm">InActive</div>
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="checkbox" id="@item.LocationId" name="chkState" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                        </td>
+                                                                        <td> @if(item.IsActive == false){ <div id='dvDelete-@item.LocationId' class="error_msg_sm">X</div>}
+                                                                            else{<div id='dvNoDelete-@item.LocationId' class="error_msg_sm"></div>}
+                                                                        </td>
+                                                                    </tr>
+                                                                    }
+                                                                }
+                                                                else
+                                                                    {
+                                                                    <tr><td colspan="5"><span style="color:red">No record(s) found.</span></td></tr>
+                                                                }
+                                                        </table>
+                                                         <div>
+                                                                <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
+                                                        </div><div style="margin-left:470px">
+                                                         @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
+                                                            {
+                                                                @Html.Partial("_SearchCountFacet",Model)
+                                                            }
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+
+<script lang="ja" type="text/javascript">
+    function fnLocAddUpdate(id) {
+        $.get('@Url.Action("LocationSelect", "Master")/' + id, function (data) {
+            $('#locAddUpdate').replaceWith(data);
+        });
+    }
+
+    function fnLocAddUpdate1(id) {
+        var href = '@Url.Action("LocationSelect")';
+        $.ajax({
+            url: href,
+            data: { id: id },
+            type: "GET",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#locAddUpdate').html(data);
+                $('#spnResultsMsg').text('Successfully inserted.');
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+                //alert("Error:Action is aborted.Please try again later.");
+            }
+        });
+    }
+   
+</script>

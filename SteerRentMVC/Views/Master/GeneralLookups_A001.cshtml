@@ -1,90 +1,99 @@
 ﻿@model SteerRent.Model.LookupCategoryModel
-
 @{
-    var cat = Model.LookupCategoryList.Where(m => m.HierarchyLevel == 1).ToList();
-    var scat = Model.LookupCategoryList.Where(m => m.HierarchyLevel == 2).ToList();
+    var cat = Model.LookupCategoryList.Where(m => m.IsGLookup == true).ToList();
+    
     ViewBag.Title = "GeneralLookups_A001";
     //Layout = "~/Views/Shared/_Layout.cshtml";  
 }
 
 @*@using (Ajax.BeginForm("GeneralLookups_A001", null, new AjaxOptions { HttpMethod = "POST" }, new { id = "frmGlookup" }))
 {
-                *@<!--- A001 - General Lookups -->
-                        <div class="A001 st_view">
-                            <div class="st_view_inner">
-                            	<div class="tab_contant_inner">
-                           			<div class="contain_row" style="display:none">
-                                    	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please enter all required fields.</p>
-                                        <p class="error_msg_sm">The chosen value already exists in the system.</p>
-                                        <p class="error_msg_sm">Special characters are not allowed.</p>
-                                        <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                    </div>
-                                    
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">General Lookups</h5>
-                                            <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                <p class="label_part">Category<span></span></p>
-                                                    <div class="label_combo_part">
-                                                        @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id ="ddlCategory" })
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                	<p class="label_part">Sub-Category<span></span></p>
-                                                    <div class="label_combo_part">
-                                                       @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(scat, "LookupCategoryID", "LookupCategoryCode"),"--Select Sub-Category--")
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>                                                                                                
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">Existing Values</h5>
-                                            <div class="contain_sub_row">
-                                            	<p class="label_part exlabel">List of Values</p>
-                                                <div class="label_textarea_part">
-                                                    <span id="srchList">
-                                                         @Html.Partial("_SearchResults",Model)
-                                                    </span>
-                                                    <h5><span runat="server" id="spnTotCnt"></span></h5>
-                                                  </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">Add Lookup Data for "Category - Sub-Category"</h5>
-                                            <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                	<p class="label_part">Enter New Value <span>*</span></p>
-                                                    <div class="label_input_part">
-                                                    	@Html.TextBoxFor(model => model.LookupCategoryCode, new { name="txtNewValue", id="LookupCategoryCode",placeholder="Category"})
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>   
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="submit_part">
-                                            <div class="contain_submit_row">
-                                            	<input type="button" ID="btnSubmitA1" class="submit_btn" value="Submit" />
-                                            </div>
-                                        </div>
-                                    
-                                    <div id="grdList"></div>    	
-                                    
-                                </div>
-                            </div>    
+    *@<!--- A001 - General Lookups -->
+<div class="A001 st_view">
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
+            <div class="contain_row" style="display: none">
+                <p class="error_msg_bg">&nbsp;</p>
+                <p class="error_msg_sm">Please enter all required fields.</p>
+                <p class="error_msg_sm">The chosen value already exists in the system.</p>
+                <p class="error_msg_sm">Special characters are not allowed.</p>
+                <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+
+            <div class="contain_row">
+                <h5 class="contain_title">General Lookups</h5>
+                <div class="contain_sub_row">
+                    <div class="contain_left_part">
+                        <p class="label_part">Category<span></span></p>
+                        <div class="label_combo_part">
+                            @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id = "ddlCategory" })
+                            @Html.ValidationMessageFor(model => model.LookupCategoryID)
                         </div>
-                <!-- END A001 -->
+                        <div class="clear"></div>
+                    </div>
+                   <div class="contain_left_part">
+                             @*    <p class="label_part">Sub-Category<span></span></p>
+                                <div class="label_combo_part">
+                                    <div id="dvSubCategory">
+                                    @{
+                                                            
+                                        var scat = Model.LookupCategoryList.Where(m => m.HierarchyLevel == 2).ToList();
+                                        }
+                                    @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(scat, "LookupCategoryID", "LookupCategoryCode"),"--Select Sub-Category--")
+                                    @if(ViewBag.SubCategory != null)
+                                    {
+                                        @Html.DropDownList("SubCategory", (IEnumerable<SelectListItem>)ViewBag.SubCategory, "--Select Sub-Category--", new { @id="ddlSubCategory" })
+                                    }
+                                        </div>
+                                </div>*@
+                                <div class="clear"></div>
+                            </div>
+                   <div class="clear"></div>  
+                </div>
+            </div>
+
+            <div class="contain_row">
+                <h5 class="contain_title">Existing Values</h5>
+                <div class="contain_sub_row">
+                    <p class="label_part exlabel">List of Values</p>
+                    <div class="label_textarea_part">
+                        <span id="srchList">
+                            @Html.Partial("_SearchResults", Model)
+                        </span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="contain_row">
+                <h5 class="contain_title">Add Lookup Data for "Category"</h5>
+                <div class="contain_sub_row">
+                    <div class="contain_left_part">
+                        <p class="label_part">Enter New Value <span>*</span></p>
+                        <div class="label_input_part">
+                            @Html.TextBoxFor(model => model.LookupCategoryCode, new { name = "txtNewValue", id = "LookupCategoryCode", placeholder = "Category" })
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="contain_left_part">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="submit_part">
+                <div class="contain_submit_row">
+                    <input type="button" id="btnSubmitA1" class="submit_btn" value="Submit" />
+                </div>
+            </div>
+
+            <div id="grdList"></div>
+
+        </div>
+    </div>
+</div>
+    <!-- END A001 -->
 @*    }*@
     
     <script lang="ja" type="text/javascript">
@@ -115,6 +124,7 @@
 
             $('#ddlCategory').change(function () {
                 RefreshGrid();
+                //alert(ViewBag["CategoryDataList"]);
             });
 
             $('#btnSubmitA1').click(function () {
@@ -123,26 +133,27 @@
 
             function RefreshGrid()
             {
+                
                 var href = '@Url.Action("GeneralLookupSubmit","Master")';
                 //var datavalues = $('#frmGlookup').serialize();
                 debugger;
                 $.ajax({
                     url: href,
-                    data: { id: $('#ddlCategory').val() },
+                    data: { id: $('#ddlCategory').val(), },
                     type: "POST",
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
                         $('#srchList').html(data);
-                        debugger;
-                        alert(data);
-                        var productDropdown = $("#ddlCategory");
-                        productDropdown.empty();
-                        for (var i = 0; i < data.length; i++) {
-                            productDropdown.append('<option value?+data[i].LookupCategoryId+?="">' + data[i].LookupCategoryCode + '</option>');
-                        }
-
-                        alert('Glookup');
+                        //debugger;
+                        //var items = [];
+                        //items.push("<option>--Select Sub-Category--</option>");
+                        //alert(data);
+                        //$.each(data, function () {
+                        //    items.push("<option value=" + this.Value + ">" + this.Text + "</option>");
+                        //});
+                        //$("#ddlSubCategory").html(items.join(' '));
+                        //alert('Glookup');
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         alert("Error:Action is aborted.Please try again later.");

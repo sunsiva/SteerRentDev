@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+        <link type="text/css" rel="stylesheet" href="Content/CSS/style.css" />
+    <title>Login</title>
+</head>
+<body>
+    <div id="login_mn">
+            <div id="login_main-cntr">
+                <h1>Login to SteerRent</h1>
+                <div class="lgn-innr">
+                    <br />
+                    <div class="error_message" style="display: none;">
+                        <ul>
+                            <br />
+                            <li>Display error message here</li>
+                        </ul>
+                    </div>
+
+                    <div class="lgn-frm">
+                        <p>
+                            <input placeholder="Username" id="txtUserName" type="text" runat="server" />    
+                        </p>
+                        <p>
+                            <input id="txtPassword" placeholder="Password" name="password" runat="server" value="Password" type="password" /></p>
+
+                        <div class="frgt">
+                            <span class="left padd5">
+                                <input  id="chkRememberMe" type="checkbox" value="checkbox" /><label>Remember me</label></span>
+                            <a class="right padd10" href="Account/ForgotPassword.aspx" target="_parent">Forgot Password</a>
+                           
+                        </div>
+                        <div class="clear"></div>
+                        <p class="button">
+                            <input CssClass="btn_login" name="login" ID="btnLogin" Text="Submit" type="button" runat="server" onclick="@Url.Action("Dashboard","Dashboard")" value="Login" /></p>
+                    </div>  
+                </div>
+
+            </div>
+
+            <div class="copyright">&copy;&nbsp;2013&nbsp;SteerRent.&nbsp;All rights reserved.</div>
+        </div>
+</body>
+</html>

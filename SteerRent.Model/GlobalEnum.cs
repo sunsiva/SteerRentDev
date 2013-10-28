@@ -10,6 +10,7 @@ namespace SteerRent.Model
     {
         public enum MasterPages
         { 
+            Lookup,
             HLookup,
             GLookup,
             Location,
