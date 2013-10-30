@@ -24,7 +24,8 @@ namespace SteerRent.Model
             Select = 0,
             Insert = 1,
             Update = 2,
-            Delete = 3
+            Delete = 3,
+            StatusUpdate = 4
         }
     }
 }

@@ -245,42 +245,45 @@ namespace SteerRent.DAL
                    DataSet ds = new DataSet();
                    SqlDataAdapter da = new SqlDataAdapter(cmd);
                    da.Fill(ds);
-
-                   //foreach(DataRow item in ds.Tables[0].Rows)
-                   //{
-                   //    objData.LocationId = Convert.ToInt32(item["LocationId"]);
-                   //    objData.LocationCode = item["LocationCode"].ToString();
-                   //    objData.LocationName = item["LocationName"].ToString();
-                       //objData.ListedInWeb = Convert.ToBoolean(item["ListedInWeb"]);
-                       //objData.WorkingHrs = Convert.ToDecimal(item["WorkingHrs"]);
-                       //objData.WorkFrom = Convert.ToDateTime(item["WorkFrom"]);
-                       //objData.WorksTill = Convert.ToDateTime(item["WorksTill"]);
-                       //objData.Phone = item["Phone"].ToString();
-                       //objData.Fax = item["Fax"].ToString();
-                       //objData.Email = item["Email"];
-                       //objData.ReciptNoStart = item["ReciptNoStart"];
-                       //objData.ReceiptNoCurrent = item["ReceiptNoCurrent"];
-                       //objData.RentalAgreementNoStart = item["RentalAgreementNoStart"];
-                       //objData.RentalAgreementNoCurrent = item["RentalAgreementNoCurrent"];
-                       //objData.LeaseAgreementNoStart = item["LeaseAgreementNoStart"];
-                       //objData.LeaseAgreementNoCurrent = item["LeaseAgreementNoCurrent"];
-                       //objData.IsARevenue = item["IsARevenue"];
-                       //objData.IsACounter = item["IsACounter"];
-                       //objData.IsAWorkShop = item["IsAWorkShop"];
-                       //objData.IsAVirtual = item["IsAVirtual"];
-                       //objData.LeasingAllowed = item["LeasingAllowed"];
-                       //objData.RentingAllowed = item["RentingAllowed"];
-                       //objData.BuId = item["BuId"];
-                       ////objData.UserId = item["CreatedBy"];
-                       //objData.IsActive = item["IsActive"];
-                   //}
-
-                   objData.lstLocation = ds.Tables[0].AsEnumerable().Select(row =>
-                   new LocationModel
+                   List<LocationModel> lstData = new List<LocationModel>();
+                   foreach (DataRow item in ds.Tables[0].Rows)
                    {
-                       LocationId = row.Field<decimal>("LocationId"),
-                       LocationCode = row.Field<string>("LocationCode"),
-                       LocationName = row.Field<string>("LocationName")
+                       objData = new LocationModel();
+                       objData.LocationId = Convert.ToInt32(item["LocationId"]);
+                       objData.LocationCode = item["LocationCode"].ToString();
+                       objData.LocationName = item["LocationName"].ToString();
+                       objData.ListedInWeb = item["ListedInWeb"].ToString()== ""? false : Convert.ToBoolean(item["ListedInWeb"]);
+                       objData.WorkingHrs = item["WorkingHrs"].ToString()== ""? 0 :Convert.ToDecimal(item["WorkingHrs"]);
+                       objData.WorkFrom = item["WorkFrom"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(item["WorkFrom"].ToString());
+                       objData.WorksTill = item["WorksTill"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(item["WorksTill"].ToString());
+                       objData.Phone = item["Phone"].ToString();
+                       objData.Fax = item["Fax"].ToString();
+                       objData.Email = item["Email"].ToString();
+                       objData.ReciptNoStart = Convert.ToInt32(item["ReciptNoStart"]);
+                       objData.ReceiptNoCurrent = Convert.ToInt32(item["ReceiptNoCurrent"]);
+                       objData.RentalAgreementNoStart = Convert.ToInt32(item["RentalAgreementNoStart"]);
+                       objData.RentalAgreementNoCurrent = Convert.ToInt32(item["RentalAgreementNoCurrent"]);
+                       objData.LeaseAgreementNoStart = Convert.ToInt32(item["LeaseAgreementNoStart"]);
+                       objData.LeaseAgreementNoCurrent = Convert.ToInt32(item["LeaseAgreementNoCurrent"]);
+                       objData.IsARevenue = item["IsARevenue"].ToString() == "" ? false : Convert.ToBoolean(item["IsARevenue"]);
+                       objData.IsACounter = item["IsACounter"].ToString() == "" ? false : Convert.ToBoolean(item["IsACounter"]);
+                       objData.IsAWorkShop = item["IsAWorkShop"].ToString() == "" ? false : Convert.ToBoolean(item["IsAWorkShop"]);
+                       objData.IsAVirtual = item["IsAVirtual"].ToString() == "" ? false : Convert.ToBoolean(item["IsAVirtual"]);
+                       objData.LeasingAllowed = item["LeasingAllowed"].ToString() == "" ? false : Convert.ToBoolean(item["LeasingAllowed"]);
+                       objData.RentingAllowed = item["RentingAllowed"].ToString() == "" ? false : Convert.ToBoolean(item["RentingAllowed"]);
+                       objData.BuId = Convert.ToInt32(item["BuId"]);
+                       objData.UserId = Convert.ToInt32(item["CreatedBy"]);
+                       objData.IsActive = Convert.ToBoolean(item["IsActive"]);
+                       lstData.Add(objData);
+                       objData.lstLocation = lstData;
+                   }
+
+                   //objGetData = ds.Tables[0].AsEnumerable().Select(row =>
+                   //new LocationModel
+                   //{
+                   //    LocationId = row.Field<decimal>("LocationId"),
+                   //    LocationCode = row.Field<string>("LocationCode"),
+                   //    LocationName = row.Field<string>("LocationName")
                        //ListedInWeb = row.Field<bool>("ListedInWeb"),
                        //WorkingHrs = row.Field<int>("WorkingHrs"),
                        //WorkFrom = row.Field<DateTime>("WorkFrom"),
@@ -304,7 +307,7 @@ namespace SteerRent.DAL
                        //UserId = row.Field<int>("CreatedBy"),
                        //IsActive = row.Field<bool>("IsActive")
 
-                   }).ToList();
+                   //}).AsQueryable<LocationModel>();
 
                    //reader.Close();
                }
@@ -349,6 +352,16 @@ namespace SteerRent.DAL
                        returnData = ExecuteLocationInsertUpdate(cmd, objData);
                        objReturn = GetLocationData(returnData);
                    }
+                   if (objData.ActionMode == GlobalEnum.Flag.StatusUpdate)
+                   {
+                       cmd.CommandText = "usp_LocationsStatusUpdate";
+                       cmd.Parameters.AddWithValue("@LocationID", objData.LocationId);
+                       cmd.Parameters.AddWithValue("@BuId", objData.BuId);
+                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserId);
+                       cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                       cmd.ExecuteNonQuery();
+                       objReturn = GetLocationData(objData.LocationId);
+                   }
                }
                catch (Exception ex)
                {
@@ -361,9 +374,13 @@ namespace SteerRent.DAL
 
        private int ExecuteLocationInsertUpdate(SqlCommand cmd, LocationModel objData)
        {
-           if(objData.ActionMode == GlobalEnum.Flag.Update)
+           if (objData.ActionMode == GlobalEnum.Flag.Update)
+           {
                cmd.Parameters.AddWithValue("@LocationID", objData.LocationId);
-
+               cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserId);
+           }
+           else
+           { cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId); }
            cmd.Parameters.AddWithValue("@LocationCode", objData.LocationCode);
            cmd.Parameters.AddWithValue("@LocationName", objData.LocationName);
            cmd.Parameters.AddWithValue("@ListedInWeb", objData.ListedInWeb);
@@ -386,7 +403,6 @@ namespace SteerRent.DAL
            cmd.Parameters.AddWithValue("@LeasingAllowed", objData.LeasingAllowed);
            cmd.Parameters.AddWithValue("@RentingAllowed", objData.RentingAllowed);
            cmd.Parameters.AddWithValue("@BuId", objData.BuId);
-           cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
            cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
 
            int id = cmd.ExecuteNonQuery();

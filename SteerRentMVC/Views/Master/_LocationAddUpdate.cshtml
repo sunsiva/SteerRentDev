@@ -1,24 +1,27 @@
 ﻿@model SteerRent.Model.LocationModel
 
 <div id="locAddUpdate">
+    <form method="get" id="frmLoc">
 <div class="contain_row">
-      @{ if (Model != null){ 
+      @{ if (Model.LocationId > 0){ 
     <h5 class="contain_title">Update Location</h5>}
        else
        {<h5 class="contain_title">Add Location</h5>} 
-                                                    }
+        }
     <div class="contain_sub_row">
         <div class="contain_left_part">
             <p class="label_part">Location Name <span>*</span></p>
             <div class="label_input_part">
-                @Html.TextBoxFor(model => model.lstLocation[0].LocationName, new { name = "txtLocationName", id = "txtLocationName", placeholder = "Location Name" })
+                @*@Html.TextBoxFor(model => model.lstLocation[0].LocationName, new { name = "txtLocationName", id = "txtLocationName", placeholder = "Location Name" })*@
+                @Html.HiddenFor(model => model.lstLocation[0].LocationId)
+                <input name="txtLocationName" type="text" value="@Model.LocationName" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Location Code <span>*</span></p>
             <div class="label_input_part">
-                @Html.TextBoxFor(model => model.lstLocation[0].LocationCode, new { name = "txtLocationCode", id = "txtLocationCode", placeholder = "Location Code" })
+                <input name="txtLocationCode" type="text" value="@Model.LocationCode" />
             </div>
             <div class="clear"></div>
         </div>
@@ -30,7 +33,7 @@
         <div class="contain_left_part">
             <p class="label_part">Address Line 1 <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtAddressLine1" type="text" placeholder="" />
+                <input name="txtAddressLine1" type="text" placeholder="" value="" />
             </div>
             <div class="clear"></div>
         </div>
@@ -55,7 +58,6 @@
         <div class="contain_left_part">
             <p class="label_part">City <span>*</span></p>
             <div class="label_input_part">
-                @Html.TextBoxFor(model => model.lstLocation[0].ListedInWeb, new { name = "txtListedInWeb", id = "txtListedInWeb", placeholder = "Listed InWeb" })
             </div>
             <div class="clear"></div>
         </div>
@@ -88,7 +90,7 @@
         <div class="contain_left_part">
             <p class="label_part">Pin/Zip <span></span></p>
             <div class="label_input_part">
-                <input name="txtPinZip" type="text" placeholder="" />
+                <input name="txtPinZip" type="text" placeholder="" value="" />
             </div>
             <div class="clear"></div>
         </div>
@@ -123,14 +125,14 @@
         <div class="contain_left_part">
             <p class="label_part">Landline No. <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtLandlineNo" type="number" placeholder="" />
+                <input name="txtLandlineNo" type="number" value="@Model.Phone" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Mobile No. <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtMobile" disabled type="number" />
+                <input name="txtMobile" type="number" value="@Model.Phone" />
             </div>
             <div class="clear"></div>
         </div>
@@ -141,14 +143,14 @@
         <div class="contain_left_part">
             <p class="label_part">E-Mail ID <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtEmail" type="email" placeholder="">
+                <input name="txtEmail" type="email" placeholder="" value="@Model.Email" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Fax No. <span></span></p>
             <div class="label_input_part">
-                <input name="txtFax" disabled type="number">
+                <input name="txtFax" type="number" value="@Model.Fax" />
             </div>
             <div class="clear"></div>
         </div>
@@ -160,14 +162,14 @@
         <div class="contain_left_part">
             <p class="label_part">Working Hrs - From <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtWorkingTimeFrom" type="number" placeholder="">
+                <input name="txtWorkingTimeFrom" type="number" value="@Model.WorkFrom" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Working Hrs - To <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtWorkingTimeTo" type="number" placeholder="" />
+                <input name="txtWorkingTimeTo" type="number" value="@Model.WorksTill"/>
             </div>
             <div class="clear"></div>
         </div>
@@ -214,14 +216,14 @@
         <div class="contain_left_part">
             <p class="label_part">Receipt No. Start <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtRecNoStart" type="text" placeholder="" />
+                <input name="txtRecNoStart" type="text" placeholder="" value="@Model.ReciptNoStart" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Receipt No. Current <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtRecNoCurrent" type="text" placeholder="" />
+                <input name="txtRecNoCurrent" type="text" placeholder="" value="@Model.ReceiptNoCurrent" />
             </div>
             <div class="clear"></div>
         </div>
@@ -232,14 +234,14 @@
         <div class="contain_left_part">
             <p class="label_part">Rental Agmt No. Start <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtRentAgmtNoStart" type="text" placeholder="" />
+                <input name="txtRentAgmtNoStart" type="text" placeholder="" value="@Model.RentalAgreementNoCurrent" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Rental Agmt No. Current <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtRentAgmtNoCurrent" type="text" placeholder="" />
+                <input name="txtRentAgmtNoCurrent" type="text" placeholder="" value="@Model.RentalAgreementNoCurrent" />
             </div>
             <div class="clear"></div>
         </div>
@@ -250,27 +252,43 @@
         <div class="contain_left_part">
             <p class="label_part">Lease Agmt No. Start <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtLeaseAgmtNoStart" type="text" placeholder="" />
+                <input name="txtLeaseAgmtNoStart" type="text" placeholder="" value="@Model.LeaseAgreementNoStart" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">Lease Agmt No. Current <span>*</span></p>
             <div class="label_input_part">
-                <input name="txtLeaseAgmtNoCurrent" type="text" placeholder="" />
+                <input name="txtLeaseAgmtNoCurrent" type="text" placeholder="" value="@Model.LeaseAgreementNoCurrent" />
             </div>
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
     </div>
 </div>
+    
 <div class="submit_part">
     <div class="contain_submit_row">
         <input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />
     </div>
 </div>
+        </form>
    </div> 
 <script>$('#btnSubmitA4').click(function () {
-    alert();
+    var href = '@Url.Action("LocationInsert")';
+    $.ajax({
+        url: href,
+        data: $('#frmLoc').serialize(),
+        type: "POST",
+        datatype: "json",
+        traditional: true,
+        success: function (data) {
+            alert('Successfully inserted.');
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            $('#errMsg').show();
+            //alert("Error:Action is aborted.Please try again later.");
+        }
+    });
 });</script>
     

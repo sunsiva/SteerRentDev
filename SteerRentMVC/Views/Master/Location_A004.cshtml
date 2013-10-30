@@ -31,37 +31,6 @@
              RefreshGrid();
          });
 
-         //Updating Active/Inactive status when clicking on checkbox
-         $("input[type=checkbox]").change(function () {
-             var LocId = this.id;
-             var State = $(this).is(':checked');
-             var href = '@Url.Action("LocationUpdate","Master")';
-        $.ajax({
-            url: href,
-            data: { Id: LocId, Status: State },
-            type: "POST",
-            datatype: "json",
-            traditional: true,
-            success: function () {
-                if (State == true) {
-                    $('#dvInActivate-' + LocId).text('Active').removeClass("error_msg_sm").addClass("label_part");
-                    $('#dvInActivate-' + LocId).attr('id', 'dvActivate-' + LocId);
-                    $('#dvDelete-' + LocId).text('');
-                    $('#dvNoDelete-' + LocId).text('');
-                }
-                else {
-                    $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg_sm");
-                    $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
-                    $('#dvDelete-' + LocId).text('X'); $('#dvNoDelete-' + LocId).text('X');
-                }
-                //$('#srchList').html(data);
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-            }
-        });
-         });
-
          function RefreshGrid() {
              var href = '@Url.Action("LocationInsert")';
                 $.ajax({

@@ -84,27 +84,72 @@ namespace SteerRentMVC.Controllers
 
         public ActionResult LocationSelect(decimal id)
         {
+            LocationModel objModel = new LocationModel();
             if (id > 0)
-            {LocationModel objModel = new LocationModel();
+            { 
+            
+            //To bind location data
             objModel.LocationId = id;
             objModel.BuId = 1;
             objModel.ActionMode = GlobalEnum.Flag.Select;
-                return PartialView("_LocationAddUpdate", objBal.LocationInsertUpdate(objModel));
+            return PartialView("_LocationAddUpdate", objBal.LocationInsertUpdate(objModel));
+            }else{
+            return PartialView("_LocationAddUpdate", objModel);
             }
-            else
-            {
-            } return PartialView("_LocationAddUpdate");
         }
 
-        public ActionResult LocationInsert(string LocName, string LocCode)
+        public ActionResult LocationInsert(FormCollection frmLoc)
         {
             LocationModel objModel = new LocationModel();
-            objModel.LocationName = LocName;
-            objModel.LocationCode = LocCode;
+            objModel = BuildLocationData(frmLoc);
+            return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
+        }
+
+        private LocationModel BuildLocationData(FormCollection frmLoc)
+        {
+            LocationModel objModel = new LocationModel();
+            if (frmLoc["lstLocation[0].LocationId"] != string.Empty)
+            { objModel.ActionMode = GlobalEnum.Flag.Update; 
+                objModel.LocationId = Convert.ToInt32(frmLoc["lstLocation[0].LocationId"]); }
+            else { objModel.ActionMode = GlobalEnum.Flag.Insert; }
+
+            objModel.LocationName = frmLoc["txtLocationName"];
+            objModel.LocationCode = frmLoc["txtLocationCode"];
+            objModel.ListedInWeb = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.WorkingHrs = 1;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.WorkFrom = DateTime.UtcNow;
+            objModel.WorksTill = DateTime.UtcNow;
+            objModel.Phone = frmLoc["txtMobile"];// frmLoc["lstLocation[0].Phone"];
+            objModel.Fax = frmLoc["txtFax"];// frmLoc["lstLocation[0].Fax"];
+            objModel.Email = frmLoc["txtEmail"];// frmLoc["lstLocation[0].Email"];
+            objModel.ReciptNoStart = Convert.ToInt32(frmLoc["txtRecNoStart"]);
+            objModel.ReceiptNoCurrent = Convert.ToInt32(frmLoc["txtRecNoCurrent"]);
+            objModel.RentalAgreementNoStart = Convert.ToInt32(frmLoc["txtRentAgmtNoStart"]);
+            objModel.RentalAgreementNoCurrent = Convert.ToInt32(frmLoc["txtRentAgmtNoCurrent"]);
+            objModel.LeaseAgreementNoStart = Convert.ToInt32(frmLoc["txtLeaseAgmtNoStart"]);
+            objModel.LeaseAgreementNoCurrent = Convert.ToInt32(frmLoc["txtLeaseAgmtNoCurrent"]);
+            objModel.IsARevenue = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.IsACounter = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.IsAWorkShop = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.IsAVirtual = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.LeasingAllowed = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.RentingAllowed = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.UserId = 1;// frmLoc["lstLocation[0].LocationCode"];
             objModel.IsActive = true;
             objModel.BuId = 1;
-            objModel.ActionMode = GlobalEnum.Flag.Insert;
-            return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
+            return objModel;
+        }
+
+        public void LocationStatusUpdate(int Id, bool Status)
+        {
+            LocationModel objModel = new LocationModel();
+            objModel.LocationId = Id;
+            objModel.IsActive = Status;
+            objModel.BuId = 1;
+            objModel.UserId = 1;
+            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
+            objBal.LocationInsertUpdate(objModel);
+
         }
 
         public void LocationUpdate(int Id, bool Status)
@@ -113,9 +158,8 @@ namespace SteerRentMVC.Controllers
             objModel.LocationId = Id;
             objModel.IsActive = Status;
             objModel.BuId = 1;
-            objModel.ActionMode = GlobalEnum.Flag.Update;
-            objModel.WorkFrom = DateTime.UtcNow;
-            objModel.WorksTill = DateTime.UtcNow;
+            objModel.UserId = 1;
+            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
             objBal.LocationInsertUpdate(objModel);
         }
         #endregion
