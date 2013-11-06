@@ -22,6 +22,7 @@ namespace SteerRentMVC.Controllers
             objBal = new MasterData();
             objModel = new LookupCategoryModel();
             objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
             objModel = objBal.GetLookupData(objModel);
             //if (objModel.LookupCategoryList.Count>0)
             //{
@@ -31,12 +32,27 @@ namespace SteerRentMVC.Controllers
             return PartialView(objModel);
         }
 
-        public ActionResult GeneralLookupSubmit(int id)
+        public ActionResult GeneralLookupSubmit(int id, string value, string status)
         {
             objBal = new MasterData();
             objModel = new LookupCategoryModel();
             lstObjModel = new List<LookupCategoryModel>();
-            objModel.PageMode = GlobalEnum.MasterPages.GLookup;
+
+            if (status == "Select")
+            {
+                objModel.ActionMode = GlobalEnum.Flag.Select;
+                objModel.PageMode = GlobalEnum.MasterPages.GAndLookup;
+            }
+            else
+            {
+                objModel.PageMode = GlobalEnum.MasterPages.GLookup;
+                objModel.ActionMode = GlobalEnum.Flag.Insert;
+                objModel.UserId = 1;
+                objModel.IsActive = true;
+                objModel.LookupCategoryCode = value; //To be inserted in Glookup value column
+            }
+
+            objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
             //objModel = (from item in lstObjModel where (item.LookupCategoryID == id) select item).SingleOrDefault();
             //objModel.LookupCategoryList = objModel.GLookupList;
@@ -45,6 +61,19 @@ namespace SteerRentMVC.Controllers
             //SelectList obj = new SelectList(stateList, "Value", "Text", id);
             //ViewBag.SubCategory = obj;
             return PartialView("_SearchResults", objModel);
+        }
+
+        public void GLookupStatusUpdate(int Id, bool Status)
+        {
+            LookupCategoryModel objModel = new LookupCategoryModel();
+            objModel.LookupCategoryID = Id;
+            objModel.LookupCategoryDesc = string.Empty;
+            objModel.IsActive = Status;
+            objModel.UserId = 1;
+            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
+            objModel.PageMode = GlobalEnum.MasterPages.GLookup;
+            objBal.GetLookupData(objModel);
+
         }
 
         public ActionResult HierarchicalLookup_A002()
@@ -87,7 +116,6 @@ namespace SteerRentMVC.Controllers
             LocationModel objModel = new LocationModel();
             if (id > 0)
             { 
-            
             //To bind location data
             objModel.LocationId = id;
             objModel.BuId = 1;
@@ -151,18 +179,7 @@ namespace SteerRentMVC.Controllers
             objBal.LocationInsertUpdate(objModel);
 
         }
-
-        public void LocationUpdate(int Id, bool Status)
-        {
-            LocationModel objModel = new LocationModel();
-            objModel.LocationId = Id;
-            objModel.IsActive = Status;
-            objModel.BuId = 1;
-            objModel.UserId = 1;
-            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
-            objBal.LocationInsertUpdate(objModel);
-        }
+        
         #endregion
-
     }
 } 

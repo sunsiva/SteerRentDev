@@ -43,10 +43,12 @@ namespace SteerRent.Model
     public class HLookupDataModel
     {
         public decimal HLookupID { get; set; }
-        public decimal GlookupID { get; set; }
-        public decimal LookupCategoryID { get; set; }
         public string HLookupDesc { get; set; }
+        public decimal GLookupID { get; set; }
+        public string GLookupDesc { get; set; }
+        public decimal LookupCategoryID { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
+        public GlobalEnum.MasterPages PageMode { get; set; }
         public int UserId { get; set; }
         public bool IsActive { get; set; }
     }

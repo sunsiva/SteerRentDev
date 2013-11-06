@@ -125,7 +125,8 @@ namespace SteerRent.DAL
                     DataSet ds = new DataSet();
                     SqlDataAdapter da = new SqlDataAdapter();
 
-                    if (obj.PageMode == GlobalEnum.MasterPages.Lookup)
+
+                    if (obj.ActionMode == GlobalEnum.Flag.Select && (obj.PageMode == GlobalEnum.MasterPages.Lookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup))
                     {
                         cmd.CommandText = "SELECT[LookupCategoryID],[LookupCategoryCode],[LookupCategoryDesc],IsActive,IsGLookup FROM [LookupCategories]";// "usp_LookupCategoriesSelect";
                         cmd.CommandType = CommandType.Text;
@@ -145,12 +146,27 @@ namespace SteerRent.DAL
                         }).ToList();
                     }
 
-                    if (obj.PageMode == GlobalEnum.MasterPages.GLookup)
+                    if ((obj.ActionMode == GlobalEnum.Flag.Select || obj.ActionMode == GlobalEnum.Flag.Insert) && (obj.PageMode == GlobalEnum.MasterPages.GLookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup))
                     {
+                        if (obj.ActionMode == GlobalEnum.Flag.Insert)
+                        {
+                            cmd = con.CreateCommand();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "usp_GLookupInsert";
+                            cmd.Parameters.AddWithValue("@LookupCategoryID", obj.LookupCategoryID);
+                            cmd.Parameters.AddWithValue("@GLookupDesc", obj.LookupCategoryCode);
+                            cmd.Parameters.AddWithValue("@CreatedBy", obj.UserId);
+                            cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
+                            cmd.ExecuteNonQuery();
+                        }
+
                         cmd = con.CreateCommand();
-                        cmd.CommandText = "usp_GLookupSelect";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
+                        cmd.CommandText = "usp_GLookupSelect";
+                        if (obj.LookupCategoryID > 0)
+                            cmd.Parameters.AddWithValue("@GLookupID", obj.LookupCategoryID);
+                        else
+                            cmd.Parameters.AddWithValue("@GLookupID", DBNull.Value);
                         ds = new DataSet();
                         da = new SqlDataAdapter(cmd);
                         da.Fill(ds);
@@ -163,6 +179,52 @@ namespace SteerRent.DAL
                              GLookupDesc = row.Field<string>("GLookupDesc"),
                              IsActive = row.Field<bool>("IsActive")
                          }).ToList();
+                    }
+
+                    if (obj.PageMode == GlobalEnum.MasterPages.GLookup && obj.ActionMode == GlobalEnum.Flag.StatusUpdate)
+                    {
+                        cmd = con.CreateCommand();
+                        cmd.CommandText = "usp_GLookupUpdate";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@GLookupID", obj.LookupCategoryID);
+                        cmd.Parameters.AddWithValue("@GLookupDesc", obj.LookupCategoryDesc);
+                        cmd.Parameters.AddWithValue("@UpdatedBy", obj.UserId);
+                        cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
+                        cmd.Parameters.AddWithValue("@FlexField1", "StatusUpdate");
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    if (obj.ActionMode == GlobalEnum.Flag.Select && obj.PageMode == GlobalEnum.MasterPages.HLookup)
+                    {
+                        if (obj.ActionMode == GlobalEnum.Flag.Insert)
+                        {
+                            cmd = con.CreateCommand();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "usp_HLookupInsert";
+                            cmd.Parameters.AddWithValue("@LookupCategoryID", obj.LookupCategoryID);
+                            cmd.Parameters.AddWithValue("@GLookupID", obj.HLookupList[0].GLookupID);
+                            cmd.Parameters.AddWithValue("@HLookupDesc", obj.LookupCategoryCode);
+                            cmd.Parameters.AddWithValue("@CreatedBy", obj.UserId);
+                            cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        cmd.CommandText = "select HL.HLookupID,HL.HLookupDesc,GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID from HLookup HL join GLookup GL on HL.GlookupID=GL.GLookupID join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID";
+                        cmd.CommandType = CommandType.Text;
+                        ds = new DataSet();
+                        da = new SqlDataAdapter(cmd);
+                        da.Fill(ds);
+
+                        objLookup.HLookupList = ds.Tables[0].AsEnumerable().Select(row =>
+                        new HLookupDataModel
+                        {
+                            LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
+                            HLookupID = row.Field<decimal>("HLookupID"),
+                            GLookupID = row.Field<decimal>("GLookupID"),
+                            GLookupDesc = row.Field<string>("GLookupDesc"),
+                            HLookupDesc = row.Field<string>("HLookupDesc"),
+                            IsActive = row.Field<bool>("IsActive")
+                        }).ToList();
                     }
 
                     //reader.Close();

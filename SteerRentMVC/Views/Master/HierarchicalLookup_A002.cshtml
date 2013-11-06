@@ -1,43 +1,33 @@
-﻿@{
-    Layout = null;
-    //Layout = "~/Views/Shared/_Layout.cshtml";  
+﻿@model SteerRent.Model.HLookupDataModel
+@{
+    var cat = Model.LookupCategoryList.Where(m => m.IsGLookup == false).ToList();
+    
+    ViewBag.Title = "HierarchicalLookups_A001";
 }
 
-<h2>HLookups_A001</h2>
-@*@using(Html.BeginForm())
-{
-    *@<!--- START A002 - Hierarchical Lookups -->
+<!--- START A002 - Hierarchical Lookups -->
                         <div class="A002 st_view">
                             <div class="st_view_inner">
                             	<div class="tab_contant_inner">
-                           			<div class="contain_row" style="display:none">
+                           			<div class="contain_row">
                                     	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please enter all required fields.</p>
-                                        <p class="error_msg_sm">The chosen value already exists in the system.</p>
-                                        <p class="error_msg_sm">Special characters are not allowed.</p>
-                            <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                        <p class="error_msg_sm">Please select required field(s).</p>
+                                        <p class="error_msg_exist">The chosen value already exists in the system.</p>
+                                        <p class="error_msg_spclchar">Special characters are not allowed.</p>
+                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
                                     </div>
-                                    
                                         <div class="contain_row">
-                                        	<h5 class="contain_title">General Lookups</h5>
+                                        	<h5 class="contain_title">Hierarchical Lookups</h5>
                                             <div class="contain_sub_row">
                                             	<div class="contain_left_part">
-                                                <p class="label_part">Category<span></span></p>
+                                                <p class="label_part">Category & Sub-Category<span></span></p>
                                                     <div class="label_combo_part">
-                                                    	<select name="ddlCategory">
-                                                        	<option></option>
-                                                        </select>
+                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id = "ddlCategory" })
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                	<p class="label_part">Sub-Category<span></span></p>
-                                                    <div class="label_combo_part">
-                                                    	<select name="ddlSubCategory">
-                                                        	<option></option>
-                                                                                                                                                                                   
-                                                        </select>
-                                                    </div>
+                                                	
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
@@ -49,28 +39,78 @@
                                             <div class="contain_sub_row">
                                             	<p class="label_part">List of Values</p>
                                                 <div class="label_textarea_part">
-                                                	Display grid here as per prototype. (this Div is designed to include both columns).<br>
-                                             
-                                                    <h5>xx records found. xx - Active, xx - Inactive.</h5>
-                                         
+                                                	<table class="gridtable">
+                                                            <tr>
+                                                                <th>
+                                                                    Category
+                                                                </th>
+                                                                <th>
+                                                                    Sub-Category
+                                                                </th>
+                                                                <th>
+                                                                    Status
+                                                                </th>
+
+                                                            </tr>
+                                                           @if (Model.HLookupList != null)
+                                                            {
+                                                                if (Model.HLookupList.Count > 0)
+                                                                {
+                                                                    foreach (var item in Model.HLookupList){
+                                                                    <tr>
+                                                                        <td>
+                                                                            @item.HLookupDesc
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.HLookupDesc
+                                                                        </td>
+                                                                        <td>
+                                                                            @if(item.IsActive == true)
+                                                                            {<div id="dvActivate-@item.HLookupID" class="label_part">Active</div>}
+                                                                            else
+                                                                            {
+                                                                                <div id='dvInActivate-@item.HLookupID' class="error_msg">InActive</div>
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="checkbox" id="@item.HLookupID" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                }
+                                                            }
+                                                            else
+                                                                {
+                                                                <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                }
+                                                    </table>
+                                                    
+                                                    </br>
+<h5 style="text-align:right">xx records found. xx - Active, xx - Inactive.</h5>
                                                 </div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
+
                                         <div class="contain_row">
-                                        	<h5 class="contain_title">Add Lookup Data for "Category - Sub-Category"</h5>
+                                        	<h5 class="contain_title">Add Lookup Data for "Category & Sub-Category"</h5>
                                             <div class="contain_sub_row">
                                             	<div class="contain_left_part">
-                                                <p class="label_part">Enter New Category <span>**</span></p>
-                                                    <div class="label_input_part">
-                                                        <input name="txtNewCat" type="text" placeholder="" />
+                                                <p class="label_part">Existing Category <span>**</span></p>
+                                                    
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlCategory"><option></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">New Sub-Category <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtNewSubCat" type="text" placeholder="" />
+                                                        <input name="txtNewSubCat" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -79,10 +119,10 @@
                                             <div>OR</div>
                                             <div class="contain_sub_row">
                                             	<div class="contain_left_part">
-                                                <p class="label_part">Existing Category <span>**</span></p>
+                                                <p class="label_part">New Category <span>**</span></p>
                                                     
-                                                    <div class="label_combo_part">
-                                                        <select name="ddlCategory"><option></option></select>
+                                                    <div class="label_input_part">
+                                                        <input name="txtNewCat" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -97,38 +137,10 @@
                                         
                                         <div class="submit_part">
                                             <div class="contain_submit_row">
-                                            	<input type="button" ID="btnSubmitA2" class="submit_btn" runat="server" value="Submit" />
+                                                <input type="button" id="btnSubmitA2" class="submit_btn" value="Submit" />
                                             </div>
                                         </div>
-                                        	
                                 </div>
                             </div>    
                         </div>
 <!-- END A002 -->
-
-<script lang="ja" type="text/javascript">
-        $(document).ready(function () {
-
-            $('#btnSubmitA2').click(function () {
-                var href = '@Url.Action("HierarchicalLookup_A002","Master")';
-                $.ajax({
-                    url: href,
-                    data: "ss",
-                    type: "GET",
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        //$('#contain_part').html(data);
-                        //document.location.href = href;
-                        alert('Hlookup');
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        alert("CustomizeRoomInformationError");
-                    }
-                });
-
-            });
-        });
-    </script>
-
-@*}*@

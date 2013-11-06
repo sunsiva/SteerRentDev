@@ -13,6 +13,8 @@ namespace SteerRent.Model
             Lookup,
             HLookup,
             GLookup,
+            GAndLookup,
+            HAndLookup,
             Location,
             Employee,
             Company,
