@@ -78,7 +78,78 @@ namespace SteerRentMVC.Controllers
 
         public ActionResult HierarchicalLookup_A002()
         {
-            return PartialView();
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            objModel = objBal.GetLookupData(objModel);
+            return PartialView(objModel);
+        }
+
+        public ActionResult HierarchicalLookupSubmit(int id, string catValue, string subCatValue, string status)
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            lstObjModel = new List<LookupCategoryModel>();
+            if (status == "Select")
+            {
+                objModel.ActionMode = GlobalEnum.Flag.Select;
+                objModel.PageMode = GlobalEnum.MasterPages.HLookup;
+            }
+            else
+            {
+                HLookupDataModel objHLData = new HLookupDataModel();
+                List<HLookupDataModel> lstobjHLData = new List<HLookupDataModel>();
+                objModel.PageMode = GlobalEnum.MasterPages.HLookup;
+                objModel.ActionMode = GlobalEnum.Flag.Insert;
+                objModel.UserId = 1;
+                objModel.IsActive = true;
+                objHLData.GLookupDesc = catValue;
+                objHLData.HLookupDesc = subCatValue;
+                objHLData.GLookupID = 0;//TODO value to be set
+                objHLData.LookupCategoryID = id;
+                lstobjHLData.Add(objHLData);
+                objModel.HLookupList = lstobjHLData;
+            }
+            objModel.LookupCategoryID = id;
+            objModel = objBal.GetLookupData(objModel);
+            return PartialView("_HLookupSearchResults", objModel);
+        }
+
+        public void HLookupStatusUpdate(int Id, bool Status)
+        {
+            LookupCategoryModel objModel = new LookupCategoryModel();
+            objModel.LookupCategoryID = Id;
+            objModel.LookupCategoryDesc = string.Empty;
+            objModel.IsActive = Status;
+            objModel.UserId = 1;
+            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
+            objModel.PageMode = GlobalEnum.MasterPages.HLookup;
+            objBal.GetLookupData(objModel);
+
+        }
+
+        public JsonResult getCityJson(int stateId)
+        {
+            return Json(getCity(stateId));
+        }
+
+        public SelectList getCity(int id)
+        {
+            IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
+                objBal = new MasterData();
+                objModel = new LookupCategoryModel();
+                lstObjModel = new List<LookupCategoryModel>();
+                objModel.ActionMode = GlobalEnum.Flag.Select;
+                objModel.PageMode = GlobalEnum.MasterPages.GLookup;
+                objModel.UserId = 1;
+                objModel.IsActive = true;
+                objModel.LookupCategoryID = id;
+                objModel = objBal.GetLookupData(objModel);
+
+                getGlookupdata = (from m in objModel.GLookupList where m.IsActive == true && m.LookupCategoryID == id select m).AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
+                return new SelectList(getGlookupdata, "Value", "Text", null);
+ 
         }
 
         //public void BindData()
@@ -180,6 +251,125 @@ namespace SteerRentMVC.Controllers
 
         }
         
+        #endregion
+
+        #region "Company Setup"
+
+        // GET: /Company Setup/
+        public ActionResult CompanySetup_A003()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="frmCompany"></param>
+        /// <returns></returns>
+        public ActionResult CompanyInsert(FormCollection frmCompany)
+        {
+            BindCompanySetupData(frmCompany);
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="frmCompany"></param>
+        /// <returns></returns>
+        private CompanySetup BindCompanySetupData(FormCollection frmCompany)
+        {
+            CompanySetup objComp = new CompanySetup();
+            objComp.BUName = frmCompany["txtCompanyName"];
+            //logo
+            //city
+            //country
+            //state
+            //contact persons desig
+            //mobileno
+            objComp.BuAddress1 = frmCompany["txtAddrLine1"];
+            objComp.BuAddress2 = frmCompany["txtAddrLine2"];
+            objComp.BuAddress3 = frmCompany["txtAddrLine3"];
+            //objComp.BuPostBox = frmCompany[""];
+            objComp.BuPhoneNo = frmCompany["txtLandline"];
+            objComp.BuFax = frmCompany["txtFax"];
+            objComp.BuEmailId = frmCompany["txtEmail"];
+            //objComp.BuMobile = frmCompany[""];
+            objComp.BuZip = frmCompany["txtPinZip"];
+            objComp.BuContactPerson = frmCompany["txtContactPerson"];
+            objComp.BuBaseCurrency = 1;// Convert.ToDecimal(frmCompany[""]);
+            objComp.BuDecimals = Convert.ToDecimal(frmCompany[""]);
+            objComp.UserId = 1;
+            objComp.CreatedOn = DateTime.Now;
+            objComp.UpdatedOn = DateTime.Now;
+            objComp.IsActive = true;
+            return objComp;
+        }
+
+        #endregion
+
+        #region "Employee"
+        // GET: /Company Setup/
+        public ActionResult Employee_A007()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
+        #endregion
+
+        #region "Charge Codes"
+        // GET: /Company Setup/
+        public ActionResult ChargeCodes_A005()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
+        #endregion
+
+        #region "Users"
+        // GET: /Company Setup/
+        public ActionResult Users_A010()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
+        #endregion
+
+        #region "Privileges"
+        // GET: /Company Setup/
+        public ActionResult Privileges_A009()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
+        #endregion
+
+        #region "Roles"
+        // GET: /Company Setup/
+        public ActionResult Roles_A008()
+        {
+            objBal = new MasterData();
+            objModel = new LookupCategoryModel();
+            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            objModel.ActionMode = GlobalEnum.Flag.Select;
+            return PartialView();
+        }
         #endregion
     }
 } 

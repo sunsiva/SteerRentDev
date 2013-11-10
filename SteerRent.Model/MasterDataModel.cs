@@ -94,4 +94,33 @@ namespace SteerRent.Model
         public int UserId { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class CompanySetup
+    { 
+        public decimal BuId { get; set; }
+        public decimal OrgId { get; set; }
+      public string BuCode { get; set; }
+      public string BUName { get; set; }
+      public string BuAddress1 { get; set; }
+      public string BuAddress2 { get; set; }
+      public string BuAddress3 { get; set; }
+      public string BuPostBox { get; set; }
+      public string BuPhoneNo { get; set; }
+      public string BuFax { get; set; }
+      public string BuEmailId { get; set; }
+      public string BuMobile { get; set; }
+      public string BuZip { get; set; }
+      public string BuContactPerson { get; set; }
+      public decimal BuBaseCurrency { get; set; }
+      public decimal BuDecimals { get; set; }
+      public DateTime CreatedOn { get; set; }
+      public DateTime UpdatedOn { get; set; }
+      public int UserId { get; set; }
+      public bool IsActive { get; set; }
+      public GlobalEnum.Flag ActionMode { get; set; }
+      public IList<LocationModel> lstLocation { get; set; }
+      public string FlexField1 { get; set; }
+      public string FlexField2 { get; set; }
+      public string FlexField3 { get; set; }
+    }
 }

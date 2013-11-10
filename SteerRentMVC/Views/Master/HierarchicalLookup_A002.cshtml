@@ -1,10 +1,9 @@
-﻿@model SteerRent.Model.HLookupDataModel
+﻿@model SteerRent.Model.LookupCategoryModel
 @{
-    var cat = Model.LookupCategoryList.Where(m => m.IsGLookup == false).ToList();
+    var objCategories = Model.LookupCategoryList.Where(m => m.IsGLookup == false).ToList();
     
     ViewBag.Title = "HierarchicalLookups_A001";
 }
-
 <!--- START A002 - Hierarchical Lookups -->
                         <div class="A002 st_view">
                             <div class="st_view_inner">
@@ -22,7 +21,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Category & Sub-Category<span></span></p>
                                                     <div class="label_combo_part">
-                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id = "ddlCategory" })
+                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(objCategories, "LookupCategoryID", "LookupCategoryCode"), "-- Select --", new { @id = "ddlHLookupCategory" })
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -38,79 +37,28 @@
                                         	<h5 class="contain_title">Existing Values</h5>
                                             <div class="contain_sub_row">
                                             	<p class="label_part">List of Values</p>
-                                                <div class="label_textarea_part">
-                                                	<table class="gridtable">
-                                                            <tr>
-                                                                <th>
-                                                                    Category
-                                                                </th>
-                                                                <th>
-                                                                    Sub-Category
-                                                                </th>
-                                                                <th>
-                                                                    Status
-                                                                </th>
-
-                                                            </tr>
-                                                           @if (Model.HLookupList != null)
-                                                            {
-                                                                if (Model.HLookupList.Count > 0)
-                                                                {
-                                                                    foreach (var item in Model.HLookupList){
-                                                                    <tr>
-                                                                        <td>
-                                                                            @item.HLookupDesc
-                                                                        </td>
-                                                                        <td>
-                                                                            @item.HLookupDesc
-                                                                        </td>
-                                                                        <td>
-                                                                            @if(item.IsActive == true)
-                                                                            {<div id="dvActivate-@item.HLookupID" class="label_part">Active</div>}
-                                                                            else
-                                                                            {
-                                                                                <div id='dvInActivate-@item.HLookupID' class="error_msg">InActive</div>
-                                                                            }
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="checkbox" id="@item.HLookupID" checked="@item.IsActive" class="checkbox-mrg" />
-                                                                        </td>
-                                                                    </tr>
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
-                                                                }
-                                                            }
-                                                            else
-                                                                {
-                                                                <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
-                                                                }
-                                                    </table>
-                                                    
-                                                    </br>
-<h5 style="text-align:right">xx records found. xx - Active, xx - Inactive.</h5>
-                                                </div>
+                                                <div id="HLookupGrdList">
+                                                    @Html.Partial("_HLookupSearchResults", Model)
+                                                    </div>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
 
                                         <div class="contain_row">
-                                        	<h5 class="contain_title">Add Lookup Data for "Category & Sub-Category"</h5>
+                                        	<h5 class="contain_title">Add Lookup Data for " <span id="spnHLookupSelValue">Category & Sub-Category</span>"</h5>
                                             <div class="contain_sub_row">
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Existing Category <span>**</span></p>
                                                     
                                                     <div class="label_combo_part">
-                                                        <select name="ddlCategory"><option></option></select>
+                                                        <select name="ddlHLookupExistCategory"><option>-- Select --</option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">New Sub-Category <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtNewSubCat" type="text" placeholder="">
+                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -122,7 +70,7 @@
                                                 <p class="label_part">New Category <span>**</span></p>
                                                     
                                                     <div class="label_input_part">
-                                                        <input name="txtNewCat" type="text" placeholder="">
+                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -144,3 +92,86 @@
                             </div>    
                         </div>
 <!-- END A002 -->
+<script lang="ja" type="text/javascript">
+
+    $('#ddlHLookupCategory').change(function () {
+        if ($('#ddlHLookupCategory').val() > 0) {
+            $('#spnHLookupSelValue').text($("#ddlHLookupCategory option:selected").text());
+            RefreshGrid('Select');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getCityJson")',
+                data: { stateId: $('#ddlHLookupCategory').val() },
+                success: function (data) {
+
+                    //var items = [];
+                    //items.push("&lt;option>--Choose Your Area--&lt;/option>");
+                    //$.each(data, function () {
+                    //    items.push("&lt;option value=" + this.Value + ">" + this.Text + "&lt;/option>");
+                    //});
+
+                    //$("#ddlHLookupExistCategory").html(items.join(' '));
+                }
+             })
+        }
+    });
+
+    $("#ddlHLookupExistCategory11").change(function () {
+        if ($('#ddlHLookupCategory').val() > 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getCityJson")',
+                data: { stateId: $('#ddlHLookupCategory').val() },
+                success: function (data) {
+                    var size = data.length;
+                    var items = [];
+                    items.push("&lt;option>--Choose Your Area--&lt;/option>");
+                    for (i = 0; i < size; i++) {
+                        debugger;
+                        var s = i;
+                    }
+                    $.each(data, function () {
+                        alert(this.Text);
+                        items.push("&lt;option value=" + this.Value + ">" + this.Text + "&lt;/option>");
+                    });
+
+                    $("#ddlHLookupExistCategory").html(items.join(' '));
+                }
+            })
+        }
+    });
+
+    $('#btnSubmitA2').click(function () {
+                
+        if ($('#ddlHLookupCategory').val() > 0) {
+            RefreshGrid('Insert');
+        }
+        else {
+            $('.error_msg_bg').css("display", "block");
+            $('.error_msg_sm').css("display", "block");
+        }
+    });
+
+    function RefreshGrid(status)
+    {
+        var href = '@Url.Action("HierarchicalLookupSubmit")';
+                $.ajax({
+                    url: href,
+                    data: { id: $('#ddlHLookupCategory').val(), catValue: $('#txtHLookupCatValue').val(), subCatValue: $('#txtHLookupSubCatValue').val(), status: status },
+                    type: "POST",
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#HLookupGrdList').replaceWith(data);
+                        $('#txtHLookupCatValue').val('');
+                        $('#txtHLookupSubCatValue').val('');
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('.error_msg_bg').css("display", "block");
+                        $('.error_msg_error').css("display", "block"); //("Error:Action is aborted.Please try again later.");
+                    }
+                });
+       }
+    
+</script>

@@ -51,16 +51,18 @@
             <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
             }
 </table>
-    <h5>xx records found. xx - Active, xx - Inactive.</h5>
+    @if (Model.GLookupList != null)
+    {
+        if (Model.GLookupList.Count > 0)
+        {
+    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.GLookupList.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+        }
+    }
     </div>
 
 <script lang="ja" type="text/javascript">
-    function fnGLookupUpdate(id) {
-        $.get('@Url.Action("GLookupStatusUpdate", "Master")/' + id, function (data) {
-            $('#locAddUpdate').replaceWith(data);
-        });
-    }
-
     //Updating Active/Inactive status when clicking on checkbox
     $("input[type=checkbox]").change(function () {
         var id = this.id;

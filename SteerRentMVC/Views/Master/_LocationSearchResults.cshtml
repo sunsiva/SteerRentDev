@@ -66,12 +66,23 @@
                                                         </table>
                                                          <div>
                                                                 <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
-                                                        </div><div style="margin-left:470px">
+                                                        </div>
+                                                         @if (Model.lstLocation != null)
+    {
+        if (Model.lstLocation.Count > 0)
+        {
+    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+        }
+    }
+
+@*                                                         <div style="margin-left:470px">
                                                          @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
                                                             {
                                                                 @Html.Partial("_SearchCountFacet",Model)
                                                             }
-                                                            </div>
+                                                            </div>*@
                                                     </div>
                                                 </div>
                                                 <div class="clear"></div>

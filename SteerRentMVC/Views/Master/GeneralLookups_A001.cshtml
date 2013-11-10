@@ -26,7 +26,7 @@
                     <div class="contain_left_part">
                         <p class="label_part">Category<span></span></p>
                         <div class="label_combo_part">
-                            @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "--Select Category--", new { @id = "ddlCategory" })
+                            @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "-- Select --", new { @id = "ddlCategory" })
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="contain_row">
-                <h5 class="contain_title">Add Lookup Data for "<span id="spnSelectedValue">Category</span>"</h5>
+                <h5 class="contain_title">Add Lookup Data for "<span id="spnGLookupSelValue">Category</span>"</h5>
                 <div class="contain_sub_row">
                     <div class="contain_left_part">
                         <p class="label_part">Enter New Value <span>*</span></p>
@@ -122,7 +122,7 @@
 
             $('#ddlCategory').change(function () {
                 if ($('#ddlCategory').val() > 0) {
-                    $('#spnSelectedValue').text($("#ddlCategory option:selected").text());
+                    $('#spnGLookupSelValue').text($("#ddlCategory option:selected").text());
                     RefreshGrid('Select');
                 }
             });

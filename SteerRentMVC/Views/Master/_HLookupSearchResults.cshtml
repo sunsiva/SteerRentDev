@@ -1,0 +1,90 @@
+﻿@model SteerRent.Model.LookupCategoryModel
+
+@{
+    Layout = null;
+}
+
+    <div id="HLookupGrdList">
+                                                <div class="label_textarea_part">
+                                                	<table class="gridtable">
+                                                            <tr>
+                                                                <th>
+                                                                    Category
+                                                                </th>
+                                                                <th>
+                                                                    Sub-Category
+                                                                </th>
+                                                                <th>
+                                                                    Status
+                                                                </th>
+
+                                                            </tr>
+                                                           @if (Model.HLookupList != null)
+                                                            {
+                                                                if (Model.HLookupList.Count > 0)
+                                                                {
+                                                                    foreach (var item in Model.HLookupList){
+                                                                    <tr>
+                                                                        <td>
+                                                                            @item.GLookupDesc 
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.HLookupDesc
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="checkbox" id="@item.HLookupID" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                }
+                                                            }
+                                                            else
+                                                                {
+                                                                <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                }
+                                                    </table>
+                                                    
+                                                    </br>
+    @if (Model.HLookupList != null)
+    {
+        if (Model.HLookupList.Count > 0)
+        {
+    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.HLookupList.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.HLookupList.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.HLookupList.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+        }
+    }
+                                                </div>
+                                                    </div>
+<script lang="ja" type="text/javascript">
+    //Updating Active/Inactive status when clicking on checkbox
+    $("input[type=checkbox]").change(function () {
+        var id = this.id;
+        var State = $(this).is(':checked');
+        var href = '@Url.Action("HLookupStatusUpdate")';
+        $.ajax({
+            url: href,
+            data: { Id: id, Status: State },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function () {
+                //if (State == true) {
+                //    $('#dvInActivate-' + id).text('Active').removeClass("error_msg").addClass("label_part");
+                //    $('#dvInActivate-' + id).attr('id', 'dvActivate-' + id);
+                //}
+                //else {
+                //    $('#dvActivate-' + id).text('InActive').removeClass("label_part").addClass("error_msg");
+                //    $('#dvActivate-' + id).attr('id', 'dvInActivate-' + id);
+                //}
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+            }
+        });
+    });
+</script>

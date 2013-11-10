@@ -211,6 +211,7 @@
     <Content Include="images\popup-close.png" />
     <Content Include="images\search_icon.png" />
     <Content Include="images\spinner.gif" />
+    <Content Include="images\tab.png" />
     <Content Include="images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="images\ui-bg_glass_65_ffffff_1x400.png" />
     <Content Include="images\ui-icons_0073ea_256x240.png" />
@@ -259,14 +260,22 @@
     <Content Include="Views\Master\HierarchicalLookup_A002.cshtml" />
     <Content Include="Views\Master\_SearchResults.cshtml" />
     <Content Include="Views\Master\Location_A004.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Master\_LocationSearchResults.cshtml" />
     <Content Include="Views\Master\_LocationAddUpdate.cshtml" />
     <Content Include="Views\Master\_SearchCountFacet.cshtml" />
+    <Content Include="Views\Master\_HLookupSearchResults.cshtml" />
+    <Content Include="Views\Master\ChargeCodes_A005.cshtml" />
+    <Content Include="Views\Master\CompanySetup_A003.cshtml" />
+    <Content Include="Views\Master\Employee_A007.cshtml" />
+    <Content Include="Views\Master\Privileges_A009.cshtml" />
+    <Content Include="Views\Master\Roles_A008.cshtml" />
+    <Content Include="Views\Master\Users_A010.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

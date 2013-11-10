@@ -505,15 +505,53 @@ body {
 	width:100px;
 	height:24px;
 	display:block;
-	float:left;
 	background:#555555;
+	float:left;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	outline:none;
 	border:none;
 	cursor:pointer;
-    margin-top:15px;
+}
+.resetpw_btn{
+	width:24px;
+	height:24px;
+	display:block;
+	float:left;
+	background:#009900;
+	color:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	outline:none;
+	border:none;
+	cursor:pointer;
+}
+.del_btn{
+	width:22px;
+	height:22px;
+	display:block;
+	float:left;
+	background:#FF0000;
+	color:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	outline:none;
+	border:none;
+	cursor:pointer;
+}
+.add_btn{
+	width:22px;
+	height:22px;
+	display:block;
+	float:left;
+	background:#C0C0C0;
+	color:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	outline:none;
+	border:none;
+	cursor:pointer;
 }
 .popup-link{
 	display:block;
@@ -521,6 +559,9 @@ body {
 }
 .add-timeline-popup {
 	width: 700px;
+    height: 400px; 
+	overflow-x:hidden;
+	overflow-y:scroll;
 	position: relative;
 	background:#FFF;
 	zoom;1;
@@ -579,12 +620,12 @@ body {
 }
 .popup_submit{
 	width:80px;
-	height:25px;
+	height:24px;
 	display:block;
 	outline:none;
 	border:none;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:14px;
+	font-size:12px;
 	color:#FFF !important;
 	background:#006699;
 }
@@ -616,7 +657,7 @@ table.gridtable {
 }
 table.gridtable th {
 	border-width: 1px;
-	padding: 8px;
+	padding: 4px;
 	border-style: solid;
 	border-color: #cccccc;
 	background-color: #dedede;
@@ -624,7 +665,7 @@ table.gridtable th {
 }
 table.gridtable td {
 	border-width: 1px;
-	padding: 8px;
+	padding: 4px;
 	border-style: solid;
 	border-color: #cccccc;
 	background-color: #ffffff;
