@@ -51,7 +51,7 @@
                                                 <p class="label_part">Existing Category <span>**</span></p>
                                                     
                                                     <div class="label_combo_part">
-                                                        <select name="ddlHLookupExistCategory"><option>-- Select --</option></select>
+                                                        <select name="ddlHLookupExistCategory" id="ddlHLookupExistCategory"></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -101,17 +101,13 @@
 
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("getCityJson")',
-                data: { stateId: $('#ddlHLookupCategory').val() },
+                url: '@Url.Action("getHLookupExistCategory")',
+                data: { selCatId: $('#ddlHLookupCategory').val() },
                 success: function (data) {
-
-                    //var items = [];
-                    //items.push("&lt;option>--Choose Your Area--&lt;/option>");
-                    //$.each(data, function () {
-                    //    items.push("&lt;option value=" + this.Value + ">" + this.Text + "&lt;/option>");
-                    //});
-
-                    //$("#ddlHLookupExistCategory").html(items.join(' '));
+                    $("#ddlHLookupExistCategory").empty();
+                    $.each(data, function () {
+                        $("#ddlHLookupExistCategory").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
                 }
              })
         }

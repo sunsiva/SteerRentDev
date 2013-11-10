@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using SteerRent.Model;
 using SteerRent.BAL;
+using System.Collections;
 
 namespace SteerRentMVC.Controllers
 {
@@ -129,12 +130,12 @@ namespace SteerRentMVC.Controllers
 
         }
 
-        public JsonResult getCityJson(int stateId)
+        public JsonResult getHLookupExistCategory(int selCatId)
         {
-            return Json(getCity(stateId));
+            return Json(getExistingCategory(selCatId));
         }
 
-        public SelectList getCity(int id)
+        public SelectList getExistingCategory(int id)
         {
             IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
                 objBal = new MasterData();
@@ -149,6 +150,12 @@ namespace SteerRentMVC.Controllers
 
                 getGlookupdata = (from m in objModel.GLookupList where m.IsActive == true && m.LookupCategoryID == id select m).AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
                 return new SelectList(getGlookupdata, "Value", "Text", null);
+
+                //List<SelectListItem> list = new List<SelectListItem>();
+                //foreach (DataRow bd in getGlookupdata as IEnumerable)
+                //{
+                //    list.Add(new SelectListItem { Text = bd["buildid"].ToString(), Value = bd["buildid"].ToString() });
+                //}
  
         }
 
