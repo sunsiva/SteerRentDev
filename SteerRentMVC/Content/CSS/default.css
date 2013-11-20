@@ -500,6 +500,7 @@ body {
 	border:none;
 	cursor:pointer;
 	margin-left:145px;
+    nav-index:0;
 }
 .addnew_btn{
 	width:100px;

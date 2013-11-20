@@ -124,7 +124,7 @@ namespace SteerRent.DAL
                     DataSet ds = new DataSet();
                     SqlDataAdapter da = new SqlDataAdapter();
 
-                    if (obj.ActionMode == GlobalEnum.Flag.Select && (obj.PageMode == GlobalEnum.MasterPages.Lookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup || obj.PageMode == GlobalEnum.MasterPages.HAndLookup))
+                    //if (obj.ActionMode == GlobalEnum.Flag.Select && (obj.PageMode == GlobalEnum.MasterPages.Lookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup || obj.PageMode == GlobalEnum.MasterPages.HAndLookup))
                     {
                         cmd.CommandText = "SELECT[LookupCategoryID],[LookupCategoryCode],[LookupCategoryDesc],IsActive,IsGLookup FROM [LookupCategories]";// "usp_LookupCategoriesSelect";
                         cmd.CommandType = CommandType.Text;

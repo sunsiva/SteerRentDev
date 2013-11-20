@@ -26,7 +26,7 @@
                     <div class="contain_left_part">
                         <p class="label_part">Category<span></span></p>
                         <div class="label_combo_part">
-                            @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "-- Select --", new { @id = "ddlCategory" })
+                            @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "", new { @id = "ddlCategory" })
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -128,8 +128,7 @@
             });
 
             $('#btnSubmitA1').click(function () {
-                
-                if ($('#ddlCategory').val() > 0) {
+                if ($('#ddlCategory').val() > 0 && $('#txtGLookupValue').val() != '') {
                     RefreshGrid('Insert');
                 }
                 else {

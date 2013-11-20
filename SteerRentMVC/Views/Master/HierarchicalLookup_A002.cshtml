@@ -10,7 +10,7 @@
                             	<div class="tab_contant_inner">
                            			<div class="contain_row">
                                     	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please select required field(s).</p>
+                                        <p class="error_msg_sm">Please select/enter required field(s).</p>
                                         <p class="error_msg_exist">The chosen value already exists in the system.</p>
                                         <p class="error_msg_spclchar">Special characters are not allowed.</p>
                                         <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
@@ -151,10 +151,18 @@
 
     function RefreshGrid(status)
     {
+        var catvalue = $('#txtHLookupCatValue').val();
+        var catid = $('#ddlHLookupExistCategory').val();
+        if (status == 'Insert') {
+            if (catvalue == '' || catid == '') {
+                $('.error_msg_sm').css("display", "block"); $('.error_msg_bg').css("display", "block");
+                return false;
+            }
+        }
         var href = '@Url.Action("HierarchicalLookupSubmit")';
                 $.ajax({
                     url: href,
-                    data: { id: $('#ddlHLookupCategory').val(), catValue: $('#txtHLookupCatValue').val(), subCatValue: $('#txtHLookupSubCatValue').val(), status: status },
+                    data: { id: $('#ddlHLookupCategory').val(), catValue: catvalue,catId: catid, subCatValue: $('#txtHLookupSubCatValue').val(), status: status },
                     type: "POST",
                     datatype: "json",
                     traditional: true,

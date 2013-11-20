@@ -87,7 +87,7 @@ namespace SteerRentMVC.Controllers
             return PartialView(objModel);
         }
 
-        public ActionResult HierarchicalLookupSubmit(int id, string catValue, string subCatValue, string status)
+        public ActionResult HierarchicalLookupSubmit(int id, string catValue, string catId, string subCatValue, string status)
         {
             objBal = new MasterData();
             objModel = new LookupCategoryModel();
@@ -107,7 +107,7 @@ namespace SteerRentMVC.Controllers
                 objModel.IsActive = true;
                 objHLData.GLookupDesc = catValue;
                 objHLData.HLookupDesc = subCatValue;
-                objHLData.GLookupID = 0;//TODO value to be set
+                objHLData.GLookupID = catId==""?0:Convert.ToInt32(catId);//TODO value to be set
                 objHLData.LookupCategoryID = id;
                 lstobjHLData.Add(objHLData);
                 objModel.HLookupList = lstobjHLData;
@@ -204,14 +204,18 @@ namespace SteerRentMVC.Controllers
             }
         }
 
-        public ActionResult LocationInsert(FormCollection frmLoc)
+        public ActionResult LocationInsert(FormCollection frmLoc, bool chkRevnue)
         {
             LocationModel objModel = new LocationModel();
-            objModel = BuildLocationData(frmLoc);
-            return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
+            if (frmLoc.Count > 0)
+            {
+                objModel = BuildLocationData(frmLoc,chkRevnue );
+                return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
+            }
+            return PartialView("_LocationSearchResults", objModel);
         }
 
-        private LocationModel BuildLocationData(FormCollection frmLoc)
+        private LocationModel BuildLocationData(FormCollection frmLoc, bool chkRevnue)
         {
             LocationModel objModel = new LocationModel();
             if (frmLoc["lstLocation[0].LocationId"] != string.Empty)
