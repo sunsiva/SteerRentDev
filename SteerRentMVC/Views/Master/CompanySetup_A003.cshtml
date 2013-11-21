@@ -1,6 +1,4 @@
-﻿@{
-    Layout = null;
-}
+﻿@model SteerRent.Model.CompanySetup
 <!--- START A003 - Company Setup -->
                         <div class="A003 st_view">
                             <div class="st_view_inner">
@@ -19,14 +17,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Company Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtCompanyName" type="text" placeholder="">
+                                                        <input name="txtCompanyName" value="@Model.BUName" id="txtCompanyName" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Company Logo<span></span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtCompanyLogo" type="text" placeholder="">
+                                                        <input name="txtCompanyLogo" value="" id="txtCompanyLogo" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -37,14 +35,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Address Line 1 <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine2" type="text" placeholder="">
+                                                        <input name="txtAddrLine1" value="@Model.BuAddress1" id="txtAddrLine1" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Address Line 2 <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine2" type="text" placeholder="">
+                                                        <input name="txtAddrLine2" value="@Model.BuAddress2" id="txtAddrLine2" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -55,14 +53,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Address Line 3 <span></span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine3" type="text" placeholder="">
+                                                        <input name="txtAddrLine3" value="@Model.BuAddress3" id="txtAddrLine3" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">City <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtCity" type="text" placeholder="">
+                                                        <input name="txtCity" id="txtCity" value="" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -73,14 +71,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Country <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlCountry"><option>-- Select --</option></select>
+                                                        <select name="ddlCompCountry" id="ddlCompCountry"><option value="0"></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">State/Emirate <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlStateEmirate"><option>-- Select --</option></select>
+                                                        <select name="ddlCompStateEmirate" id="ddlCompStateEmirate"><option value="0"></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -91,7 +89,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Pin/Zip <span></span></p>
                                                       <div class="label_input_part">
-                                                        <input name="txtPinZip" type="text" placeholder="">
+                                                        <input name="txtPinZip" id="txtPinZip" value="@Model.BuZip" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -109,14 +107,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Full Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtContactPerson" type="text" placeholder="">
+                                                        <input name="txtContactPerson" id="txtContactPerson" value="@Model.BuContactPerson" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Designation <span></span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtDesignation" type="text" placeholder="" />
+                                                        <input name="txtDesignation" id="txtDesignation" value="" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -127,14 +125,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">E-Mail Id <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtEmail" type="text" placeholder="">
+                                                        <input name="txtEmail" id="txtEmail" value="@Model.BuEmailId" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Mobile No. <span>*</span></p>
                                                    <div class="label_input_part">
-                                                        <input name="txtMobile" type="text" placeholder="">
+                                                        <input name="txtMobile" id="txtMobile" value="@Model.BuMobile" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -145,14 +143,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Landline No. <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtLandline" type="text" placeholder="">
+                                                        <input name="txtLandline" id="txtLandline" value="@Model.BuPhoneNo" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Fax No. <span></span></p>
                                                    <div class="label_input_part">
-                                                        <input name="txtFax" type="text" placeholder="">
+                                                        <input name="txtFax" id="txtFax" value="@Model.BuFax" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -164,16 +162,41 @@
                                             <div class="contain_sub_row">
                                             	<p class="label_part">Active Locations</p>
                                                 <div class="label_textarea_part">
-                                                    --No Active Locations--</br>
+                                                    <table>
                                                 	@*1. Location Code - Location Name</br>
                                                     2. Location Code - Location Name</br>
                                                     3. Location Code - Location Name</br>
                                                     4. Location Code - Location Name</br>*@
-
-                                                      <fieldset>
+                                                        @if(Model!=null)
+                                                        {
+                                                    if (Model.lstLocation != null && Model.lstLocation.Count > 0)
+                                                                {
+                                                                    var cnt=0;
+                                                                    foreach (var item in Model.lstLocation){
+                                                                        cnt = cnt + 1;
+                                                                    <tr>
+                                                                        <td >
+                                                                            @Html.Raw(cnt)<span>.</span> 
+                                                                        
+                                                                            @item.LocationCode<span> - </span>   @item.LocationName
+                                                                            </td>
+                                                                    </tr>
+                                                                    }
+                                                                }
+                                                    else
+                                                    {
+                                                                    <tr><td><span  class="error_msg">--No Active Locations--</span></td></tr>
+                                                    }
+                                                        }
+                                                        else
+                                                        {
+                                                                    <tr><td><span  class="error_msg">--No Active Locations--</span></td></tr>
+                                                        }
+                                                        </table>
+                                                      @*<fieldset>
                                                         <legend>Active Locations:</legend>
                                                        --No Active Locations--
-                                                      </fieldset>
+                                                      </fieldset>*@
                                                 </div>
                                                 <div class="clear"></div>
                                             </div>
@@ -184,7 +207,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Choose Base Currency <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlBaseCurrency"><option>-- Select --</option></select>
+                                                        <select name="ddlBaseCurrency"><option value="0"> </option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -233,6 +256,32 @@
                         </div>
 <!-- END A003 -->
 <script>   
+    $('#ddlCompCountry').click(function () {
+        if ($('#ddlCompCountry').val() == 0) {
+            getMasterData('Country', '#ddlCompCountry');
+        }
+    });
+
+    $('#ddlCompStateEmirate').click(function () {
+        if ($('#ddlCompStateEmirate').val() == 0) {
+            getMasterData('State', '#ddlCompStateEmirate');
+        }
+    });
+
+    function getMasterData(str, ddlCtrl) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: str },
+            success: function (data) {
+                $(ddlCtrl).empty();
+                $.each(data, function () {
+                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+        });
+    }
+
  $('#btnSubmitA3').click(function () {
         var href = '@Url.Action("CompanyInsert")';
         $.ajax({

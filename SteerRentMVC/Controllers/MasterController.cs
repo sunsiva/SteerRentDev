@@ -189,6 +189,16 @@ namespace SteerRentMVC.Controllers
             return PartialView(objModel);
         }
 
+        public JsonResult getMasterData(string str)
+        {
+            IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
+            objBal = new MasterData();
+            List<GLookupDataModel> lstObjModel = new List<GLookupDataModel>();
+            lstObjModel = objBal.GetGLookupDataByLookup(str);
+            getGlookupdata = lstObjModel.AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
+            return Json(new SelectList(getGlookupdata, "Value", "Text", null));
+        }
+
         public ActionResult LocationSelect(decimal id)
         {
             LocationModel objModel = new LocationModel();
@@ -204,12 +214,12 @@ namespace SteerRentMVC.Controllers
             }
         }
 
-        public ActionResult LocationInsert(FormCollection frmLoc, bool chkRevnue)
+        public ActionResult LocationInsert(FormCollection frmLoc)
         {
             LocationModel objModel = new LocationModel();
             if (frmLoc.Count > 0)
             {
-                objModel = BuildLocationData(frmLoc,chkRevnue );
+                objModel = BuildLocationData(frmLoc,true );
                 return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
             }
             return PartialView("_LocationSearchResults", objModel);
@@ -238,14 +248,14 @@ namespace SteerRentMVC.Controllers
             objModel.RentalAgreementNoCurrent = Convert.ToInt32(frmLoc["txtRentAgmtNoCurrent"]);
             objModel.LeaseAgreementNoStart = Convert.ToInt32(frmLoc["txtLeaseAgmtNoStart"]);
             objModel.LeaseAgreementNoCurrent = Convert.ToInt32(frmLoc["txtLeaseAgmtNoCurrent"]);
-            objModel.IsARevenue = true;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.IsACounter = true;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.IsAWorkShop = true;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.IsAVirtual = true;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.LeasingAllowed = true;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.RentingAllowed = true;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.IsARevenue = frmLoc["chkRevenue"] == null?false:true;
+            objModel.IsACounter = frmLoc["chkCounter"] == null ? false : true;
+            objModel.IsAWorkShop = frmLoc["chkWorkShop"] == null ? false : true;
+            objModel.IsAVirtual = frmLoc["chkVirtual"] == null ? false : true;
+            objModel.LeasingAllowed = frmLoc["chkRenting"] == null ? false : true;
+            objModel.RentingAllowed = frmLoc["chkLeasing"] == null ? false : true;
             objModel.UserId = 1;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.IsActive = true;
+            objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
             objModel.BuId = 1;
             return objModel;
         }
@@ -270,10 +280,8 @@ namespace SteerRentMVC.Controllers
         public ActionResult CompanySetup_A003()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
-            objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+            CompanySetup objData = objBal.GetCompanyDetails(0);
+            return PartialView(objData);
         }
 
         /// <summary>
@@ -283,7 +291,7 @@ namespace SteerRentMVC.Controllers
         /// <returns></returns>
         public ActionResult CompanyInsert(FormCollection frmCompany)
         {
-            BindCompanySetupData(frmCompany);
+            objBal.CompanyInsertUpdate(BindCompanySetupData(frmCompany));
             return View();
         }
 
@@ -295,7 +303,10 @@ namespace SteerRentMVC.Controllers
         private CompanySetup BindCompanySetupData(FormCollection frmCompany)
         {
             CompanySetup objComp = new CompanySetup();
+            //code
             objComp.BUName = frmCompany["txtCompanyName"];
+            objComp.BuCode = frmCompany["txtCompanyName"];
+            objComp.OrgId = 1;
             //logo
             //city
             //country
@@ -305,11 +316,11 @@ namespace SteerRentMVC.Controllers
             objComp.BuAddress1 = frmCompany["txtAddrLine1"];
             objComp.BuAddress2 = frmCompany["txtAddrLine2"];
             objComp.BuAddress3 = frmCompany["txtAddrLine3"];
-            //objComp.BuPostBox = frmCompany[""];
+            objComp.BuPostBox = "0";// frmCompany[""];
             objComp.BuPhoneNo = frmCompany["txtLandline"];
             objComp.BuFax = frmCompany["txtFax"];
             objComp.BuEmailId = frmCompany["txtEmail"];
-            //objComp.BuMobile = frmCompany[""];
+            objComp.BuMobile = "0";// frmCompany[""];
             objComp.BuZip = frmCompany["txtPinZip"];
             objComp.BuContactPerson = frmCompany["txtContactPerson"];
             objComp.BuBaseCurrency = 1;// Convert.ToDecimal(frmCompany[""]);

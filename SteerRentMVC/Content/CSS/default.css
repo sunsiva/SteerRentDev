@@ -506,7 +506,7 @@ body {
 	width:100px;
 	height:24px;
 	display:block;
-	background:#555555;
+	background:#A0A0A0;
 	float:left;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
@@ -514,16 +514,33 @@ body {
 	outline:none;
 	border:none;
 	cursor:pointer;
+    margin-left:590px;
+	margin-top:-24px;
+}
+.delete_btn{
+	width:100px;
+	height:24px;
+	display:block;
+	background:#006699;
+	float:left;
+	color:#FFFFFF;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	outline:none;
+	border:none;
+	cursor:pointer;
+	margin-left:710px;
+	margin-top:-24px;
 }
 .resetpw_btn{
-	width:24px;
-	height:24px;
+	width:22px;
+	height:22px;
 	display:block;
 	float:left;
 	background:#009900;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:12px;
+	font-size:10px;
 	outline:none;
 	border:none;
 	cursor:pointer;
@@ -533,7 +550,7 @@ body {
 	height:22px;
 	display:block;
 	float:left;
-	background:#FF0000;
+	background:#000000;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -546,7 +563,7 @@ body {
 	height:22px;
 	display:block;
 	float:left;
-	background:#C0C0C0;
+	background:#A0A0A0;
 	color:#fff;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -559,14 +576,14 @@ body {
 	color:#000;
 }
 .add-timeline-popup {
-	width: 700px;
-    height: 400px; 
+	width: 720px;
+	height: 430px; 
 	overflow-x:hidden;
 	overflow-y:scroll;
 	position: relative;
 	background:#FFF;
 	zoom;1;
-	padding: 15px;
+	padding:15px;
 	margin: 0 auto;
 }
 .popup-form-outter{
@@ -587,7 +604,7 @@ body {
 	display:block;
 	outline:none;
 	background:none;
-	border-radius:3px;
+	border-radius:0px;
 	margin-bottom:10px;
 }
 .popup_input.date{
@@ -670,4 +687,224 @@ table.gridtable td {
 	border-style: solid;
 	border-color: #cccccc;
 	background-color: #ffffff;
+}
+.baseinput.date{
+	width:160px;
+	height:20px;
+	padding:5px 8px 5px 8px;
+	border:1px solid #ccc;
+	display:block;
+	outline:none;
+	background:none;
+	font-family:Arial, Helvetica, sans-serif;
+	margin-bottom:0px;
+	border-radius:0px;
+	color:#000;
+	background:url(../images/calendar.gif) no-repeat 155px center;
+}
+.tabicon {
+padding-left: 2px;
+}
+
+/* CSS for Popup Window */
+
+
+.popup_contain_left_part{
+	width:340px;
+	float:left;
+}
+.popup_label_part{
+	width:100px;
+	float:left;
+	margin-right:10px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000;
+	display:block;
+	line-height:100%;
+	margin-top:8px;
+}
+.popup_label_part span{
+	color:#F00;
+}
+.popup_label_input_part{
+	width:100px;
+	float:left;
+	display:block;
+}
+.popup_label_input_part input{
+	width:160px;
+	height:20px;
+	padding:5px 8px;
+	display:block;
+	outline:none;
+	background:none;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#000;
+	border:1px solid #ccc;
+}
+.popup_label_radio_part{
+	width:100px;
+	margin-top:8px;
+	float:left;
+}
+.popup_label_radio{
+	width:160px;
+	display:block;
+	float:left;
+	margin-right:15px;
+}
+.popup_label_combo_part{
+	width:178px;
+	float:left;
+	display:block;
+}
+.popup_label_combo_part select{
+	padding:5px 8px;
+	width:100%;	
+	font-family:Arial, Helvetica, sans-serif;
+	display:block;	
+	border-color:#ccc;
+	outline:none;
+}
+.popup_label_textarea_part{
+	width:650px;
+	float:left;
+}
+.popup_label_textarea_part textarea{
+	padding:8px;
+	width:650px;
+	height:120px;
+	display:block;
+	background:none;
+	resize:none;
+	outline:none;
+	border:1px solid #ccc;
+}
+.popup_label_doc_part{
+	width:535px;
+	display:block;
+}
+.popup_submit_part{
+	width:650px;
+}
+.popup_contain_submit_row{
+	background:#f0f0f0;
+	padding:10px;
+}
+.popup_submit_btn{
+	width:100px;
+	height:24px;
+	display:block;
+	outline:none;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF !important;
+	background:#006699;
+	margin-left:98px;
+}
+.popup_new_btn{
+	width:55px;
+	height:24px;
+	display:block;
+	outline:none;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF !important;
+	background:#A0A0A0;
+
+}
+.popup_del_btn{
+	width:55px;
+	height:24px;
+	display:block;
+	outline:none;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF !important;
+	background:#000000;
+
+}
+.popup-detail{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000;
+	display:block;
+	line-height:120%;
+	margin-bottom:8px;
+}
+.popup-title{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#000;
+	display:block;
+	line-height:100%;
+	margin-bottom:10px;
+}
+table.popup_gridtable {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#333333;
+	width: 650px;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-collapse: collapse;
+}
+table.popup_gridtable th {
+	border-width: 1px;
+	padding: 4px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #dedede;
+	text-align: left;
+}
+table.popup_gridtable td {
+	border-width: 1px;
+	padding: 4px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #ffffff;
+}
+table.popup_doc_gridtable {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#333333;
+	width: 519px;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-collapse: collapse;
+	margin-left:110px;
+	margin-top:3px;
+}
+table.popup_doc_gridtable th {
+	border-width: 1px;
+	padding: 4px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #dedede;
+	text-align: left;
+}
+table.popup_doc_gridtable td {
+	border-width: 1px;
+	padding: 4px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #ffffff;
+}
+.popup_input.date{
+	width:160px;
+	height:20px;
+	padding:5px 8px 5px 8px;
+	border:1px solid #ccc;
+	display:block;
+	outline:none;
+	background:none;
+	font-family:Arial, Helvetica, sans-serif;
+	margin-bottom:0px;
+	border-radius:0px;
+	color:#000;
+	background:url(../images/calendar.gif) no-repeat 155px center;
 }

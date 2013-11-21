@@ -62,7 +62,7 @@
                                                                 }
                                                                 else
                                                                     {
-                                                                    <tr><td colspan="5"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                    <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
                                                                 }
                                                         </table>
                                                          @*<div>
@@ -98,7 +98,7 @@
     }
 
     //Updating Active/Inactive status when clicking on checkbox
-    $("input[type=checkbox]").change(function () {
+    $("input[type=checkbox11]").change(function () {
         var LocId = this.id;
         var State = $(this).is(':checked');
         var href = '@Url.Action("LocationStatusUpdate")';

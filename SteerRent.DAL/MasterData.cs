@@ -14,13 +14,11 @@ namespace SteerRent.DAL
        static string connectionString = Helper.Helper.GetConnectionString();
 
        #region "Lookup"
-       public List<MasterDataModel> GetMasterData(string str)
+       public List<GLookupDataModel> GetGLookupDataByLookup(string str)
         {
             string connectionString = Helper.Helper.GetConnectionString();
-            List<MasterDataModel> lstOfData = new List<MasterDataModel>();
-            string queryString =
-                "SELECT LookupCategoryID,[LookupCategoryCode], [LookupCategoryDesc] FROM dbo.[LookupCategories];";
-
+            List<GLookupDataModel> lstOfData = new List<GLookupDataModel>();
+            string queryString = "select GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID from GLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=1 AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%'";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand command = con.CreateCommand();
@@ -42,12 +40,11 @@ namespace SteerRent.DAL
                     SqlDataAdapter da = new SqlDataAdapter(command);
                     da.Fill(ds);
                     lstOfData = ds.Tables[0].AsEnumerable().Select(row =>
-                    new MasterDataModel
+                    new GLookupDataModel
                     {
-
                         LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
-                        LookupCategoryCode = row.Field<string>("LookupCategoryCode"),
-                        LookupCategoryDesc = row.Field<string>("LookupCategoryDesc")
+                        GLookupDesc = row.Field<string>("GLookupDesc"),
+                        GLookupID = row.Field<decimal>("GLookupID")
 
                     }).ToList();
 
@@ -354,7 +351,6 @@ namespace SteerRent.DAL
                        lstData.Add(objData);
                        objData.lstLocation = lstData;
                    }
-
                    //objGetData = ds.Tables[0].AsEnumerable().Select(row =>
                    //new LocationModel
                    //{
@@ -487,5 +483,105 @@ namespace SteerRent.DAL
        }
        #endregion
 
+       #region "Company Setup"
+       /// <summary>
+       /// Getting the company details
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+       public CompanySetup GetCompanyDetails(int id)
+       {
+           string connectionString = Helper.Helper.GetConnectionString();
+           CompanySetup  compData = new CompanySetup();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               SqlCommand command = con.CreateCommand();
+               command.CommandText = "usp_BusinessUnitsSelect";
+               try
+               {
+                   LocationModel locData = GetLocationData(0);
+                   locData.lstLocation = (from item in locData.lstLocation where (item.IsActive == true) select item).ToList();
+                   con.Open();
+                   command.CommandType = CommandType.StoredProcedure;
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(command);
+                   da.Fill(ds);
+                   compData= ds.Tables[0].AsEnumerable().Select(row =>
+                   new CompanySetup
+                   {
+                        OrgId = row.Field<decimal>("OrgId"),
+                        BuCode = row.Field<string>("BuCode"),
+                        BUName = row.Field<string>("BUName"),
+                        BuAddress1 = row.Field<string>("BuAddress1"),
+                        BuAddress2 = row.Field<string>("BuAddress2"),
+                        BuAddress3 = row.Field<string>("BuAddress3"),
+                        BuPostBox = row.Field<string>("BuPostBox"),
+                        BuPhoneNo = row.Field<string>("BuPhoneNo"),
+                        BuFax = row.Field<string>("BuFax"),
+                        BuEmailId = row.Field<string>("BuEmailId"),
+                        BuMobile = row.Field<string>("BuMobile"),
+                        BuZip = row.Field<string>("BuZip"),
+                        BuContactPerson = row.Field<string>("BuContactPerson"),
+                        BuBaseCurrency = row.Field<decimal>("BuBaseCurrency"),
+                        BuDecimals = row.Field<byte>("BuDecimals"),
+                        lstLocation = locData.lstLocation
+                   }).SingleOrDefault();
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+           return compData;
+       }
+
+       /// <summary>
+       /// Inserting/Updating company data
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+       public int CompanyInsertUpdate(CompanySetup objData)
+       {
+           CompanySetup objReturn = new CompanySetup();
+           int returnData = 0;
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   cmd.CommandText = "usp_BusinessUnitsInsert";
+                    cmd.Parameters.AddWithValue("@OrgId", objData.BuId);
+	                cmd.Parameters.AddWithValue("@BuCode", objData.BuCode);
+	                cmd.Parameters.AddWithValue("@BUName", objData.BUName);
+	                cmd.Parameters.AddWithValue("@BuAddress1", objData.BuAddress1);
+                    cmd.Parameters.AddWithValue("@BuAddress2", objData.BuAddress2);
+                    cmd.Parameters.AddWithValue("@BuAddress3", objData.BuAddress3);
+	                cmd.Parameters.AddWithValue("@BuPostBox", objData.BuPostBox);
+	                cmd.Parameters.AddWithValue("@BuPhoneNo", objData.BuPhoneNo);
+	                cmd.Parameters.AddWithValue("@BuFax", objData.BuFax);
+	                cmd.Parameters.AddWithValue("@BuEmailId", objData.BuEmailId);
+	                cmd.Parameters.AddWithValue("@BuMobile", objData.BuMobile);
+	                cmd.Parameters.AddWithValue("@BuZip", objData.BuZip);
+	                cmd.Parameters.AddWithValue("@BuContactPerson", objData.BuContactPerson);
+	                cmd.Parameters.AddWithValue("@BuBaseCurrency", objData.BuBaseCurrency);
+	                cmd.Parameters.AddWithValue("@BuDecimals", objData.BuDecimals);
+	                cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
+                    cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                    cmd.ExecuteNonQuery();
+                    returnData = 1;
+               }
+               catch (Exception ex)
+               {
+                   returnData = 0;
+                   throw ex;
+               }
+           }
+
+           return returnData;
+       }
+
+       #endregion
    }
 }

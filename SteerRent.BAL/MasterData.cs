@@ -17,6 +17,16 @@ namespace SteerRent.BAL
             return objDAL.GetLookupData(obj);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public List<GLookupDataModel> GetGLookupDataByLookup(string str)
+        {
+            return objDAL.GetGLookupDataByLookup(str);
+        }
+
         #region Location
 
                /// <summary>
@@ -36,6 +46,27 @@ namespace SteerRent.BAL
        {
            return objDAL.LocationInsertUpdate(objData);
        }
+        #endregion
+
+         #region "Company Setup"
+
+          /// <summary>
+       /// Getting the company details
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+        public CompanySetup GetCompanyDetails(int id)
+        { return objDAL.GetCompanyDetails(id); }
+
+       /// <summary>
+       /// Inserting/Updating company data
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+        public int CompanyInsertUpdate(CompanySetup objData)
+        {
+            return objDAL.CompanyInsertUpdate(objData);
+        }
         #endregion
     }
 }

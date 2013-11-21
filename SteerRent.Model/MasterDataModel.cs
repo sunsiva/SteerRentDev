@@ -83,7 +83,7 @@ namespace SteerRent.Model
         public GlobalEnum.Flag ActionMode { get; set; }
         public IList<LocationModel> lstLocation { get; set; }
     }
-
+    
     public class EmployeeModel
     {
         public decimal LookupCategoryID { get; set; }

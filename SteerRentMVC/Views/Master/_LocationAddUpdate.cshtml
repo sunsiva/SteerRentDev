@@ -58,6 +58,7 @@
         <div class="contain_left_part">
             <p class="label_part">City <span>*</span></p>
             <div class="label_input_part">
+                <input name="txtLocCity" id="txtLocCity" type="text" placeholder="" />
             </div>
             <div class="clear"></div>
         </div>
@@ -68,18 +69,14 @@
         <div class="contain_left_part">
             <p class="label_part">Country <span>*</span></p>
             <div class="label_combo_part">
-                <select name="ddlCountry">
-                    <option>-- Select -- </option>
-                </select>
+                <select name="ddlLocCountry" id="ddlLocCountry"></select>
             </div>
             <div class="clear"></div>
         </div>
         <div class="contain_left_part">
             <p class="label_part">State/Emirate <span>*</span></p>
             <div class="label_combo_part">
-                <select name="ddlStateEmirate">
-                    <option>-- Select -- </option>
-                </select>
+                 <select name="ddlLocStateEmirate" id="ddlLocStateEmirate"></select>
             </div>
             <div class="clear"></div>
         </div>
@@ -105,9 +102,7 @@
         <div class="contain_left_part">
             <p class="label_part">Location Incharge <span>*</span></p>
             <div class="label_combo_part">
-                <select name="ddlLocationIncharge">
-                    <option>-- Select -- </option>
-                </select>
+                <select name="ddlLocationIncharge" id="ddlLocationIncharge"></select>
             </div>
             <div class="clear"></div>
         </div>
@@ -186,13 +181,13 @@
                     <input name="chkRevenue" id="chkRevenue" type="checkbox" value="Revenue"  />
                     Revenue</label></br>
                         <label class="label_radio">
-                            <input name="chkCounter" id="chkCounter" type="checkbox" value="Counter" />
+                            <input name="chkCounter" id="chkCounter" checked="@Model.IsARevenue" type="checkbox" value="Counter" />
                             Counter</label></br>
                         <label class="label_radio">
-                            <input name="chkWorkshop" id="chkWorkShop" type="checkbox" value="Workshop" />
+                            <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
                             Workshop</label></br>
                         <label class="label_radio">
-                            <input name="chkVirtual" type="checkbox" id="chkVirtual" value="Virtual" />
+                            <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
                             Virtual</label>
             </div>
             <div class="clear"></div>
@@ -201,15 +196,16 @@
             <p class="label_part">Operations <span>*</span></p>
             <div class="label_combo_part">
                 <label class="label_radio">
-                    <input name="chkRenting" type="checkbox" value="Revenue" />
+                    <input name="chkRenting" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Revenue" />
                     Renting Allowed</label></br>
                     <label class="label_radio">
-                    <input name="chkLeasing" type="checkbox" value="Counter" />
+                    <input name="chkLeasing" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Counter" />
                     Leasing Allowed</label></br>   
             </div>
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
+        
     </div>
     <div>&nbsp;</div>
     <div>&nbsp;</div>
@@ -265,17 +261,36 @@
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
+        <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+         <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">&nbsp;<span></span></p>
+                                                    <div class="label_combo_part">
+                                                        <label class="label_radio"><input name="chkLocActivate" checked="@Model.IsActive" id="chkLocActivate" type="checkbox" value="Activate"> Activate this Location</label>                                                        </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part">&nbsp;<span></span></p>
+                                                    <div class="label_input_part">
+                                                    </div>                                                    
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
     </div>
 </div>
     
 <div class="submit_part">
     <div class="contain_submit_row">
-         @{ if (Model.LocationId > 0){ 
-                <input type="button" id="btnSubmitUpdA4" class="submit_btn" value="Update" />
-                <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />}
+         @{ if (Model.LocationId > 0)
+            { 
+             <input type="button" id="btnSubmitUpdA4" class="submit_btn" value="Update" />
+             <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
+             <input type="button" class="delete_btn" value="Delete" id="btnDeleteA4" />
+            }
             else
-            {<input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />
-            } 
+            {<input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />} 
         }
         
     </div>
@@ -293,6 +308,40 @@
             return false;
     });
 
+    /* This is click event for country dropdown list to load */
+    $('#ddlLocCountry').click(function () {
+        if ($('#ddlLocCountry').text() == '') {
+            getMasterData('Country', '#ddlLocCountry');
+        }
+    });
+
+    $('#ddlLocStateEmirate').click(function () {
+        if ($('#ddlLocStateEmirate').text() == '') {
+            getMasterData('State', '#ddlLocStateEmirate');
+        }
+    });
+
+    $('#ddlLocationIncharge').click(function () {
+        if ($('#ddlLocationIncharge').text() == '') {
+            getMasterData('LocationIn', '#ddlLocationIncharge');
+        }
+    });
+
+    function getMasterData(str,ddlCtrl)
+    {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: str },
+            success: function (data) {
+                $(ddlCtrl).empty();
+                $.each(data, function () {
+                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+        });
+   }
+
     $('#btnSubmitUpdA4').click(function () {
         if (locValidate()) {
             LocInsertUpdate();
@@ -303,12 +352,10 @@
 
     function LocInsertUpdate()
     {
-        var locFormData = $('#frmLoc').serialize() 
-        debugger;
         var href = '@Url.Action("LocationInsert")';
         $.ajax({
             url: href,
-            data:locFormData,isRevenue: $('#chkRevenue').attr("checked") ? true : false,
+            data: $('#frmLoc').serialize(),
             type: "POST",
             datatype: "json",
             traditional: true,
@@ -324,10 +371,8 @@
 
     function locValidate()
     {
-        alert($('#txtLocationName').val());
-        if ($('#txtLocationName').val() != '' && $('#txtLocationCode').val() != '')// && $('#txtAddressLine1').val() > 0 && $('#txtAddressLine2').val() > 0 && $('#txtAddressLine3').val() > 0 //&& $('#ddlCountry').val() > 0 && $('#ddlStateEmirate').val() > 0 && $('#txtPinZip').val() > 0 && $('#ddlLocationIncharge').val() > 0
-           //&& $('#txtDesignation').val() > 0 && $('#txtLandlineNo').val() > 0 && $('#txtMobile').val() > 0 && $('#txtEmail').val() > 0 && $('#txtFax').val() > 0
-            //&& $('#txtWorkingTimeFrom').val() > 0 && $('#txtWorkingTimeTo').val() > 0 && $('#txtRecNoStart').val() > 0 && $('#txtRecNoCurrent').val() > 0 && $('#txtRentAgmtNoStart').val() > 0 && $('#txtRentAgmtNoCurrent').val() > 0 && $('#txtLeaseAgmtNoStart').val() > 0 && $('#txtLeaseAgmtNoCurrent').val() > 0)
+        if ($('#txtLocationName').val() != '' && $('#txtLocationCode').val() != '' && $('#txtAddressLine1').val() != '' && $('#txtAddressLine2').val() != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
+           && $('#txtLandlineNo').val() != '' && $('#txtMobile').val() != '' && $('#txtEmail').val() != '' && $('#txtWorkingTimeFrom').val() != '' && $('#txtWorkingTimeTo').val() != '' && $('#txtRecNoStart').val() != '' && $('#txtRecNoCurrent').val() != '' && $('#txtRentAgmtNoStart').val() != '' && $('#txtRentAgmtNoCurrent').val() != '' && $('#txtLeaseAgmtNoStart').val() != '' && $('#txtLeaseAgmtNoCurrent').val() != '')
         {
             return true;} else {
             $('.error_msg_bg').css("display", "block");
