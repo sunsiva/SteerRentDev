@@ -123,7 +123,7 @@ namespace SteerRent.DAL
 
                     //if (obj.ActionMode == GlobalEnum.Flag.Select && (obj.PageMode == GlobalEnum.MasterPages.Lookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup || obj.PageMode == GlobalEnum.MasterPages.HAndLookup))
                     {
-                        cmd.CommandText = "SELECT[LookupCategoryID],[LookupCategoryCode],[LookupCategoryDesc],IsActive,IsGLookup FROM [LookupCategories]";// "usp_LookupCategoriesSelect";
+                        cmd.CommandText = "SELECT[LookupCategoryID]LookupCategoryCode]LookupCategoryDesc],IsActive,IsGLookup FROM [LookupCategories]";// "usp_LookupCategoriesSelect";
                         cmd.CommandType = CommandType.Text;
                         //cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
                         ds = new DataSet();
@@ -582,6 +582,131 @@ namespace SteerRent.DAL
            return returnData;
        }
 
+       #endregion
+
+       #region ChargeCodes
+
+       /// <summary>
+       /// Get all the charge codes
+       /// </summary>
+       /// <param name="ccID">Charge code id</param>
+       /// <returns></returns>
+       public List<ChargeCodeModel> GetChargeCodes(int id)
+       {
+           ChargeCodeModel objCC = new ChargeCodeModel();
+           List<ChargeCodeModel> lstOfCCs = new List<ChargeCodeModel>();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               SqlCommand command = con.CreateCommand();
+               command.CommandText = "usp_ChargeCodeMasterSelect";
+               try
+               {
+                   con.Open();
+                   if(id>0)
+                        command.Parameters.AddWithValue("@ChargeCodeID", id);
+                   else
+                       command.Parameters.AddWithValue("@ChargeCodeID", DBNull.Value);
+
+                   command.CommandType = CommandType.StoredProcedure;
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(command);
+                   da.Fill(ds);
+                   lstOfCCs = ds.Tables[0].AsEnumerable().Select(row =>
+                   new ChargeCodeModel
+                   {
+                      BuId = row.Field<decimal>("BuId"),
+                      ChargeCodeID = row.Field<decimal>("ChargeCodeID"),
+                      ChargeCode = row.Field<string>("ChargeCode"),
+                      ChargeCodeDesc = row.Field<string>("ChargeCodeDesc"),
+                      GroupDriven = row.Field<bool>("GroupDriven"),
+                      UnitDriven = row.Field<bool>("UnitDriven"),
+                      AdhocValue = row.Field<bool>("AdhocValue"),
+                      IsInsurance = row.Field<bool>("IsInsurance"),
+                      IsRental = row.Field<bool>("IsRental"),
+                      IsNonRental = row.Field<bool>("IsNonRental"),
+                      IsTrafficViolation = row.Field<bool>("IsTrafficViolation"),
+                      IsOtherCompliance = row.Field<bool>("IsOtherCompliance"),
+                      IsVasWhileRenting = row.Field<bool>("IsVasWhileRenting"),
+                      IsVasWhileClosing = row.Field<bool>("IsVasWhileClosing"),
+                      IsOtherVas = row.Field<bool>("IsOtherVas"),
+                      ServiceChargeApplicable = row.Field<bool>("ServiceChargeApplicable"),
+                      ServiceChargeType = row.Field<string>("ServiceChargeType"),
+                      ServiceCharge = row.Field<decimal>("ServiceCharge"),
+                      IsDeductible = row.Field<bool>("IsDeductible"),
+                      IsDeductibleWaiver = row.Field<bool>("IsDeductibleWaiver"),
+                      WaivingPercentage = row.Field<decimal>("WaivingPercentage"),
+                      IsSecured = row.Field<bool>("IsSecured"),
+                      CreatedOn = row.Field<DateTime>("CreatedOn"),
+                      UserID =Convert.ToInt32(row.Field<string>("CreatedBy")),
+                      IsActive = row.Field<bool>("IsActive"),
+                   }).ToList();
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+           return lstOfCCs;
+       }
+
+       /// <summary>
+       /// Insert/Update charge codes
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+       public List<ChargeCodeModel> ChargeCodesInsertUpdate(ChargeCodeModel objData)
+       {
+           List<ChargeCodeModel> lstObjReturn = new List<ChargeCodeModel>();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   if (objData.ActionMode == GlobalEnum.Flag.Insert)
+                   {
+                       cmd.CommandText = "usp_ChargeCodeMasterInsert";
+                       cmd.Parameters.AddWithValue("@CreatedBy", objData.UserID);
+                   }else{cmd.CommandText = "usp_ChargeCodeMasterUpdate";
+                   cmd.Parameters.AddWithValue("@ChargeCodeID", objData.ChargeCodeID);
+                   cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
+                   }
+                   cmd.Parameters.AddWithValue("@BuId", objData.BuId);
+                   cmd.Parameters.AddWithValue("@ChargeCode", objData.ChargeCode);
+                   cmd.Parameters.AddWithValue("@ChargeCodeDesc", objData.ChargeCodeDesc);
+                   cmd.Parameters.AddWithValue("@GroupDriven", objData.GroupDriven);
+                   cmd.Parameters.AddWithValue("@UnitDriven", objData.UnitDriven);
+                   cmd.Parameters.AddWithValue("@AdhocValue", objData.AdhocValue);
+                   cmd.Parameters.AddWithValue("@IsInsurance", objData.IsInsurance);
+                   cmd.Parameters.AddWithValue("@IsRental", objData.IsRental);
+                   cmd.Parameters.AddWithValue("@IsNonRental", objData.IsNonRental);
+                   cmd.Parameters.AddWithValue("@IsTrafficViolation", objData.IsTrafficViolation);
+                   cmd.Parameters.AddWithValue("@IsOtherCompliance", objData.IsOtherCompliance);
+                   cmd.Parameters.AddWithValue("@IsVasWhileRenting", objData.IsVasWhileRenting);
+                   cmd.Parameters.AddWithValue("@IsVasWhileClosing", objData.IsVasWhileClosing);
+                   cmd.Parameters.AddWithValue("@IsOtherVas", objData.IsOtherVas);
+                   cmd.Parameters.AddWithValue("@ServiceChargeApplicable", objData.ServiceChargeApplicable);
+                   cmd.Parameters.AddWithValue("@ServiceChargeType", objData.ServiceChargeType);
+                   cmd.Parameters.AddWithValue("@ServiceCharge", objData.ServiceCharge);
+                   cmd.Parameters.AddWithValue("@IsDeductible", objData.IsDeductible);
+                   cmd.Parameters.AddWithValue("@IsDeductibleWaiver", objData.IsDeductibleWaiver);
+                   cmd.Parameters.AddWithValue("@WaivingPercentage", objData.WaivingPercentage);
+                   cmd.Parameters.AddWithValue("@IsSecured", objData.IsSecured);
+                   cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                   cmd.ExecuteNonQuery();
+
+                   lstObjReturn = GetChargeCodes(0);
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+
+           return lstObjReturn;
+       }
        #endregion
    }
 }

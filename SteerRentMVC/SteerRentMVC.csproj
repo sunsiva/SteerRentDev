@@ -271,6 +271,8 @@
     <Content Include="Views\Master\Privileges_A009.cshtml" />
     <Content Include="Views\Master\Roles_A008.cshtml" />
     <Content Include="Views\Master\Users_A010.cshtml" />
+    <Content Include="Views\Master\_ChargeCodeAddUpdate.cshtml" />
+    <Content Include="Views\Master\_ChargeCodeSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

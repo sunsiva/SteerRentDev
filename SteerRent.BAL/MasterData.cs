@@ -68,5 +68,26 @@ namespace SteerRent.BAL
             return objDAL.CompanyInsertUpdate(objData);
         }
         #endregion
+
+        #region ChargeCodes
+
+       /// <summary>
+       /// Get all the charge codes
+       /// </summary>
+       /// <param name="ccID">Charge code id</param>
+       /// <returns></returns>
+        public List<ChargeCodeModel> GetChargeCodes(int id)
+        {
+            return objDAL.GetChargeCodes(id);
+        }
+
+       /// <summary>
+       /// Insert/Update charge codes
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+        public List<ChargeCodeModel> ChargeCodesInsertUpdate(ChargeCodeModel objData)
+        { return objDAL.ChargeCodesInsertUpdate(objData); }
+        #endregion
     }
 }

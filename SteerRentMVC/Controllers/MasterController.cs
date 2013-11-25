@@ -220,6 +220,7 @@ namespace SteerRentMVC.Controllers
             if (frmLoc.Count > 0)
             {
                 objModel = BuildLocationData(frmLoc,true );
+                objModel.ActionMode = GlobalEnum.Flag.Insert;
                 return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
             }
             return PartialView("_LocationSearchResults", objModel);
@@ -351,11 +352,90 @@ namespace SteerRentMVC.Controllers
         public ActionResult ChargeCodes_A005()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
-            objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+            List<ChargeCodeModel> objModel = new List<ChargeCodeModel>();
+            objModel=objBal.GetChargeCodes(0);
+            return PartialView(objModel);
         }
+
+        /// <summary>
+        /// Get Charge code list
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ChargeCodeSelect(int id)
+        {
+            ChargeCodeModel objCCModel = new ChargeCodeModel();
+            List<ChargeCodeModel> lstOfCCModel = new List<ChargeCodeModel>();
+            if (id > 0)
+            {
+                lstOfCCModel = objBal.GetChargeCodes(id);
+                return PartialView("_ChargeCodeAddUpdate", lstOfCCModel.Count > 0 ? lstOfCCModel[0] : objCCModel);
+            }
+            else
+            {
+                return PartialView("_ChargeCodeAddUpdate", objCCModel);
+            }
+        }
+
+        private ChargeCodeModel BindChargeCodeData(FormCollection frmCC)
+        {
+            ChargeCodeModel objCC = new ChargeCodeModel();
+            objCC.ChargeCode = frmCC["txtChargeCode"];
+            objCC.ChargeCodeDesc = frmCC["txtChargeCodeDesc"];
+            objCC.BuId = 1;
+            objCC.GroupDriven = frmCC["chkGroupDriven"] == null ? false : true;
+            objCC.UnitDriven = frmCC["chkUnitDriven"] == null ? false : true;
+            objCC.AdhocValue = frmCC["chkAdhoc"] == null ? false : true;
+            objCC.IsInsurance = frmCC["chkInsurance"] == null ? false : true;
+            objCC.IsRental = frmCC["chkRental"] == null ? false : true;
+            objCC.IsDeductible = false;// frmCC["chkDiscount"] == null ? false : true;
+            objCC.IsNonRental = frmCC["chkNonRental"] == null ? false : true;
+            objCC.IsTrafficViolation = frmCC["chkTrafficViolation"] == null ? false : true;
+            objCC.IsOtherCompliance = frmCC["chkOtherCompliance"] == null ? false : true;
+            objCC.IsVasWhileRenting = frmCC["chkVASWhileRenting"] == null ? false : true;
+            objCC.IsVasWhileClosing = frmCC["chkVASWhileClosing"] == null ? false : true;
+            objCC.ServiceChargeApplicable = frmCC["chkServiceChargesApplicable"] == null ? false : true;
+            if (frmCC["radServiceTypeFixed"] == null ? false : true)
+            { objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargeFixed"]);
+            objCC.ServiceChargeType = "F";
+            }
+            else { objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargePerc"]); objCC.ServiceChargeType = "P"; }
+            objCC.WaivingPercentage = Convert.ToDecimal(frmCC["txtDeductibleAccident"]);
+            objCC.IsDeductibleWaiver = frmCC["txtDeductibleAccident"] == null ? false : true;
+            objCC.IsOtherVas = frmCC["chkVAS"] == null ? false : true;
+            objCC.IsSecured = false;// frmCC["txtDeductibleAccident"];
+            objCC.IsActive = frmCC["chkActivate"] == null?false:true;
+            objCC.UserID = 1;
+            return objCC;
+        }
+
+        /// <summary>
+        /// Insert of charge codes
+        /// </summary>
+        /// <param name="frmCharge"></param>
+        /// <returns></returns>
+        public ActionResult ChargeCodeInsert(FormCollection frmCC)
+        {
+            ChargeCodeModel objCC = new ChargeCodeModel();
+            objCC = BindChargeCodeData(frmCC);
+            objCC.ActionMode = GlobalEnum.Flag.Insert;
+            return PartialView("_ChargeCodeSearchResults", objBal.ChargeCodesInsertUpdate(objCC));
+        }
+
+        /// <summary>
+        /// Update of charge codes
+        /// </summary>
+        /// <param name="frmCharge"></param>
+        /// <returns></returns>
+        public ActionResult ChargeCodeUpdate(FormCollection frmCC)
+        {
+            ChargeCodeModel objCC = new ChargeCodeModel();
+            objCC = BindChargeCodeData(frmCC);
+            objCC.ActionMode = GlobalEnum.Flag.Update;
+            objCC.ChargeCodeID = Convert.ToDecimal(frmCC["txtChargeCodeID"]);
+            return PartialView("_ChargeCodeSearchResults", objBal.ChargeCodesInsertUpdate(objCC));
+        }
+
         #endregion
 
         #region "Users"

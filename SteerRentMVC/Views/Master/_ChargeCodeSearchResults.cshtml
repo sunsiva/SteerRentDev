@@ -1,0 +1,68 @@
+﻿@model List<SteerRent.Model.ChargeCodeModel>
+
+<table class="gridtable">
+    <tr>
+        <th>Code
+        </th>
+        <th>Description
+        </th>
+        <th>Status
+        </th>
+    </tr>
+    @if (Model != null)
+    {
+        if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                <a href='#' onclick="fnCCAddUpdate(@item.ChargeCodeID)">@item.ChargeCode</a>
+                
+            </td>
+            <td>
+                @item.ChargeCodeDesc
+            </td>
+            <td>
+                @if (item.IsActive == true)
+                {<div id="dvActivate-@item.ChargeCodeID" class="label_part">Active</div>}
+                else
+                {
+                    <div id='dvInActivate-@item.ChargeCodeID' class="label_part">InActive</div>
+                                                                    }
+            </td>
+
+        </tr>
+                                                             }
+                                                         }
+                                                            else
+                                                            {
+        <tr>
+            <td colspan="4"><span class="error_msg">No record(s) found.</span></td>
+        </tr>
+                                                         }
+                                                        }
+    else
+    {
+        <tr>
+            <td colspan="4"><span class="error_msg">No record(s) found.</span></td>
+        </tr>
+                                                         }
+</table>
+@if (Model != null)
+{
+    if (Model.Count > 0)
+    {
+    <h5 style="text-align: right"><span id="spnTotCnt">@Model.Count()</span> records found.
+                                                                <span id="spnActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
+                                                                <span id="spnInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+                                                                }
+                                                            }
+
+<script>
+    function fnCCAddUpdate(id) {
+        $.get('@Url.Action("ChargeCodeSelect", "Master")/' + id, function (data) {
+              $('#ChargeCodeAddUpdate').replaceWith(data);
+          });
+      }
+</script>

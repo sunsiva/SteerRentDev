@@ -99,28 +99,60 @@ namespace SteerRent.Model
     { 
         public decimal BuId { get; set; }
         public decimal OrgId { get; set; }
-      public string BuCode { get; set; }
-      public string BUName { get; set; }
-      public string BuAddress1 { get; set; }
-      public string BuAddress2 { get; set; }
-      public string BuAddress3 { get; set; }
-      public string BuPostBox { get; set; }
-      public string BuPhoneNo { get; set; }
-      public string BuFax { get; set; }
-      public string BuEmailId { get; set; }
-      public string BuMobile { get; set; }
-      public string BuZip { get; set; }
-      public string BuContactPerson { get; set; }
-      public decimal BuBaseCurrency { get; set; }
-      public decimal BuDecimals { get; set; }
-      public DateTime CreatedOn { get; set; }
-      public DateTime UpdatedOn { get; set; }
-      public int UserId { get; set; }
-      public bool IsActive { get; set; }
-      public GlobalEnum.Flag ActionMode { get; set; }
-      public IList<LocationModel> lstLocation { get; set; }
-      public string FlexField1 { get; set; }
-      public string FlexField2 { get; set; }
-      public string FlexField3 { get; set; }
+          public string BuCode { get; set; }
+          public string BUName { get; set; }
+          public string BuAddress1 { get; set; }
+          public string BuAddress2 { get; set; }
+          public string BuAddress3 { get; set; }
+          public string BuPostBox { get; set; }
+          public string BuPhoneNo { get; set; }
+          public string BuFax { get; set; }
+          public string BuEmailId { get; set; }
+          public string BuMobile { get; set; }
+          public string BuZip { get; set; }
+          public string BuContactPerson { get; set; }
+          public decimal BuBaseCurrency { get; set; }
+          public decimal BuDecimals { get; set; }
+          public DateTime CreatedOn { get; set; }
+          public DateTime UpdatedOn { get; set; }
+          public int UserId { get; set; }
+          public bool IsActive { get; set; }
+          public GlobalEnum.Flag ActionMode { get; set; }
+          public IList<LocationModel> lstLocation { get; set; }
+          public string FlexField1 { get; set; }
+          public string FlexField2 { get; set; }
+          public string FlexField3 { get; set; }
+    }
+
+    public class ChargeCodeModel
+    {
+        public decimal BuId { get; set; }
+        public decimal ChargeCodeID { get; set; }
+	    public string ChargeCode { get; set; }
+	    public string ChargeCodeDesc { get; set; }
+	    public bool GroupDriven { get; set; }
+	    public bool UnitDriven { get; set; }
+	    public bool AdhocValue { get; set; }
+	    public bool IsInsurance { get; set; }
+	    public bool IsRental { get; set; }
+	    public bool IsNonRental { get; set; }
+	    public bool IsTrafficViolation { get; set; }
+	    public bool IsOtherCompliance { get; set; }
+	    public bool IsVasWhileRenting { get; set; }
+	    public bool IsVasWhileClosing { get; set; }
+	    public bool IsOtherVas { get; set; }
+	    public bool ServiceChargeApplicable { get; set; }
+	    public string ServiceChargeType { get; set; }
+        public decimal ServiceCharge { get; set; }
+	    public bool IsDeductible { get; set; }
+	    public bool IsDeductibleWaiver { get; set; }
+        public decimal WaivingPercentage { get; set; }
+	    public bool IsSecured { get; set; }
+	    public DateTime CreatedOn { get; set; }
+	    public int UserID { get; set; }
+	    public DateTime UpdatedOn { get; set; }
+	    public bool IsActive { get; set; }
+        public List<ChargeCodeModel> lstOfChargeCodes { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
     }
 }
