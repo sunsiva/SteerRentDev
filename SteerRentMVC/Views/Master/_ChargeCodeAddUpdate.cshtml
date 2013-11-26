@@ -151,7 +151,7 @@
         if (isInsert) {
             href = '@Url.Action("ChargeCodeInsert")';
         } else { href = '@Url.Action("ChargeCodeUpdate")'; }
-
+        var frm = $('#frmChargeCode').serialize();
         $.ajax({
             url: href,
             data: $('#frmChargeCode').serialize(),

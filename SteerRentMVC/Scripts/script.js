@@ -25,16 +25,17 @@ $(document).ready(function(e) {
 
 	//click tab delete
 	$('#slidetabs').off('click').on('click', '.cancel_btn', function(e) {
-        var eleIndex= $(this).parents('li:first').index();
+	    var eleIndex = $(this).parents('li:first').index();
 			eleIndex= parseInt(eleIndex);
 		slidetabs.removeTab(eleIndex+1);
     });
 	
 	//add tab 
 	$('.page_name').off('click').on('click', function(){
-		var ele= $(this),
+	    var ele = $(this),
 		pageUrl = ele.attr('data-url');
-		//pageUrl = ele.attr('href');
+	    //pageUrl = ele.attr('href');
+	    
 		$('.menu_space').slideUp();
 		$.ajax({
 			type:'POST',

@@ -395,7 +395,7 @@ namespace SteerRentMVC.Controllers
             objCC.IsVasWhileRenting = frmCC["chkVASWhileRenting"] == null ? false : true;
             objCC.IsVasWhileClosing = frmCC["chkVASWhileClosing"] == null ? false : true;
             objCC.ServiceChargeApplicable = frmCC["chkServiceChargesApplicable"] == null ? false : true;
-            if (frmCC["radServiceTypeFixed"] == null ? false : true)
+            if (frmCC["radServiceType"] == "Fixed")
             { objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargeFixed"]);
             objCC.ServiceChargeType = "F";
             }
