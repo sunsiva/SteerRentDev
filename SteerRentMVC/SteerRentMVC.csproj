@@ -261,7 +261,7 @@
     <Content Include="Views\Master\HierarchicalLookup_A002.cshtml" />
     <Content Include="Views\Master\_SearchResults.cshtml" />
     <Content Include="Views\Master\Location_A004.cshtml" />
-    <Content Include="Views\Login.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Master\_LocationSearchResults.cshtml" />
     <Content Include="Views\Master\_LocationAddUpdate.cshtml" />
     <Content Include="Views\Master\_SearchCountFacet.cshtml" />
@@ -278,7 +278,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

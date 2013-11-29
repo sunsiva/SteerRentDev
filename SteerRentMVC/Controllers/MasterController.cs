@@ -208,7 +208,8 @@ namespace SteerRentMVC.Controllers
             objModel.LocationId = id;
             objModel.BuId = 1;
             objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView("_LocationAddUpdate", objBal.LocationInsertUpdate(objModel));
+            objModel=objBal.LocationInsertUpdate(objModel);
+            return PartialView("_LocationAddUpdate", objModel);
             }else{
             return PartialView("_LocationAddUpdate", objModel);
             }
@@ -221,7 +222,8 @@ namespace SteerRentMVC.Controllers
             {
                 objModel = BuildLocationData(frmLoc,true );
                 objModel.ActionMode = GlobalEnum.Flag.Insert;
-                return PartialView("_LocationSearchResults", objBal.LocationInsertUpdate(objModel));
+                objModel = objBal.LocationInsertUpdate(objModel);
+                return PartialView("_LocationSearchResults", objModel);
             }
             return PartialView("_LocationSearchResults", objModel);
         }
@@ -231,8 +233,10 @@ namespace SteerRentMVC.Controllers
             LocationModel objModel = new LocationModel();
             if (frmLoc["lstLocation[0].LocationId"] != string.Empty)
             { objModel.ActionMode = GlobalEnum.Flag.Update; 
-                objModel.LocationId = Convert.ToInt32(frmLoc["lstLocation[0].LocationId"]); }
-            else { objModel.ActionMode = GlobalEnum.Flag.Insert; }
+                objModel.LocationId = Convert.ToInt32(frmLoc["lstLocation[0].LocationId"]);
+                objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
+            }
+            else { objModel.ActionMode = GlobalEnum.Flag.Insert; objModel.IsActive = true; }
 
             objModel.LocationName = frmLoc["txtLocationName"];
             objModel.LocationCode = frmLoc["txtLocationCode"];
@@ -256,7 +260,7 @@ namespace SteerRentMVC.Controllers
             objModel.LeasingAllowed = frmLoc["chkRenting"] == null ? false : true;
             objModel.RentingAllowed = frmLoc["chkLeasing"] == null ? false : true;
             objModel.UserId = 1;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
+            
             objModel.BuId = 1;
             return objModel;
         }

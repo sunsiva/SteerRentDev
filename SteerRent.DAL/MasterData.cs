@@ -18,7 +18,7 @@ namespace SteerRent.DAL
         {
             string connectionString = Helper.Helper.GetConnectionString();
             List<GLookupDataModel> lstOfData = new List<GLookupDataModel>();
-            string queryString = "select GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID from GLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=1 AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%'";
+            string queryString = "select GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID from GLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=1 AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%' ORDER BY GLookupDesc ASC";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand command = con.CreateCommand();
@@ -524,7 +524,7 @@ namespace SteerRent.DAL
                         BuContactPerson = row.Field<string>("BuContactPerson"),
                         BuBaseCurrency = row.Field<decimal>("BuBaseCurrency"),
                         BuDecimals = row.Field<byte>("BuDecimals"),
-                        lstLocation = locData.lstLocation
+                        lstLocation = locData.lstLocation.OrderBy(i=>i.LocationName).ToList()
                    }).SingleOrDefault();
                }
                catch (Exception ex)

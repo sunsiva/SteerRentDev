@@ -23,15 +23,18 @@
                         </div>
 <!-- END A004 -->
     
-     <script lang="ja" type="text/javascript">
+@*     <script lang="ja" type="text/javascript">
      $(document).ready(function () {
          $('#LocationName').focus(function () { $('#errImg').hide(); $('#valMsg').hide(); $('#errMsg').hide(); });
          $('#btnSubmitA4').click(function () {
-             if ($('#LocationName').val() == '' || $('#LocationCode').val() == '') {
+
+             if ($('#txtLocationName').val() == '' || $('#txtLocationName').val() == '') {
                  $('#errImg').show(); $('#valMsg').show();
-                 return;
+                 return false;
              }
-             RefreshGrid();
+             else {
+                 RefreshGrid();
+             }
          });
 
          function RefreshGrid() {
@@ -53,4 +56,4 @@
                 });
             }
         });
-    </script>
+    </script>*@

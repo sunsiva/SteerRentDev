@@ -149,6 +149,11 @@
                     success: function (data) {
                         $('#GlookupGrdList').replaceWith(data);
                         $('#txtGLookupValue').val('');
+                        $('.error_msg_bg').css("display", "none");
+                        $('.error_msg_sm').css("display", "none");
+                        $('.error_msg_exist').css("display", "none");
+                        $('.error_msg_spclchar').css("display", "none");
+                        $('.error_msg_error').css("display", "none");
                         //debugger;
                         //var items = [];
                         //items.push("<option>--Select Sub-Category--</option>");
