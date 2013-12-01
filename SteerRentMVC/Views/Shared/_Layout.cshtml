@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using SteerRentMVC.Utilities
+
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -31,12 +33,12 @@
         <div class="header_space">
     		<a class="logo_part" href="index.html"></a>
             <div class="header_dropdown">
-                <a class="user_name">First Name Last Name <span>&nbsp;</span></a>
+                <a class="user_name">@SessionManager.DisplayName @SessionManager.DisplayName<span>&nbsp;</span></a>
                 <div class="user_part">
                 	<div class="user_part_inner">
-                    	<a class="user_item">Update Profile</a>
-                    	<a class="user_item">Change Password</a>
-                    	<a class="user_item">Log out</a>                                                
+                        @Html.ActionLink("Update Profile", "Employee_A007", "Master",null, new {@class="user_item" })
+                        @Html.ActionLink("Change Password", "ChangePassword", "Account",null, new {@class="user_item" })
+                        @Html.ActionLink("Logout", "LogOut", "Account",null, new {@class="user_item" })
                     </div>
                 </div>
             </div>
@@ -152,5 +154,13 @@
 
 @*    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)*@
+    <script>
+        function fnLogOut()
+        {
+            $.post('@Url.Action("LogOut","Account")', function (data) {
+            });
+        }
+
+    </script>
 </body>
 </html>

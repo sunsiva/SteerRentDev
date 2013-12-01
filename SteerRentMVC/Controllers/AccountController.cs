@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using SteerRent.Model;
+using SteerRentMVC.Utilities;
 
 namespace SteerRentMVC.Controllers
 {
@@ -11,49 +13,58 @@ namespace SteerRentMVC.Controllers
     {
         //
         // GET: /Account/
-
         public ActionResult Index()
         {
             return View();
         }
 
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            AccountModel.LogOnModel objLogin = new AccountModel.LogOnModel();
+            return View("Login", objLogin);
+        }
+
+
         public ActionResult Login()
         {
-            return View("Login");
+            AccountModel.LogOnModel objLogin = new AccountModel.LogOnModel();
+            return View(objLogin);
         }
 
         //
         // POST: /Account/LogOn
 
         [HttpPost]
-        public ActionResult Login(FormCollection frmLogin)
+        public ActionResult Login(FormCollection frmItem)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    MembershipUser currentUser = Membership.GetUser("siva", true /* userIsOnline */);
+            AccountModel.LogOnModel objLoginModel = new AccountModel.LogOnModel();
+            if (ModelState.IsValid)
+            {
+                if (Membership.ValidateUser(frmItem["txtUserName"], frmItem["txtPassword"]))
+                    {
+                        FormsAuthentication.SetAuthCookie(frmItem["txtUserName"], false);
+                        SessionManager.DisplayName = frmItem["txtUserName"];
+                        return RedirectToAction("Dashboard", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("LoginInvalid", "The user name or password provided is incorrect.");
+                    }
+            }
+            // If we got this far, something failed, redisplay form
+            return View(objLoginModel);
+        }
 
-            //    // Attempt to register the user
-            //    MembershipCreateStatus createStatus;
-            //    Membership.CreateUser("siva1", "siva1", "siva1@gmail.com", null, null, true, null, out createStatus);
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
 
-            //    if (createStatus == MembershipCreateStatus.Success)
-            //    {
-
-            //        if (Membership.ValidateUser("siva", "indian"))
-            //        {
-            //            //frmLogin["chkRemember"]
-            //            FormsAuthentication.SetAuthCookie(frmLogin["txtUserName"], false);
-            //            return RedirectToAction("Dashboard", "Home");
-            //        }
-            //        else
-            //        {
-            //            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            //        }
-            //    }
-            //}
-            //// If we got this far, something failed, redisplay form
-            //return View();
-            return RedirectToAction("Dashboard", "Home");
+        public ActionResult ChangePassword()
+        {
+            return View();
         }
     }
 }

@@ -476,6 +476,13 @@ namespace SteerRentMVC.Controllers
             objModel.ActionMode = GlobalEnum.Flag.Select;
             return PartialView();
         }
+
+        public ActionResult RolesInsert(string role)
+        {
+
+            return View();
+        }
+
         #endregion
     }
 } 

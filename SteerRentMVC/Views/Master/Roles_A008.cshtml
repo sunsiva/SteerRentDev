@@ -4,9 +4,10 @@
                             	<div class="tab_contant_inner">
                            			<div class="contain_row">
                                         <p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">The Role Name already exists. Please try a different value.</p>
-                                        <p class="error_msg_sm">Special characters are not allowed.</p>
-                                        <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                        <p class="error_msg_sm">Please enter the Role Name.</p>
+                                        <p class="error_msg_exist">The Role Name already exists. Please try a different value.</p>
+                                        <p class="error_msg_spclchar">Special characters are not allowed.</p>
+                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
                                     </div>
                                     <form name="" method="post">
                                                                          
@@ -150,7 +151,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Role Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtRoleName" type="text" placeholder="">
+                                                        <input name="txtRoleName" id="txtRoleName" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -167,7 +168,7 @@
                                                      
                                         <div class="submit_part">
                                             <div class="contain_submit_row">
-                                            	<button type="submit" class="submit_btn" value="Submit">Submit</button>
+                                                <input type="button" id="btnSubmitA8" class="submit_btn" value="Submit" />
                                             </div>
                                         </div>
                                         	
@@ -176,3 +177,41 @@
                             </div>    
                         </div>
 <!-- END A008 -->
+
+    <script lang="ja" type="text/javascript">
+        $(document).ready(function () {
+            $('#btnSubmitA8').click(function () {
+                if ($('#txtRoleName').val() != '') {
+                    RefreshGrid('Insert');
+                }
+                else {
+                    $('.error_msg_bg').css("display", "block");
+                    $('.error_msg_sm').css("display", "block");
+                }
+            });
+
+            function RefreshGrid(status)
+            {
+                var href = '@Url.Action("GeneralLookupSubmit")';
+                $.ajax({
+                    url: href,
+                    data: { value: $('#txtRoleName').val(), status: status },
+                    type: "POST",
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        $('#txtRoleName').val('');
+                        $('.error_msg_bg').css("display", "none");
+                        $('.error_msg_sm').css("display", "none");
+                        $('.error_msg_spclchar').css("display", "none");
+                        $('.error_msg_exist').css("display", "none");
+                        $('.error_msg_error').css("display", "none");
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('.error_msg_bg').css("display", "block");
+                        $('.error_msg_error').css("display", "block");
+                    }
+                });
+            }
+        });
+    </script>
