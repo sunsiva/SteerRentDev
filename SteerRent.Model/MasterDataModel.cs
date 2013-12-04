@@ -144,9 +144,10 @@ namespace SteerRent.Model
 	    public bool ServiceChargeApplicable { get; set; }
 	    public string ServiceChargeType { get; set; }
         public decimal ServiceCharge { get; set; }
+        public decimal WaivingPercentage { get; set; }
 	    public bool IsDeductible { get; set; }
 	    public bool IsDeductibleWaiver { get; set; }
-        public decimal WaivingPercentage { get; set; }
+        
 	    public bool IsSecured { get; set; }
 	    public DateTime CreatedOn { get; set; }
 	    public int UserID { get; set; }
@@ -154,5 +155,23 @@ namespace SteerRent.Model
 	    public bool IsActive { get; set; }
         public List<ChargeCodeModel> lstOfChargeCodes { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
+    }
+
+    /// <summary>
+    /// User Role  model
+    /// </summary>
+    public class RoleModel
+    {
+        public Guid ApplicationId { get; set; }
+        public Guid RoleId { get; set; }
+      public string RoleName { get; set; }
+      public string LoweredRoleName { get; set; }
+      public string Description { get; set; }
+      public DateTime CreatedOn { get; set; }
+      public DateTime UndatedOn { get; set; }
+      public bool IsActive { get; set; }
+      public int UserID { get; set; }
+      //public List<RoleModel> lstRoles { get; set; }
+      public GlobalEnum.Flag ActionMode { get; set; }
     }
 }

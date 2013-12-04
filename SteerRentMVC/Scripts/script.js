@@ -3,7 +3,7 @@ $(document).ready(function(e) {
 	
 	//for menu_box
 	$('.menu_part').on({
-		mouseenter:function(){
+	    mouseenter:function(){ //click:function(){ 
 			$('.menu_space').stop(true,true).slideDown();
 		},mouseleave:function(){
 			$('.menu_space').stop(true,true).slideUp('fast');
@@ -27,7 +27,8 @@ $(document).ready(function(e) {
 	$('#slidetabs').off('click').on('click', '.cancel_btn', function(e) {
 	    var eleIndex = $(this).parents('li:first').index();
 			eleIndex= parseInt(eleIndex);
-		slidetabs.removeTab(eleIndex+1);
+			slidetabs.removeTab(eleIndex + 1);
+			sessionStorage.setItem('tabClick', Number(sessionStorage.getItem('tabClick') - 1));
     });
 	
 	//add tab 
@@ -35,17 +36,22 @@ $(document).ready(function(e) {
 	    var ele = $(this),
 		pageUrl = ele.attr('data-url');
 	    //pageUrl = ele.attr('href');
-	    
-		$('.menu_space').slideUp();
-		$.ajax({
-			type:'POST',
-			url:pageUrl,
-			success: function(response){
-				var tabName= ele.text();
-				var tabContent = response;
-				slidetabs.addTab(tabName, tabContent, true);
-			}
-		});		
+	    if (Number(sessionStorage.getItem('tabClick')) > 4) {
+	         alert('No.of tabs opened has been exceeded.'); 
+	    }
+        else{
+	        sessionStorage.setItem('tabClick', Number(sessionStorage.getItem('tabClick')) + 1);
+	        $('.menu_space').slideUp();
+	        $.ajax({
+	            type: 'POST',
+	            url: pageUrl,
+	            success: function (response) {
+	                var tabName = ele.text();
+	                var tabContent = response;
+	                slidetabs.addTab(tabName, tabContent, true);
+	            }
+	        });
+	    }
 	});
 	
 	// datepicker
@@ -53,8 +59,8 @@ $(document).ready(function(e) {
 	
 	//user menu box
 	$('.header_dropdown').on({
-		mouseenter:function(){
-			$('.user_part').stop(true,true).slideDown();
+	    click:function(){  
+			    $('.user_part').stop(true,true).slideDown();
 		},mouseleave:function(){
 			$('.user_part').stop(true,true).slideUp('fast');
 		}

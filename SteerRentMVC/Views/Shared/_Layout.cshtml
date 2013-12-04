@@ -36,9 +36,9 @@
                 <a class="user_name">@SessionManager.DisplayName @SessionManager.DisplayName<span>&nbsp;</span></a>
                 <div class="user_part">
                 	<div class="user_part_inner">
-                        @Html.ActionLink("Update Profile", "Employee_A007", "Master",null, new {@class="user_item" })
+                       @Html.ActionLink("Update Profile", "Employee_A007", "Master",null, new {@class="user_item" })
                         @Html.ActionLink("Change Password", "ChangePassword", "Account",null, new {@class="user_item" })
-                        @Html.ActionLink("Logout", "LogOut", "Account",null, new {@class="user_item" })
+                        @Html.ActionLink("Logout", "LogOut", "Account",null, new {@class="user_item", onclick="disposeStorage()"  })
                     </div>
                 </div>
             </div>
@@ -155,12 +155,12 @@
 @*    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)*@
     <script>
-        function fnLogOut()
-        {
-            $.post('@Url.Action("LogOut","Account")', function (data) {
-            });
-        }
+        window.onunload = function () { disposeStorage(); };
 
+        function disposeStorage()
+        {
+            sessionStorage.removeItem('tabClick');
+        }
     </script>
 </body>
 </html>

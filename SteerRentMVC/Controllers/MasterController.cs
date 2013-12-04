@@ -471,10 +471,10 @@ namespace SteerRentMVC.Controllers
         public ActionResult Roles_A008()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
+            RoleModel objRole = new RoleModel();
+            objBal.getAllRoles(Guid.Empty);
             objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+            return PartialView(objRole);
         }
 
         public ActionResult RolesInsert(string role)

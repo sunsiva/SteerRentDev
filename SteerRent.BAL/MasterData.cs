@@ -89,5 +89,25 @@ namespace SteerRent.BAL
         public List<ChargeCodeModel> ChargeCodesInsertUpdate(ChargeCodeModel objData)
         { return objDAL.ChargeCodesInsertUpdate(objData); }
         #endregion
+
+        #region "Roles"
+
+       /// <summary>
+       /// Insert/Update Roles
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+        public List<RoleModel> RolesInsertUpdate(RoleModel objData)
+        { return objDAL.RolesInsertUpdate(objData); }
+
+        /// <summary>
+       /// Get all the roles by role id
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+        public List<RoleModel> getAllRoles(Guid id)
+        { return objDAL.getAllRoles(id); }
+
+        #endregion
     }
 }

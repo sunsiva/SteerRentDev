@@ -12,6 +12,7 @@ namespace SteerRent.DAL
    public class MasterData
    {
        static string connectionString = Helper.Helper.GetConnectionString();
+       static string conStrUser = Helper.Helper.GetConnectionString_aspnetDB();
 
        #region "Lookup"
        public List<GLookupDataModel> GetGLookupDataByLookup(string str)
@@ -634,7 +635,7 @@ namespace SteerRent.DAL
                       ServiceCharge = row.Field<decimal>("ServiceCharge"),
                       IsDeductible = row.Field<bool>("IsDeductible"),
                       IsDeductibleWaiver = row.Field<bool>("IsDeductibleWaiver"),
-                      WaivingPercentage = row.Field<decimal>("WaivingPercentage"),
+                      //WaivingPercentage = row.Field<decimal>("WaivingPercentage"),
                       IsSecured = row.Field<bool>("IsSecured"),
                       CreatedOn = row.Field<DateTime>("CreatedOn"),
                       UserID =Convert.ToInt32(row.Field<string>("CreatedBy")),
@@ -708,5 +709,98 @@ namespace SteerRent.DAL
            return lstObjReturn;
        }
        #endregion
+
+       #region "Roles"
+
+       /// <summary>
+       /// Insert/Update Roles
+       /// </summary>
+       /// <param name="item"></param>
+       /// <returns></returns>
+       public List<RoleModel> RolesInsertUpdate(RoleModel objData)
+       {
+           List<RoleModel> lstObjReturn = new List<RoleModel>();
+           using (SqlConnection con = new SqlConnection(conStrUser))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   if (objData.ActionMode == GlobalEnum.Flag.Insert)
+                   {
+                       cmd.CommandText = "usp_aspnet_RolesInsert";
+                       cmd.Parameters.AddWithValue("@CreatedBy", objData.UserID);
+                   }
+                   else
+                   {
+                       cmd.CommandText = "usp_aspnet_RolesUpdate";
+                       cmd.Parameters.AddWithValue("@ApplicationId", objData.ApplicationId);
+                       cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
+                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
+                   }
+                   cmd.Parameters.AddWithValue("@RoleName", objData.RoleName);
+                   cmd.Parameters.AddWithValue("@LoweredRoleName", objData.LoweredRoleName);
+                   cmd.Parameters.AddWithValue("@Description", objData.Description);
+                   cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+                   cmd.ExecuteNonQuery();
+
+                   lstObjReturn = getAllRoles(Guid.Empty);
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+
+           return lstObjReturn;
+       }
+
+       /// <summary>
+       /// Get all the roles by role id
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+       public List<RoleModel> getAllRoles(Guid id)
+       {
+           List<RoleModel> lstOfRoles = new List<RoleModel>();
+           using (SqlConnection con = new SqlConnection(conStrUser))
+           {
+               SqlCommand command = con.CreateCommand();
+               command.CommandText = "usp_aspnet_RolesSelect";
+               try
+               {
+                   con.Open();
+                   if (id != Guid.Empty)
+                       command.Parameters.AddWithValue("@RoleId", id);
+                   else
+                       command.Parameters.AddWithValue("@RoleId", Guid.Empty);
+
+                   command.CommandType = CommandType.StoredProcedure;
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(command);
+                   da.Fill(ds);
+                   lstOfRoles = ds.Tables[0].AsEnumerable().Select(row =>
+                   new RoleModel
+                   {
+                       RoleId = row.Field<Guid>("RoleId"),
+                       ApplicationId = row.Field<Guid>("ApplicationId"),
+                       RoleName = row.Field<string>("RoleName"),
+                       LoweredRoleName = row.Field<string>("LoweredRoleName"),
+                       Description = row.Field<string>("Description"),
+                       IsActive = row.Field<bool>("IsActive"),
+                   }).ToList();
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+           return lstOfRoles;
+       }
+
+       #endregion
+
    }
 }

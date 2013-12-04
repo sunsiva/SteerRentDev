@@ -13,5 +13,10 @@ namespace SteerRent.DAL.Helper
         {
             return ConfigurationManager.ConnectionStrings["SteerRentConnection"].ToString();
         }
+
+        static public string GetConnectionString_aspnetDB()
+        {
+            return ConfigurationManager.ConnectionStrings["MyUserConnection"].ToString();
+        }
     }
 }
