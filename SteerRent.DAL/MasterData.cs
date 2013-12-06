@@ -775,7 +775,7 @@ namespace SteerRent.DAL
                    if (id != Guid.Empty)
                        command.Parameters.AddWithValue("@RoleId", id);
                    else
-                       command.Parameters.AddWithValue("@RoleId", Guid.Empty);
+                       command.Parameters.AddWithValue("@RoleId", DBNull.Value);
 
                    command.CommandType = CommandType.StoredProcedure;
                    DataSet ds = new DataSet();
@@ -789,6 +789,7 @@ namespace SteerRent.DAL
                        RoleName = row.Field<string>("RoleName"),
                        LoweredRoleName = row.Field<string>("LoweredRoleName"),
                        Description = row.Field<string>("Description"),
+                       CreatedOn = row.Field<DateTime?>("CreatedOn"),
                        IsActive = row.Field<bool>("IsActive"),
                    }).ToList();
                }

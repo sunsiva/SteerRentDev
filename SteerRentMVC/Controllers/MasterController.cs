@@ -471,16 +471,32 @@ namespace SteerRentMVC.Controllers
         public ActionResult Roles_A008()
         {
             objBal = new MasterData();
-            RoleModel objRole = new RoleModel();
-            objBal.getAllRoles(Guid.Empty);
-            objModel.ActionMode = GlobalEnum.Flag.Select;
+            List<RoleModel> objRole = new List<RoleModel>();
+            objRole = objBal.getAllRoles(Guid.Empty);
             return PartialView(objRole);
         }
 
-        public ActionResult RolesInsert(string role)
+        /// <summary>
+        /// Inserting role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public ActionResult RolesInsertUpdate(string role , string action)
         {
-
-            return View();
+            objBal = new MasterData();
+            List<RoleModel> lstOfRoles = new List<RoleModel>();
+            RoleModel objRole = new RoleModel();
+            objRole.RoleName = role;
+            objRole.UserID = 1;
+            objRole.IsActive = true;
+            objRole.LoweredRoleName = role;
+            objRole.Description = role;
+            if(action == "Insert")
+                objRole.ActionMode = GlobalEnum.Flag.Insert;
+            else
+                objRole.ActionMode = GlobalEnum.Flag.Update;
+            lstOfRoles = objBal.RolesInsertUpdate(objRole);
+            return View("Roles_A008",lstOfRoles);
         }
 
         #endregion

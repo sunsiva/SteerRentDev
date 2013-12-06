@@ -1,4 +1,4 @@
-﻿@model SteerRent.Model.RoleModel
+﻿@model List<SteerRent.Model.RoleModel>
 
 <div class="contain_row">
                                         	<h5 class="contain_title">User Roles</h5>
@@ -23,118 +23,47 @@
                                                                     Delete
                                                                 </th>
                                                             </tr>
+                                                            @if (Model != null)
+                                                                {
+                                                                    var cnt = 0;
+                                                                    foreach (var item in Model)
+                                                                    {
+                                                                        cnt = cnt + 1;
                                                             <tr>
                                                                 <td>
-                                                                    1.
+                                                                    @Html.Raw(cnt)
                                                                 </td>
                                                                 <td>
-                                                                    Branch Manager
+                                                                    @item.RoleName
                                                                 </td>
                                                                 <td>
-                                                                    <input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />
+                                                                    @*<input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />*@
+                                                                    <input type="checkbox" id="@item.RoleId" disabled="disabled" name="chkState" checked="@item.IsActive" class="checkbox-mrg" />
                                                                 </td>
                                                                 <td>
-                                                                    SteerRent / Date
+                                                                    @item.UserID / @item.CreatedOn
                                                                 </td>
-                                                                <td>
-                                                                    
+                                                                <td> @if(item.IsActive == false){ <div id='dvDelete-@item.RoleId' class="del_btn">X</div>}
+                                                                    else{<div id='dvNoDelete-@item.RoleId' class="error_msg"></div>}
                                                                 </td>
                                                             </tr>
-                                                                                                                        <tr>
-                                                                <td>
-                                                                    2.
-                                                                </td>
-                                                                <td>
-                                                                    Counter Supervisor
-                                                                </td>
-                                                                <td>
-                                                                    <input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />
-                                                                </td>
-                                                                <td>
-                                                                    SteerRent / Date
-                                                                </td>
-                                                                <td>
-                                                                    
-                                                                </td>
-                                                            </tr>
-                                                                                                                        <tr>
-                                                                <td>
-                                                                    3.
-                                                                </td>
-                                                                <td>
-                                                                    Accountant
-                                                                </td>
-                                                                <td>
-                                                                    <input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />
-                                                                </td>
-                                                                <td>
-                                                                    SteerRent / Date
-                                                                </td>
-                                                                <td>
-                                                                    
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    4.
-                                                                </td>
-                                                                <td>
-                                                                    Application Administrator
-                                                                </td>
-                                                                <td>
-                                                                    <input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />
-                                                                </td>
-                                                                <td>
-                                                                    SteerRent / Date
-                                                                </td>
-                                                                <td>
-                                                                    
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    5.
-                                                                </td>
-                                                                <td>
-                                                                    Custom Role 1
-                                                                </td>
-                                                                <td>
-                                                                    <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
-                                                                </td>
-                                                                <td>
-                                                                    Username / Date
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="del_btn" value="delete">x</button>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    6.
-                                                                </td>
-                                                                <td>
-                                                                    Custom Role 2
-                                                                </td>
-                                                                <td>
-                                                                    <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
-                                                                </td>
-                                                                <td>
-                                                                    Username / Date
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="del_btn" value="delete">x</button>
-                                                                </td>
-                                                            </tr>
+                                                            }
+                                                            }
+                                                            else
+                                                                    {
+                                                                    <tr><td colspan="5"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                                }
+                                                              
                                                     </table>
                                                     
-                                                    </br>
+                                                    <br />
                                                          @if (Model != null)
     {
-        if (Model.lstLocation.Count > 0)
+        if (Model != null)
         {
-    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
-    <span id="spnActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
         }
     }
                                                 </div>

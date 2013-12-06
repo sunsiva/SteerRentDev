@@ -1,4 +1,6 @@
-﻿<!--- START A008 - Roles -->
+﻿@model List<SteerRent.Model.RoleModel>
+
+<!--- START A008 - Roles -->
                         <div class="A008 st_view">
                             <div class="st_view_inner">
                             	<div class="tab_contant_inner">
@@ -10,9 +12,9 @@
                                         <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
                                     </div>
                                     <form name="" method="post">
-                                                                         
-                                        
-                                        
+                                        <div id="roleSrchList">
+                                         @Html.Partial("_RoleSearchResults",Model)                                
+                                        </div>                                         
                                             <div class="contain_row">
                                             <h5 class="contain_title">Add New Role</h5>
                                             <div class="contain_sub_row">
@@ -60,10 +62,10 @@
 
             function RefreshGrid(status)
             {
-                var href = '@Url.Action("GeneralLookupSubmit")';
+                var href = '@Url.Action("RolesInsertUpdate")';
                 $.ajax({
                     url: href,
-                    data: { value: $('#txtRoleName').val(), status: status },
+                    data: { role: $('#txtRoleName').val(), action: status },
                     type: "POST",
                     datatype: "json",
                     traditional: true,

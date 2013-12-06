@@ -167,8 +167,8 @@ namespace SteerRent.Model
       public string RoleName { get; set; }
       public string LoweredRoleName { get; set; }
       public string Description { get; set; }
-      public DateTime CreatedOn { get; set; }
-      public DateTime UndatedOn { get; set; }
+      public DateTime? CreatedOn { get; set; }
+      public DateTime? UndatedOn { get; set; }
       public bool IsActive { get; set; }
       public int UserID { get; set; }
       //public List<RoleModel> lstRoles { get; set; }
