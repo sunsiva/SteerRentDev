@@ -258,8 +258,9 @@ div.clean_rounded-horizontal.align_bottom.st_sliding_active > div.st_views {
  *
 ------------------------------------------------------------------------------------- */
 div.clean_rounded-vertical { /* The main container */
-	position:relative;
+	position:absolute;
 	clear:both;
+    height:100%;
 	width:100%; /* Set the full width */
 }
 

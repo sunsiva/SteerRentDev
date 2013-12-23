@@ -64,6 +64,8 @@ namespace SteerRentMVC.Controllers
 
         public ActionResult ChangePassword()
         {
+            //MembershipUser u = Membership.GetUser("admin");
+            //u.ChangePassword(u.ResetPassword(), "admin@123");
             return View();
         }
     }

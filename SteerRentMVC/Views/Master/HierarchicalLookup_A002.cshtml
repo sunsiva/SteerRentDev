@@ -21,7 +21,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Category & Sub-Category<span></span></p>
                                                     <div class="label_combo_part">
-                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(objCategories, "LookupCategoryID", "LookupCategoryCode"), "-- Select --", new { @id = "ddlHLookupCategory" })
+                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(objCategories, "LookupCategoryID", "LookupCategoryCode"), "", new { @id = "ddlHLookupCategory" })
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>

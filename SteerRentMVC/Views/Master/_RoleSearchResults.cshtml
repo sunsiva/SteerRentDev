@@ -37,8 +37,12 @@
                                                                     @item.RoleName
                                                                 </td>
                                                                 <td>
-                                                                    @*<input name="chkActivate" type="checkbox" CHECKED DISABLED class="checkbox-mrg" />*@
-                                                                    <input type="checkbox" id="@item.RoleId" disabled="disabled" name="chkState" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                    @if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))
+                                                                    {
+                                                                    <input type="checkbox" disabled="disabled" name="chkStateDisable" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                    }
+                                                                    else
+                                                                    {<input type="checkbox" id="@item.RoleId"  name="chkState" checked="@item.IsActive" class="checkbox-mrg" />}
                                                                 </td>
                                                                 <td>
                                                                     @item.UserID / @item.CreatedOn

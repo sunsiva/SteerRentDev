@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+    }
+ <div class="A008 st_view">
+                            <div class="st_view_inner">
+<div id="ChargeCodeAddUpdate">
+    <form name="frmChargeCode" id="frmChargeCode" method="get">
+        <div class="contain_row">
+                                        	<h5 class="contain_title">My Report</h5>   
+                                      @*  <div class="contain_left_part">
+                                                <p class="label_part">Start Date <span>*</span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtRoleName" id="txtRoleName" type="text" placeholder="Start Date">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>*@
+
+                                                <button type="button"  onclick="ShowReportNewWin()" class="addnew_btn" value="Show Report">Show Report</button>
+            <div class="clear"></div>
+                                 </div>      
+        </form>
+  
+@*    @using (Html.BeginForm("ShowSimple", "Reports"))
+{
+     <p><strong> Simple Report</strong></p>
+    <input type="submit" value="Show simple" />
+    <input type="button" value="Show simple in New Window" onclick="SimpleInNewWin()"/>
+}*@
+
+    <script>
+        function ShowReportNewWin() {
+            window.open("../Reports/ShowReport", 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+        function SimpleInNewWin() {
+            window.open("../Reports/ShowSimple");
+        }
+    </script>
+    </div>
+</div>

@@ -5,6 +5,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using SteerRent.BAL;
+using SteerRent.Model;
 
 namespace SteerRentMVC
 {
@@ -26,7 +28,7 @@ namespace SteerRentMVC
         protected void Session_Start(Object sender, EventArgs e)
         {
             #region Set Session Variables
-           // SetSessionValueFromClaims();
+            SetSessionValues();
            // AssaignMultipleRoles();
             #endregion
             SessionManager.userName = Thread.CurrentPrincipal.Identity.ToString();
@@ -34,6 +36,12 @@ namespace SteerRentMVC
         protected void Session_End(Object sender, EventArgs e)
         {
             Session.Abandon();
+        }
+
+        private void SetSessionValues()
+        {
+            MasterData objBal = new MasterData();
+            objBal.getAllRoles(Guid.Empty);
         }
     }
 }

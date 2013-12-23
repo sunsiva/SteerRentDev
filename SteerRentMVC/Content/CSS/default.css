@@ -582,7 +582,7 @@ body {
 	overflow-y:scroll;
 	position: relative;
 	background:#FFF;
-	zoom;1;
+	zoom:1;
 	padding:15px;
 	margin: 0 auto;
 }

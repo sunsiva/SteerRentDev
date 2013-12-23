@@ -257,6 +257,7 @@
 <!-- END A003 -->
 <script>   
     $('#ddlCompCountry').click(function () {
+
         if ($('#ddlCompCountry').val() == 0) {
             getMasterData('Country', '#ddlCompCountry');
         }
@@ -281,6 +282,12 @@
             }
         });
     }
+
+    if ($('#txtCompanyName').val() > 0) {
+        $('#btnSubmitA3').val('Update');
+    }
+    else
+        $('#btnSubmitA3').val('Submit');
 
  $('#btnSubmitA3').click(function () {
         var href = '@Url.Action("CompanyInsert")';

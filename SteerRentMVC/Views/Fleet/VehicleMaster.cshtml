@@ -1,0 +1,413 @@
+﻿@{
+    Layout = null;
+    }
+
+<h2>VehicleMaster</h2>
+
+<!--- START F003 - Vehicle Master -->
+                        <div class="F003 st_view">
+                            <div class="st_view_inner">
+                            	<div class="tab_contant_inner">
+                           			<form name="" method="post">
+                                                                         
+                                        <div class="contain_row">
+                                           <!-- <h5 class="contain_title">Search Vehicle</h5>-->
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part"><b>Search Vehicle</b><span></span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtSearchVehicle" id="txtSearchVehicle" type="text" placeholder="Vehicle Code / Reg. No" />
+                                                        @*Display results in this format.
+                                                        </br>125 - DXB12345 - Toyota Corolla
+                                                        </br>150 - DXB1245 - Ford Endeavour
+                                                        </br>200 - DXB1255 - Jaguar XLS
+                                                        </br>500 - DXB1278 - Maserati*@
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contain_row" style="display:none">
+                                    	    <p class="error_msg_bg">&nbsp;</p>
+                                            <p class="error_msg_sm">Please enter all required fields.</p>
+                                            <p class="error_msg_sm">Enter a Number for Vehicle Code.</p>
+                                            <p class="error_msg_sm">Vehicle Code is already associated with another vehicle.</p>
+                                            <p class="error_msg_sm">Engine No. is already associated with another vehicle.</p>
+                                            <p class="error_msg_sm">Chassis No. is already associated with another vehicle.</p>
+                                            <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                        </div>
+                                        <div class="contain_row">
+                                        	<h5 class="contain_title">New/Update Vehicle Details</h5>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part"><span></span></p>
+                                                    <div class="label_radio_part">
+                                                        <label class="label_radio"><a href="#add-purchase-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button>&nbsp;Purchase Details</a></label>
+                                                    </div>            
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part"><span></span></p>   
+                                                    <div class="label_radio_part">
+                                                        <label class="label_radio"><a href="#add-registration-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button>&nbsp;Registration</a></label>
+                                                    </div>                                       
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part"><span></span></p>
+                                                    <div class="label_radio_part">
+                                                        <label class="label_radio"><a href="#add-insurance-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button>&nbsp;Insurance</a></label>
+                                                        </div>            
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part"><span></span></p>   
+                                                    <div class="label_radio_part">
+                                                        <label class="label_radio"><a href="#add-servicewarranty-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button>&nbsp;Service Warranty</a></label>
+                                                    </div>                                       
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Vehicle Code <span>*</span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtVehicleCode" type="text" placeholder="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Registration No. <span></span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtVehicleRegNo" DISABLED type="text" placeholder="" value="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                                </div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Engine No <span>*</span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtEngineNo" type="text" placeholder="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Chassis No. <span>*</span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtChassisNo" type="text" placeholder="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Business Unit <span></span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtBusinessUnit" disabled type="text" value="" placeholder="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Location <span></span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlLocation"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Vehicle Status <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlVehicleStatus"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Flags <span></span></p>
+                                                        <div class="label_radio_part">
+                                                        <label class="label_radio"><input name="chkFlagForSale" type="checkbox" value="FlagForSale"> Flagged for Sale</label></br>
+                                                        <label class="label_radio"><input name="chkMarkForSale" type="checkbox" value="MarkForSale"> Marked for Sale</label>  
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Group <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlGroup"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Sub-Group <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlSubGroup"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Make <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlMake"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Brand <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlBrand"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Year Model <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlYearModel"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Vehicle Type <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlType"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Sub-Type <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlSubType"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                                <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Trans Type <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlTransType"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Engine Capacity <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlEngineCapacity"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                                <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Vehicle Class <span></span></p>
+                                                    <div class="label_input_part">
+                                                        <input name="txtVehicleClass" disabled type="text" placeholder="" value="">
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Seating Capacity <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlSeatingCapacity"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                                <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Color <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlColor"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Sub Color <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlSubColor"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                                <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                <p class="label_part">Fuel Type <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlFuelType"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                	<p class="label_part">Fuel Tank Size <span>*</span></p>
+                                                    <div class="label_combo_part">
+                                                        <select name="ddlFuelTankSize"><option></option></select>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<p class="label_part">Vehicle Features</p>
+                                                <div class="label_textarea_part">
+                                                	<table class="gridtable">
+                                                            <tr>
+                                                                <th>
+                                                                    Feature Code
+                                                                </th>
+                                                                <th>
+                                                                    Description
+                                                                </th>
+                                                                 <th width="5%">
+                                                                    
+                                                                </th>
+                                                                
+                                                            </tr>
+@*                                                            <tr>
+                                                                <td>
+                                                                    Code
+                                                                </td>
+                                                                <td>
+                                                                    Description
+                                                                </td>
+                                                                <td width="5%">
+                                                                    
+                                                                </td>
+                                                            </tr>*@
+                                                        <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
+                                                            <tr>
+                                                                <td>
+                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    
+                                                                </td>
+                                                                 <td width="5%">
+                                                                    <a href="#add-vehiclefeatures-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button></a>
+                                                                </td>
+                                                            </tr>
+                                                    </table>                                                   
+                                                    </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<p class="label_part">General Documents</p>
+                                                <div class="label_textarea_part">
+                                                	<table class="gridtable">
+                                                            <tr>
+                                                                <th width="10%">
+                                                                    Sl.
+                                                                </th>
+                                                                <th>
+                                                                    File Name
+                                                                </th>
+                                                                <th width="5%">
+                                                                    
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="10%">
+                                                                    1.
+                                                                </td>
+                                                                <td>
+                                                                    File Name
+                                                                </td>
+                                                                <td width="5%">
+                                                                    <button type="button" class="del_btn" value="del">x</button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="10%">
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td width="5%">
+                                                                    <button type="file" class="add_btn" value="Add">+</button>
+                                                                </td>
+                                                            </tr>                                                   
+                                                    </table>
+                                                    </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            <div class="contain_sub_row">
+                                            	<div class="contain_left_part">
+                                                    <p class="label_part"><span></span></p>
+                                                    <div class="label_radio_part">
+                                                        <label class="label_radio"><input name="chkActivate" type="checkbox" value="Activate"> Activate the vehicle for renting</label>
+                                                        </div>            
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="contain_left_part">
+                                                                                       
+                                                    <div class="clear"></div>
+                                                </div>
+                                            	<div class="clear"></div>                                                                                                
+                                            </div>
+                                            <div>&nbsp;</div>
+                                        </div>
+                                        
+                                           <div class="submit_part">
+                                            <div class="contain_submit_row">
+                                            	<button type="submit" class="submit_btn" value="Submit">Submit</button>
+                                                <button type="button" class="addnew_btn" value="Add New">Add New</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>    
+                        </div>
+<!-- END F003 -->

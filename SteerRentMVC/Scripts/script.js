@@ -1,9 +1,9 @@
-$(document).ready(function(e) {
-    
-	
+
+$(document).ready(function (e) {
+    	
 	//for menu_box
 	$('.menu_part').on({
-	    mouseenter:function(){ //click:function(){ 
+	    click:function(){ // mouseenter:function(){ 
 			$('.menu_space').stop(true,true).slideDown();
 		},mouseleave:function(){
 			$('.menu_space').stop(true,true).slideUp('fast');
@@ -11,7 +11,7 @@ $(document).ready(function(e) {
 	});
 	
 	//body background
-	$('body').backstretch("/images/body_bg1.jpg");
+	$('body').backstretch("~/images/body_bg1.jpg");
 	
 	//$('body').css({ background: 'url(/images/body_bg1.jpg)  no-repeat fixed bottom left' });
 
@@ -32,7 +32,8 @@ $(document).ready(function(e) {
     });
 	
 	//add tab 
-	$('.page_name').off('click').on('click', function(){
+	$('.page_name').off('click').on('click', function () {
+	    
 	    var ele = $(this),
 		pageUrl = ele.attr('data-url');
 	    //pageUrl = ele.attr('href');
@@ -52,6 +53,8 @@ $(document).ready(function(e) {
 	            }
 	        });
 	    }
+
+
 	});
 	
 	// datepicker
@@ -94,18 +97,3 @@ function setwidth()
 	var btnwidth =$('.user_name').outerWidth();
 	$('.user_part').width(btnwidth);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

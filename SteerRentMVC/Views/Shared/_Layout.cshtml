@@ -22,7 +22,6 @@
 </head>
 <body>
     
-       
 <!-- Start layout
 ==================================================-->
 <div class="layout">
@@ -37,12 +36,12 @@
                 <div class="user_part">
                 	<div class="user_part_inner">
                        @Html.ActionLink("Update Profile", "Employee_A007", "Master",null, new {@class="user_item" })
-                        @Html.ActionLink("Change Password", "ChangePassword", "Account",null, new {@class="user_item" })
+                        @*@Html.ActionLink("Change Password", "ChangePassword", "Account",null,new {@class="user_item",target = "_blank" })*@
+                        <a target="_blank" href="~/Views/Account/ChangePassword" class="user_item">Change Password</a>
                         @Html.ActionLink("Logout", "LogOut", "Account",null, new {@class="user_item", onclick="disposeStorage()"  })
                     </div>
                 </div>
             </div>
-            
             <div class="header_right_part">
                 <div class="serch_box_outter">
                     <form method="post" name="serch-box">
@@ -78,18 +77,15 @@
                                     <!--End Menu Colume-->
                                     
                                     <!--Start Menu Colume-->
-                                   @* <div class="submodule_colume">
-                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
+                                  <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Report</h5>
                                         <ul class="page_ul">
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
+                                            <li><a class="page_name" data-url="@Url.Action("UsersReport","Reports")">User Report</a></li>
                                         </ul>
                                     </div>
                                     <!--End Menu Colume-->
                                     
-                                    <!--Start Menu Colume-->
+                                   @*   <!--Start Menu Colume-->
                                     <div class="submodule_colume">
                                         <h5 class="menu_box_submodule">Sub Module Name</h5>
                                         <ul class="page_ul">
@@ -102,8 +98,19 @@
                                     <!--End Menu Colume-->
                                     <div class="clear"></div>                                                                                    
                                  </div>
-                       
+                                  <h5 class="menu_box_subtitle">Fleet Management</h5> 
+                                <div class="sub_module_row">
+                                    <!--Start Menu Colume--> 
+                                    <div class="submodule_colume">
+                                        <h5 class="menu_box_submodule">Vehicle</h5>
+                                        <ul class="page_ul">    
+                                            <li><a class="page_name" data-url="@Url.Action("VehicleMaster","Fleet")">Vehicle Master</a></li>
+                                        </ul>
+                                    </div>
+                                    <!--End Menu Colume-->
+                                    </div>
                             </div>
+                            <div class="clear"></div>   
                         </div>
                     </div>
                 </div>
@@ -140,7 +147,8 @@
 </div>
 <!-- End layout
 ==================================================-->
-
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery-migrate-1.1.1.js"></script>
 <script type="text/javascript" src="~/Scripts/script.js"></script>
@@ -155,7 +163,8 @@
 @*    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)*@
     <script>
-        window.onunload = function () { disposeStorage(); };
+        
+
 
         function disposeStorage()
         {

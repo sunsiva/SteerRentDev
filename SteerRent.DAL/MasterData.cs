@@ -12,7 +12,7 @@ namespace SteerRent.DAL
    public class MasterData
    {
        static string connectionString = Helper.Helper.GetConnectionString();
-       static string conStrUser = Helper.Helper.GetConnectionString_aspnetDB();
+       //static string conStrUser = Helper.Helper.GetConnectionString_aspnetDB();
 
        #region "Lookup"
        public List<GLookupDataModel> GetGLookupDataByLookup(string str)
@@ -501,7 +501,10 @@ namespace SteerRent.DAL
                try
                {
                    LocationModel locData = GetLocationData(0);
-                   locData.lstLocation = (from item in locData.lstLocation where (item.IsActive == true) select item).ToList();
+                   if (locData.LocationId>0)
+                   {
+                       locData.lstLocation = (from item in locData.lstLocation where (item.IsActive == true) select item).ToList();
+                   }
                    con.Open();
                    command.CommandType = CommandType.StoredProcedure;
                    DataSet ds = new DataSet();
@@ -525,7 +528,7 @@ namespace SteerRent.DAL
                         BuContactPerson = row.Field<string>("BuContactPerson"),
                         BuBaseCurrency = row.Field<decimal>("BuBaseCurrency"),
                         BuDecimals = row.Field<byte>("BuDecimals"),
-                        lstLocation = locData.lstLocation.OrderBy(i=>i.LocationName).ToList()
+                        lstLocation = locData.LocationId>0?locData.lstLocation.OrderBy(i=>i.LocationName).ToList():new List<LocationModel>()
                    }).SingleOrDefault();
                }
                catch (Exception ex)
@@ -720,7 +723,7 @@ namespace SteerRent.DAL
        public List<RoleModel> RolesInsertUpdate(RoleModel objData)
        {
            List<RoleModel> lstObjReturn = new List<RoleModel>();
-           using (SqlConnection con = new SqlConnection(conStrUser))
+           using (SqlConnection con = new SqlConnection(connectionString))
            {
                try
                {
@@ -765,7 +768,7 @@ namespace SteerRent.DAL
        public List<RoleModel> getAllRoles(Guid id)
        {
            List<RoleModel> lstOfRoles = new List<RoleModel>();
-           using (SqlConnection con = new SqlConnection(conStrUser))
+           using (SqlConnection con = new SqlConnection(connectionString))
            {
                SqlCommand command = con.CreateCommand();
                command.CommandText = "usp_aspnet_RolesSelect";
