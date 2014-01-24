@@ -23,10 +23,8 @@ namespace SteerRentMVC.Controllers
         //Used for showing simple report
         public void ShowSimple()
         {
-
             using (ReportClass rptH = new ReportClass())
             {
-
                 rptH.FileName = Server.MapPath("~/") + "//Rpts//Simple.rpt";
                 rptH.Load();
                 rptH.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "crReport");
@@ -36,9 +34,9 @@ namespace SteerRentMVC.Controllers
         public void ShowReport()
         {
             string strReportName = "UserDetailsReport.rpt";// System.Web.HttpContext.Current.Session["ReportName"].ToString();    // Setting ReportName
-            var rptSource = new List<AccountModel.LogOnModel>() { 
-                new AccountModel.LogOnModel(){ UserName ="Admin", UserId = 1},
-                new AccountModel.LogOnModel(){UserName ="Steer",UserId =2},
+            var rptSource = new List<AccountModel.AspnetMembershipModel>() { 
+                new AccountModel.AspnetMembershipModel(){ UserName ="Admin", Email = "admin@steerrent.com", Comment="system admin"},
+                new AccountModel.AspnetMembershipModel(){ UserName ="Steer", Email = "support@steerrent.com",Comment="system user"},
             };
 
             ReportClass rd = new ReportClass();
@@ -47,7 +45,7 @@ namespace SteerRentMVC.Controllers
             rd.Load();
             if (rptSource != null && rptSource.GetType().ToString() != "System.String")
                 rd.SetDataSource(rptSource);
-            
+            rd.Refresh();
             rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "crReport");
         }
     }

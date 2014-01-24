@@ -6,8 +6,8 @@
                            			<div class="contain_row">
                                     	<p class="error_msg_bg">&nbsp;</p>
                                         <p class="error_msg_sm">Please enter all required fields.</p>
-                                        <p class="error_msg_sm">Invalid E-Mail Id format.</p>
-                                        <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                                        <p class="error_msg_spclchar">Invalid E-Mail Id format.</p>
+                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
                                     </div>
                                     <form method="get" id="frmCompanySetup">
                                     
@@ -18,6 +18,7 @@
                                                 <p class="label_part">Company Name <span>*</span></p>
                                                     <div class="label_input_part">
                                                         <input name="txtCompanyName" value="@Model.BUName" id="txtCompanyName" type="text" placeholder="">
+                                                        <input name="txtBUID" value="@Model.BuId" id="txtBUID" type="hidden">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -94,7 +95,10 @@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                	
+                                                	 <p class="label_part">Post Box No.</p>
+                                                   <div class="label_input_part">
+                                                        <input name="txtCompPostBox" id="txtCompPostBox" value="@Model.BuPostBox" type="text" placeholder="">
+                                                    </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
@@ -111,7 +115,7 @@
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
-                                            	<div class="contain_left_part">
+                                            	<div class="contain_left_part" style="display:none">
                                                 	<p class="label_part">Designation <span></span></p>
                                                     <div class="label_input_part">
                                                         <input name="txtDesignation" id="txtDesignation" value="" type="text" placeholder="" />
@@ -125,14 +129,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">E-Mail Id <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtEmail" id="txtEmail" value="@Model.BuEmailId" type="text" placeholder="">
+                                                        <input name="txtCompEmail" id="txtCompEmail" value="@Model.BuEmailId" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Mobile No. <span>*</span></p>
                                                    <div class="label_input_part">
-                                                        <input name="txtMobile" id="txtMobile" value="@Model.BuMobile" type="text" placeholder="">
+                                                        <input name="txtCompMobile" id="txtCompMobile" value="@Model.BuMobile" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -237,7 +241,6 @@
                                                 </div>
                                             	<div class="contain_left_part">
                                                     <h5></h5>
-</h5>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
@@ -255,7 +258,12 @@
                             </div>    
                         </div>
 <!-- END A003 -->
-<script>   
+<script lang="ja" type="text/javascript">   
+    function IsEmail(email) {
+        var regex = "/^([a-zA-Z0-9_.+-])+\(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/";
+        return regex.test(email);
+    }
+    
     $('#ddlCompCountry').click(function () {
 
         if ($('#ddlCompCountry').val() == 0) {
@@ -289,7 +297,23 @@
     else
         $('#btnSubmitA3').val('Submit');
 
- $('#btnSubmitA3').click(function () {
+    
+
+    $('#btnSubmitA3').click(function () {
+
+        var phVal = $('#txtLandline').val();
+        var emailVal = $('#txtCompEmail').val();
+        alert(IsEmail(emailVal));
+
+        if (phVal.match(/^[0-9]*$/)) {
+            alert("numeric!");
+            // do whatever else...
+        }
+        else
+            alert('no');
+
+        return false;
+
         var href = '@Url.Action("CompanyInsert")';
         $.ajax({
             url: href,

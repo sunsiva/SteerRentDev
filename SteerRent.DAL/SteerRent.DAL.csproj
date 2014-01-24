@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="FleetData.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="MasterData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

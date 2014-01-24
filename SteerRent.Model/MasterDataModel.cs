@@ -23,6 +23,7 @@ namespace SteerRent.Model
         public bool IsActive { get; set; }
         public bool IsGLookup { get; set; }
         public int UserId { get; set; }
+        public bool isLookupExist { get; set; }
         public GlobalEnum.MasterPages PageMode { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
         public List<GLookupDataModel> GLookupList { get; set; }
@@ -36,6 +37,7 @@ namespace SteerRent.Model
         public decimal LookupCategoryID { get; set; }
         public string GLookupDesc { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
+        public bool isGlookExist { get; set; }
         public int UserId { get; set; }
         public bool IsActive { get; set; }
     }

@@ -28,6 +28,7 @@ namespace SteerRent.Model
             Update = 2,
             Delete = 3,
             StatusUpdate = 4
+
         }
     }
 }

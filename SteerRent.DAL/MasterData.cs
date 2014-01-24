@@ -1,4 +1,5 @@
-﻿using SteerRent.Model;
+﻿
+using SteerRent.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -96,7 +97,7 @@ namespace SteerRent.DAL
         {
             string connectionString = Helper.Helper.GetConnectionString();
             LookupCategoryModel objLookup = new LookupCategoryModel();
-
+            int ReturnValue = 2;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
@@ -153,7 +154,12 @@ namespace SteerRent.DAL
                             cmd.Parameters.AddWithValue("@GLookupDesc", obj.LookupCategoryCode);
                             cmd.Parameters.AddWithValue("@CreatedBy", obj.UserId);
                             cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
+                            SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
+                            output.Direction = ParameterDirection.ReturnValue;
+                            cmd.Parameters.Add(output);
                             cmd.ExecuteNonQuery();
+                            ReturnValue =Convert.ToInt32(output.Value);
+
                         }
 
                         cmd = con.CreateCommand();
@@ -173,7 +179,8 @@ namespace SteerRent.DAL
                              GLookupID = row.Field<decimal>("GLookupID"),
                              LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
                              GLookupDesc = row.Field<string>("GLookupDesc"),
-                             IsActive = row.Field<bool>("IsActive")
+                             IsActive = row.Field<bool>("IsActive"),
+                             isGlookExist = ReturnValue==0?true:false
                          }).ToList();
                     }
 
@@ -274,7 +281,10 @@ namespace SteerRent.DAL
                        cmd.Parameters.AddWithValue("@GLookupDesc", objData.LookupCategoryDesc);
                        cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
                        cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
-                       cmd.ExecuteNonQuery();
+                       SqlParameter output = new SqlParameter("@Return_Value",SqlDbType.Int);
+                       output.Direction = ParameterDirection.ReturnValue;
+                       cmd.Parameters.Add(output);
+                       int id = cmd.ExecuteNonQuery();
                        objReturn.PageMode = GlobalEnum.MasterPages.GLookup;
                        objReturn = GetLookupData(objReturn);
                    }
@@ -513,6 +523,7 @@ namespace SteerRent.DAL
                    compData= ds.Tables[0].AsEnumerable().Select(row =>
                    new CompanySetup
                    {
+                       BuId = row.Field<decimal>("BuId"),
                         OrgId = row.Field<decimal>("OrgId"),
                         BuCode = row.Field<string>("BuCode"),
                         BUName = row.Field<string>("BUName"),
@@ -555,8 +566,18 @@ namespace SteerRent.DAL
                    con.Open();
                    SqlCommand cmd = con.CreateCommand();
                    cmd.CommandType = CommandType.StoredProcedure;
-                   cmd.CommandText = "usp_BusinessUnitsInsert";
-                    cmd.Parameters.AddWithValue("@OrgId", objData.BuId);
+                   if (objData.BuId > 0)
+                   {
+                       cmd.CommandText = "usp_BusinessUnitsUpdate";
+                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserId);
+                       cmd.Parameters.AddWithValue("@BuId", objData.BuId);
+                   }
+                   else
+                   {
+                       cmd.CommandText = "usp_BusinessUnitsInsert";
+                       cmd.Parameters.AddWithValue("@OrgId", objData.OrgId);
+                       cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
+                   }
 	                cmd.Parameters.AddWithValue("@BuCode", objData.BuCode);
 	                cmd.Parameters.AddWithValue("@BUName", objData.BUName);
 	                cmd.Parameters.AddWithValue("@BuAddress1", objData.BuAddress1);
@@ -571,7 +592,6 @@ namespace SteerRent.DAL
 	                cmd.Parameters.AddWithValue("@BuContactPerson", objData.BuContactPerson);
 	                cmd.Parameters.AddWithValue("@BuBaseCurrency", objData.BuBaseCurrency);
 	                cmd.Parameters.AddWithValue("@BuDecimals", objData.BuDecimals);
-	                cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
                     cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
                     cmd.ExecuteNonQuery();
                     returnData = 1;

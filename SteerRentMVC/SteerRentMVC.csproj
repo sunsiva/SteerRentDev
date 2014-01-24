@@ -144,14 +144,13 @@
       <DependentUpon>Simple.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utilities\SessionManager.cs" />
     <Compile Include="Rpts\UserDetailsReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserDetailsReport.rpt</DependentUpon>
       <SubType>Component</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Utilities\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\CSS\default.css" />
@@ -301,6 +300,7 @@
     <Content Include="Views\Master\_RoleSearchResults.cshtml" />
     <Content Include="Views\Reports\UsersReport.cshtml" />
     <Content Include="Views\Fleet\VehicleMaster.cshtml" />
+    <Content Include="Views\Fleet\_VehiclePurchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -320,19 +320,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Rpts\UserDetailsReport.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>UserDetailsReport.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Rpts\Simple.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Simple.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpts\UserDetailsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>UserDetailsReport1.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

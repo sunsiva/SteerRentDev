@@ -82,18 +82,24 @@
                                             	<div class="clear"></div>                                                                                                
                                             </div>
                                         </div>                                                                          
-                                        
-                                        <div class="submit_part">
+                                </div>
+                                                                        <div class="submit_part">
                                             <div class="contain_submit_row">
                                                 <input type="button" id="btnSubmitA2" class="submit_btn" value="Submit" />
                                             </div>
                                         </div>
-                                </div>
                             </div>    
                         </div>
 <!-- END A002 -->
 <script lang="ja" type="text/javascript">
-
+   
+        // bind slider
+        var slidetabs = $('#slidetabs').slidetabs({
+            orientation: 'horizontal',
+            autoHeight: true,
+            touchSupport: true
+        });
+  
     $('#ddlHLookupCategory').change(function () {
         if ($('#ddlHLookupCategory').val() > 0) {
             $('#spnHLookupSelValue').text($("#ddlHLookupCategory option:selected").text());
@@ -145,6 +151,7 @@
         else {
             $('.error_msg_bg').css("display", "block");
             $('.error_msg_sm').css("display", "block");
+            slidetabs.setContentHeight();
         }
     });
 
@@ -174,6 +181,7 @@
                         $('.error_msg_exist').css("display", "none");
                         $('.error_msg_spclchar').css("display", "none");
                         $('.error_msg_error').css("display", "none");
+                        slidetabs.setContentHeight();
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         $('.error_msg_bg').css("display", "block");

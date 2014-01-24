@@ -55,6 +55,13 @@ namespace SteerRentMVC.Controllers
 
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
+            if (objModel.GLookupList.Count > 0)
+            {
+                if (objModel.GLookupList[0].isGlookExist)
+                {
+                    return PartialView("GeneralLookups_A001", objModel);
+                }
+            }
             //objModel = (from item in lstObjModel where (item.LookupCategoryID == id) select item).SingleOrDefault();
             //objModel.LookupCategoryList = objModel.GLookupList;
 
@@ -312,6 +319,11 @@ namespace SteerRentMVC.Controllers
             objComp.BUName = frmCompany["txtCompanyName"];
             objComp.BuCode = frmCompany["txtCompanyName"];
             objComp.OrgId = 1;
+            if(frmCompany["txtBUID"] == string.Empty)
+                objComp.BuId = 0;
+            else
+                objComp.BuId = Convert.ToInt32(frmCompany["txtBUID"]);
+
             //logo
             //city
             //country
@@ -321,18 +333,16 @@ namespace SteerRentMVC.Controllers
             objComp.BuAddress1 = frmCompany["txtAddrLine1"];
             objComp.BuAddress2 = frmCompany["txtAddrLine2"];
             objComp.BuAddress3 = frmCompany["txtAddrLine3"];
-            objComp.BuPostBox = "0";// frmCompany[""];
+            objComp.BuPostBox = frmCompany["txtCompPostBox"];
             objComp.BuPhoneNo = frmCompany["txtLandline"];
             objComp.BuFax = frmCompany["txtFax"];
-            objComp.BuEmailId = frmCompany["txtEmail"];
-            objComp.BuMobile = "0";// frmCompany[""];
+            objComp.BuEmailId = frmCompany["txtCompEmail"];
+            objComp.BuMobile = frmCompany["txtCompMobile"];
             objComp.BuZip = frmCompany["txtPinZip"];
             objComp.BuContactPerson = frmCompany["txtContactPerson"];
-            objComp.BuBaseCurrency = 1;// Convert.ToDecimal(frmCompany[""]);
+            objComp.BuBaseCurrency = 1; // Convert.ToDecimal(frmCompany[""]);
             objComp.BuDecimals = Convert.ToDecimal(frmCompany[""]);
             objComp.UserId = 1;
-            objComp.CreatedOn = DateTime.Now;
-            objComp.UpdatedOn = DateTime.Now;
             objComp.IsActive = true;
             return objComp;
         }
