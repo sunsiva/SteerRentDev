@@ -5,15 +5,16 @@
                            			<div class="contain_row">
                                         <p class="error_msg_bg">&nbsp;</p>
                                     	<p class="error_msg_sm">Please enter all required fields.</p>
-                                        <p class="error_msg_sm">Date of Birth cannot be equal to or greater than today.</p>
-                                        <p class="error_msg_sm">The Employee Id must be unique.</p>
-                                        <p class="error_msg_sm">Employee Id is already associated with another record.</p>
-                                        <p class="error_msg_sm">Date of Joining cannot be greater than Date of Birth.</p>
-                                        <p class="error_msg_sm">The Email-Id format is incorrect.</p>
-                                        <p class="error_msg_sm">The Email-Id is already associated with another Employee.</p>
-                            <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                    </div>
-                                    <form name="" method="post">
+                                        <p class="error_msg_exist">Date of Birth cannot be equal to or greater than today.</p>
+                                        <p class="error_msg_exist">The Employee Id must be unique.</p>
+                                        <p class="error_msg_exist">Employee Id is already associated with another record.</p>
+                                        <p class="error_msg_exist">Date of Joining cannot be greater than Date of Birth.</p>
+                                        <p class="error_msg_exist">The Email-Id format is incorrect.</p>
+                                        <p class="error_msg_exist">The Email-Id is already associated with another Employee.</p>
+                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+
+                                       </div>
+                                    <form name="frmEmployee" method="post">
                                                                          
                                         <div class="contain_row">
                                         	<h5 class="contain_title">Employee Master</h5>
@@ -87,14 +88,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">First Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtFirstName" type="text" placeholder="">
+                                                        <input name="txtEmpFirstName" id="txtEmpFirstName" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Last Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtLastName" type="text" placeholder="">
+                                                        <input name="txtEmpLastName" id="txtEmpLastName" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -105,7 +106,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Middle Initial(s) <span></span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtMiddleInitial" type="text" placeholder="">
+                                                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -123,15 +124,15 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Gender <span>*</span></p>
                                                     <div class="label_radio_part">
-                                                        <label class="label_radio"><input name="radGender" type="radio" value="M"> Male</label>
-                                                        <label class="label_radio last"><input name="radGender" type="radio" value="F"> Female</label>
+                                                        <label class="label_radio"><input name="radEmpGender" type="radio" value="M" checked> Male</label>
+                                                        <label class="label_radio last"><input name="radEmpGender" type="radio" value="F"> Female</label>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Date of Birth <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtDoB" type="text" placeholder="">
+                                                        <input name="txtEmpDoB"  class="datepicker popup_input date" id="txtEmpDoB" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -142,14 +143,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Employee Id <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtEmpId" type="text" placeholder="">
+                                                        <input name="txtEmpId" id="txtEmpId" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Designation <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlDesignation"><option></option></select>
+                                                        <select name="ddlEmpDesignation" id="ddlEmpDesignation"><option></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -160,14 +161,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Business Unit <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlBusinessUnit"><option></option></select>
+                                                        <select name="ddlEmpBusinessUnit"><option></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Location <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="ddlLocation"><option></option></select>
+                                                        <select name="ddlEmpLocation"><option></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -178,14 +179,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Date of Joining <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtDoJ" type="text" placeholder="">
+                                                        <input name="txtEmpDoJ"  class="datepicker popup_input date" id="txtEmpDoJ" type="text" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Leaving Date <span></span></p>
                                                     <div class="label_input_part">
-                                                        <input type="text" name="txtDoL" placeholder="">
+                                                        <input type="text" name="txtEmpDoL"  class="popup_input date" id="txtEmpDoL" placeholder="" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -198,14 +199,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Address Line 1 <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine1" type="text" placeholder="">
+                                                        <input name="txtEmpAddrLine1" type="text" placeholder="" id="txtEmpAddrLine1" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Address Line 2 <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine2" type="text" placeholder="">
+                                                        <input name="txtEmpAddrLine2" type="text" placeholder="" id="txtEmpAddrLine2" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -216,14 +217,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Address Line 3 <span></span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtAddrLine3" type="text" placeholder="">
+                                                        <input name="txtEmpAddrLine3" type="text" placeholder="" id="txtEmpAddrLine3" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">City <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtCity" type="text" placeholder="">
+                                                        <input name="txtEmpCity" type="text" placeholder="" id="txtEmpCity" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -234,14 +235,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">State/Emirate <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input type="text" name="txtStateEmirate">
+                                                        <input type="text" name="txtEmpStateEmirate" id="txtEmpStateEmirate" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Country <span>*</span></p>
                                                     <div class="label_combo_part">
-                                                        <select name="txtCountry"><option></option></select>
+                                                        <select name="txtEmpCountry" id="txtEmpCountry"><option></option></select>
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -252,14 +253,14 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Emergency Contact <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input type="text" name="txtEmergencyContact">
+                                                        <input type="text" name="txtEmpEmergencyContact" id="txtEmpEmergencyContact" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">Emergency Phone <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input type="text" name="txtEmergencyPhone">
+                                                        <input type="text" name="txtEmpEmergencyPhone" id="txtEmpEmergencyPhone" />
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -277,8 +278,8 @@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                    <h5>If set as Inactive the employee record will be inactivated and access to the system will be Blocked. However, if the employee record is currently inactive and is being set to Active state the user credentials that were blocked previously must be reactivated manually.
-</h5>
+                                                    @*<h5>If set as Inactive the employee record will be inactivated and access to the system will be Blocked. However, if the employee record is currently inactive and is being set to Active state the user credentials that were blocked previously must be reactivated manually.
+</h5>*@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
@@ -286,7 +287,7 @@
                                         </div>
                                         <div class="submit_part">
                                             <div class="contain_submit_row">
-                                            	<button type="submit" class="submit_btn" value="Submit">Submit</button>
+                                            	<button type="button" class="submit_btn" id="btnSubmit_A007" value="Submit">Submit</button>
                                                 <button type="button" class="addnew_btn" onclick="fnCCAddUpdate(0)" value="Add New">Add New</button>
                                             </div>
                                         </div>
@@ -296,3 +297,30 @@
                             </div>    
                         </div>
 <!-- END A007 -->
+<script type="text/javascript" src="~/Scripts/script.js"></script>
+
+<script>
+    // bind slider
+    var slidetabs = $('#slidetabs').slidetabs({
+        orientation: 'horizontal',
+        autoHeight: true,
+        touchSupport: true
+    });
+
+    $('#btnSubmit_A007').click(function () {
+        EmpValidate();
+        slidetabs.setContentHeight();
+    });
+
+function EmpValidate()
+    {
+    if ($('#txtEmpFirstName').val() != '' && $('#txtEmpLastName').val() != '' && $('#txtEmpDoB').val() != '' && $('#ddlEmpDesignation').val() != '' )
+        {
+            return true;} else {
+            $('.error_msg_bg').css("display", "block");
+            $('.error_msg_sm').css("display", "block");
+            return false;
+        }
+        
+    }
+</script>

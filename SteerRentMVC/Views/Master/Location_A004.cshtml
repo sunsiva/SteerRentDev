@@ -2,25 +2,25 @@
 
 <!--- START A004 - Locations -->
 <div class="A004 st_view">
-                            <div class="st_view_inner">
-                            	<div class="tab_contant_inner">
-                           			<div class="contain_row">
-                                    	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please select/enter required field(s).</p>
-                                        <p class="error_msg_exist">The chosen value already exists in the system.</p>
-                                        <p class="error_msg_spclchar">Special characters are not allowed.</p>
-                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                    </div>
-                                    <div id="srchList">
-                                         @Html.Partial("_LocationSearchResults",Model)                                
-                                        </div>
-                                        <div id="locAddUpdate">
-                                            @Html.Partial("_LocationAddUpdate",new SteerRent.Model.LocationModel())
-                                        </div>
-                                        <span id="spnResultsMsg"></span>
-                                </div>
-                            </div>    
-                        </div>
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
+            <div class="contain_row">
+                <p class="error_msg_bg">&nbsp;</p>
+                <p class="error_msg_sm">Please select/enter required field(s).</p>
+                <p class="error_msg_exist">The chosen value already exists in the system.</p>
+                <p class="error_msg_spclchar">Special characters are not allowed.</p>
+                <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <div id="srchList">
+                    @Html.Partial("_LocationSearchResults",Model)                                
+                </div>
+                <div id="locAddUpdate">
+                    @Html.Partial("_LocationAddUpdate",new SteerRent.Model.LocationModel())
+                </div>
+                <span id="spnResultsMsg"></span>
+        </div>
+    </div>    
+</div>
 <!-- END A004 -->
     
 @*     <script lang="ja" type="text/javascript">

@@ -49,6 +49,14 @@
 <!-- END A008 -->
 
     <script lang="ja" type="text/javascript">
+
+        // bind slider
+        var slidetabs = $('#slidetabs').slidetabs({
+            orientation: 'horizontal',
+            autoHeight: true,
+            touchSupport: true
+        });
+
         $(document).ready(function () {
             $('#btnSubmitA8').click(function () {
                 if ($('#txtRoleName').val() != '') {
@@ -57,6 +65,7 @@
                 else {
                     $('.error_msg_bg').css("display", "block");
                     $('.error_msg_sm').css("display", "block");
+                    slidetabs.setContentHeight();
                 }
             });
 
@@ -76,10 +85,12 @@
                         $('.error_msg_spclchar').css("display", "none");
                         $('.error_msg_exist').css("display", "none");
                         $('.error_msg_error').css("display", "none");
+                        slidetabs.setContentHeight();
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         $('.error_msg_bg').css("display", "block");
                         $('.error_msg_error').css("display", "block");
+                        slidetabs.setContentHeight();
                     }
                 });
             }

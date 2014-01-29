@@ -299,13 +299,22 @@
    </div> 
 <script>
 
+    // bind slider
+    var slidetabs = $('#slidetabs').slidetabs({
+        orientation: 'horizontal',
+        autoHeight: true,
+        touchSupport: true
+    });
+
     $('#btnSubmitA4').click(function () {
         
         if (locValidate()) {
-           LocInsertUpdate();
+            LocInsertUpdate();
         }
-        else
+        else {
+            slidetabs.setContentHeight();
             return false;
+        }
     });
 
     /* This is click event for country dropdown list to load */
@@ -338,6 +347,7 @@
                 $.each(data, function () {
                     $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
                 });
+                slidetabs.setContentHeight();
             }
         });
    }
@@ -345,9 +355,12 @@
     $('#btnSubmitUpdA4').click(function () {
         if (locValidate()) {
             LocInsertUpdate();
+            slidetabs.setContentHeight();
         }
-        else
+        else {
+            slidetabs.setContentHeight();
             return false;
+        }
     });
 
     function LocInsertUpdate()
@@ -366,19 +379,22 @@
                 $('.error_msg_exist').css("display", "none");
                 $('.error_msg_spclchar').css("display", "none");
                 $('.error_msg_error').css("display", "none");
-               // alert('Successfully inserted.');
+                // alert('Successfully inserted.');
+                slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 $('#errMsg').show();
                 $('.error_msg_bg').css("display", "block");
                 $('.error_msg_error').css("display", "block");
                 //alert("Error:Action is aborted.Please try again later.");
+                slidetabs.setContentHeight();
             }
         });
     }
 
     function locValidate()
     {
+        slidetabs.setContentHeight();
         if ($('#txtLocationName').val() != '' && $('#txtLocationCode').val() != '' && $('#txtAddressLine1').val() != '' && $('#txtAddressLine2').val() != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
            && $('#txtLandlineNo').val() != '' && $('#txtMobile').val() != '' && $('#txtEmail').val() != '' && $('#txtWorkingTimeFrom').val() != '' && $('#txtWorkingTimeTo').val() != '' && $('#txtRecNoStart').val() != '' && $('#txtRecNoCurrent').val() != '' && $('#txtRentAgmtNoStart').val() != '' && $('#txtRentAgmtNoCurrent').val() != '' && $('#txtLeaseAgmtNoStart').val() != '' && $('#txtLeaseAgmtNoCurrent').val() != '')
         {
@@ -387,6 +403,7 @@
             $('.error_msg_sm').css("display", "block");
             return false;
         }
+        
     }
 </script>
     

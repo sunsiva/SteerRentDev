@@ -1,15 +1,13 @@
 ﻿@{
     Layout = null;
-    }
+}
 
 <h2>VehicleMaster</h2>
-
 <!--- START F003 - Vehicle Master -->
                         <div class="F003 st_view">
                             <div class="st_view_inner">
                             	<div class="tab_contant_inner">
-                           			<form name="frmVehicleMaster" method="get">
-                                                                         
+                           			<form name="frmVehicleMaster" method="post">
                                         <div class="contain_row">
                                            <!-- <h5 class="contain_title">Search Vehicle</h5>-->
                                             <div>&nbsp;</div>
@@ -44,9 +42,10 @@
                                             	<div class="contain_left_part">
                                                     <p class="label_part"><span></span></p>
                                                     <div class="label_radio_part">
-                                                        <label class="label_radio"><a href="#add-purchase-popup" class="popup-link">
-                                                            
-                                                            <button type="button" class="add_btn" value="Add">+</button>&nbsp;Purchase Details</a></label>
+                                                        <label class="label_radio">@*<a id="clickme" href='javascript:showDialog();' class="popup-link">*@
+                                                            <a href="#add-purchase-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button>&nbsp;Purchase Details</a>
+                                                            @*<button type="button" class="add_btn" value="Add">+</button>&nbsp;Purchase Details</a>*@
+                                                        </label>
                                                     </div>            
                                                     <div class="clear"></div>
                                                 </div>
@@ -199,7 +198,6 @@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                	
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
@@ -326,12 +324,8 @@
                                                             </tr>*@
                                                         <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
                                                             <tr>
-                                                                <td>
-                                                                    
-                                                                </td>
-                                                                <td>
-                                                                    
-                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
                                                                  <td width="5%">
                                                                     <a href="#add-vehiclefeatures-popup" class="popup-link"><button type="button" class="add_btn" value="Add">+</button></a>
                                                                 </td>
@@ -394,22 +388,24 @@
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="contain_left_part">
-                                                                                       
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="clear"></div>                                                                                                
                                             </div>
                                             <div>&nbsp;</div>
                                         </div>
-                                        
-                                           <div class="submit_part">
+                                           <div id="mywin" class="submit_part">
                                             <div class="contain_submit_row">
                                             	<button type="submit" class="submit_btn" value="Submit">Submit</button>
                                                 <button type="button" class="addnew_btn" value="Add New">Add New</button>
                                             </div>
                                         </div>
+                                    </form>
+                                </div>
+                            </div>    
+                        </div>
 
-                                           <div id="add-purchase-popup" class="add-timeline-popup zoom-anim-dialog mfp-hide">
+<div id="add-purchase-popup" class="add-timeline-popup zoom-anim-dialog mfp-hide">
                
     	    <h4 class="popup-title">Purchase Details</h4>
                     <p class="error_popup_bg">Please enter all required fields.</p>
@@ -420,14 +416,14 @@
                                             	<div class="popup_contain_left_part">
                                                 <p class="popup_label_part">Purchase Date <span></span></p>
                                                     <div class="popup_label_input_part">
-                                                        <input type="text" class="popup_input date" id="datepicker" name="txtPurDate">
+                                                        <input type="text" class="datepicker popup_input date" id="datepicker1" name="txtPurDate">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             	<div class="popup_contain_left_part">
                                                 	<p class="popup_label_part">Delivery Date <span></span></p>
                                                     <div class="popup_label_input_part">
-                                                        <input type="text" class="popup_input date" id="datepicker" name="txtDelDate">
+                                                        <input type="text" class="datepicker popup_input date" id="datepicker" name="txtDelDate">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -537,9 +533,7 @@
                                                                 <td width="5%">
                                                                     <button type="file" class="add_btn" value="Add">+</button> 
                                                                 </td>
-                                          
                                                             </tr>
-                                                                                                                 
                                                     </table>
                                                     </br>
                                                     </br>
@@ -567,12 +561,22 @@
                                         <div>&nbsp;</div>
     </div>
 
-                                    </form>
-                                </div>
-                            </div>    
-                        </div>
-
+<script type="text/javascript" src="~/Scripts/script.js"></script>
 <script>
-    $('#popup-link').dialog();
+    function showDialog(){
+        $('#clickme').dialog({
+            model: true,
+            autoOpen: true,
+            resizable: false,
+            Save: {
+                VehiclePurchase: function ()
+                {
+                    $.post('@Url.Action("_VehiclePurchase")');
+                }
+            },
+            cancel: function () { $(this).dialog('close'); }
+        });
+        //window.open("/Fleet/_VehiclePurchase", "pop", 'width=400px,height=400px');
+    }
 </script>
 <!-- END F003 -->

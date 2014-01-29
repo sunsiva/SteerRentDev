@@ -17,7 +17,8 @@
                                                                     Activate
                                                                 </th>
                                                                 <th>
-                                                                    Created By / Created Date
+                                                                    @*Created By / *@
+                                                                    Created Date
                                                                 </th>
                                                                 <th>
                                                                     Delete
@@ -45,7 +46,8 @@
                                                                     {<input type="checkbox" id="@item.RoleId"  name="chkState" checked="@item.IsActive" class="checkbox-mrg" />}
                                                                 </td>
                                                                 <td>
-                                                                    @item.UserID / @item.CreatedOn
+                                                                    @*@item.UserID /*@
+                                                                     @item.CreatedOn
                                                                 </td>
                                                                 <td> @if(item.IsActive == false){ <div id='dvDelete-@item.RoleId' class="del_btn">X</div>}
                                                                     else{<div id='dvNoDelete-@item.RoleId' class="error_msg"></div>}

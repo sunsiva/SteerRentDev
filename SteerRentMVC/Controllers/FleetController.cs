@@ -16,6 +16,9 @@ namespace SteerRentMVC.Controllers
             return View();
         }
 
-
+        public ActionResult _VehiclePurchase()
+        {
+            return View();
+        }
     }
 }

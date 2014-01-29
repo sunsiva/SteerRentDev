@@ -58,8 +58,10 @@ $(document).ready(function (e) {
 	});
 	
 	// datepicker
-	$( "#datepicker" ).datepicker({dateFormat:"dd-mm-yy"});
+	$( ".datepicker" ).datepicker({dateFormat:"dd-mm-yy"});
 	
+	$("#datepicker").datepicker({ dateFormat: "dd-mm-yy" });
+
 	//user menu box
 	$('.header_dropdown').on({
 	    click:function(){  

@@ -55,13 +55,14 @@ namespace SteerRentMVC.Controllers
 
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
-            if (objModel.GLookupList.Count > 0)
-            {
-                if (objModel.GLookupList[0].isGlookExist)
-                {
-                    return PartialView("GeneralLookups_A001", objModel);
-                }
-            }
+            //if (objModel.GLookupList.Count > 0)
+            //{
+            //    if (objModel.GLookupList[0].isGlookExist)
+            //    {
+            //        return PartialView("GeneralLookups_A001", objModel);
+            //    }
+            //}
+
             //objModel = (from item in lstObjModel where (item.LookupCategoryID == id) select item).SingleOrDefault();
             //objModel.LookupCategoryList = objModel.GLookupList;
 
@@ -472,7 +473,16 @@ namespace SteerRentMVC.Controllers
             objModel = new LookupCategoryModel();
             objModel.PageMode = GlobalEnum.MasterPages.Lookup;
             objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+
+            List<RoleModel> objRole = new List<RoleModel>();
+            objRole = objBal.getAllRoles(Guid.Empty);
+
+            return PartialView(objRole);
+        }
+
+        public ActionResult PrivilegesInsertUpdate(string frmPrevilege)
+        {
+            return PartialView("Privileges_A009");
         }
         #endregion
 
@@ -506,7 +516,7 @@ namespace SteerRentMVC.Controllers
             else
                 objRole.ActionMode = GlobalEnum.Flag.Update;
             lstOfRoles = objBal.RolesInsertUpdate(objRole);
-            return View("Roles_A008",lstOfRoles);
+            return PartialView("_RoleSearchResults", lstOfRoles);
         }
 
         #endregion

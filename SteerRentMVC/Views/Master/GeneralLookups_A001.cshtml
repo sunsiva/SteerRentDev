@@ -173,6 +173,7 @@
                     error: function (jqXhr, textStatus, errorThrown) {
                         $('.error_msg_bg').css("display", "block");
                         $('.error_msg_error').css("display", "block");//("Error:Action is aborted.Please try again later.");
+                        slidetabs.setContentHeight();
                     }
                 });
             }
