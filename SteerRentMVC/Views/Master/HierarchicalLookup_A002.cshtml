@@ -58,7 +58,7 @@
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">New Sub-Category <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" type="text" placeholder="">
+                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -70,7 +70,7 @@
                                                 <p class="label_part">New Category <span>**</span></p>
                                                     
                                                     <div class="label_input_part">
-                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" type="text" placeholder="">
+                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -161,7 +161,7 @@
         var catvalue = $('#txtHLookupCatValue').val();
         var catid = $('#ddlHLookupExistCategory').val();
         if (status == 'Insert') {
-            if (catvalue == '' || catid == '') {
+            if (catvalue == '' && catid == '') {
                 $('.error_msg_sm').css("display", "block"); $('.error_msg_bg').css("display", "block");
                 return false;
             }
@@ -174,12 +174,25 @@
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-                        $('#HLookupGrdList').replaceWith(data);
+                        
+                        if (status == 'Insert') {
+                                if (data.HLookupList[0].isHLookExist) {
+                                    $('.error_msg_exist').css('display', 'block');
+                                    $('.error_msg_bg').css("display", "block");
+                                }
+                                else {
+                                    $('#HLookupGrdList').replaceWith(data);
+                                    $('.error_msg_exist').css('display', 'none');
+                                    $('.error_msg_bg').css("display", "none");
+                                }
+                            } else {
+                                $('#HLookupGrdList').replaceWith(data);
+                                $('.error_msg_exist').css('display', 'none');
+                                $('.error_msg_bg').css("display", "none");
+                            }
                         $('#txtHLookupCatValue').val('');
                         $('#txtHLookupSubCatValue').val('');
-                        $('.error_msg_bg').css("display", "none");
                         $('.error_msg_sm').css("display", "none");
-                        $('.error_msg_exist').css("display", "none");
                         $('.error_msg_spclchar').css("display", "none");
                         $('.error_msg_error').css("display", "none");
                         slidetabs.setContentHeight();

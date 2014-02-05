@@ -1,0 +1,347 @@
+﻿@model SteerRent.Model.EmployeeModel
+
+<div id="EmployeeAddUpdate">
+    <form id="frmEmp" method="get">
+        <div class="contain_row">
+            <h5 class="contain_title">Employee Information</h5>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">First Name <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpFirstName" id="txtEmpFirstName" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Last Name <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpLastName" id="txtEmpLastName" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Middle Initial(s) <span></span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part"><span></span></p>
+                    <div class="label_input_part">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Gender <span>*</span></p>
+                    <div class="label_radio_part">
+                        <label class="label_radio">
+                            <input name="radEmpGender" type="radio" value="M" checked>
+                            Male</label>
+                        <label class="label_radio last">
+                            <input name="radEmpGender" type="radio" value="F">
+                            Female</label>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Date of Birth <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpDoB" class="datepicker popup_input date" id="txtEmpDoB" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Employee Id <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpId" id="txtEmpId" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Designation <span>*</span></p>
+                    <div class="label_combo_part">
+                        <select name="ddlEmpDesignation" id="ddlEmpDesignation">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Business Unit <span>*</span></p>
+                    <div class="label_combo_part">
+                        <select name="ddlEmpBusinessUnit">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Location <span>*</span></p>
+                    <div class="label_combo_part">
+                        <select name="ddlEmpLocation">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Date of Joining <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpDoJ" class="datepicker popup_input date" id="txtEmpDoJ" type="text" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Leaving Date <span></span></p>
+                    <div class="label_input_part">
+                        <input type="text" name="txtEmpDoL" class="datepicker popup_input date" id="txtEmpDoL" placeholder="" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="contain_row">
+            <h5 class="contain_title">Contact Details</h5>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Address Line 1 <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpAddrLine1" type="text" placeholder="" id="txtEmpAddrLine1" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Address Line 2 <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpAddrLine2" type="text" placeholder="" id="txtEmpAddrLine2" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Address Line 3 <span></span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpAddrLine3" type="text" placeholder="" id="txtEmpAddrLine3" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">City <span>*</span></p>
+                    <div class="label_input_part">
+                        <input name="txtEmpCity" type="text" placeholder="" id="txtEmpCity" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">State/Emirate <span>*</span></p>
+                    <div class="label_input_part">
+                        <input type="text" name="txtEmpStateEmirate" id="txtEmpStateEmirate" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Country <span>*</span></p>
+                    <div class="label_combo_part">
+                        <select name="txtEmpCountry" id="txtEmpCountry">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">Emergency Contact <span>*</span></p>
+                    <div class="label_input_part">
+                        <input type="text" name="txtEmpEmergencyContact" id="txtEmpEmergencyContact" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Emergency Phone <span>*</span></p>
+                    <div class="label_input_part">
+                        <input type="text" name="txtEmpEmergencyPhone" id="txtEmpEmergencyPhone" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="contain_row">
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part"><span></span></p>
+                    <div class="label_radio_part">
+                        <label class="label_radio">
+                            <input name="radActivation" type="radio" value="A" checked>
+                            Active</label>
+                        <label class="label_radio last">
+                            <input name="radActivation" type="radio" value="I">
+                            Inactive</label>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    @*<h5>If set as Inactive the employee record will be inactivated and access to the system will be Blocked. However, if the employee record is currently inactive and is being set to Active state the user credentials that were blocked previously must be reactivated manually.
+</h5>*@
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="submit_part">
+            <div class="contain_submit_row">
+                @{ if (Model.UserId > 0)
+            { 
+             <input type="button" id="btnUpdate_A007" class="submit_btn" value="Update" />
+             <input type="button" id="btnAddNewA7" class="addnew_btn" value="Add New" />
+            }
+            else
+            {<input type="button" id="btnSubmit_A007" class="submit_btn" value="Submit" />} 
+        }
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/Scripts/script.js"></script>
+<script>
+
+    // bind slider
+    var slidetabs = $('#slidetabs').slidetabs({
+        orientation: 'horizontal',
+        autoHeight: true,
+        touchSupport: true
+    });
+
+    $('#btnSubmit_A007').click(function () {
+        
+        if (EmpValidate()) {
+            EmpInsertUpdate();
+        }
+        else {
+            slidetabs.setContentHeight();
+            return false;
+        }
+    });
+
+    /* This is click event for country dropdown list to load */
+    $('#ddlLocCountry').click(function () {
+        if ($('#ddlLocCountry').text() == '') {
+            getMasterData('Country', '#ddlLocCountry');
+        }
+    });
+
+    $('#ddlLocStateEmirate').click(function () {
+        if ($('#ddlLocStateEmirate').text() == '') {
+            getMasterData('State', '#ddlLocStateEmirate');
+        }
+    });
+
+    $('#ddlLocationIncharge').click(function () {
+        if ($('#ddlLocationIncharge').text() == '') {
+            getMasterData('LocationIn', '#ddlLocationIncharge');
+        }
+    });
+
+    function getMasterData(str,ddlCtrl)
+    {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: str },
+            success: function (data) {
+                $(ddlCtrl).empty();
+                $.each(data, function () {
+                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+                slidetabs.setContentHeight();
+            }
+        });
+   }
+
+    $('#btnUpdate_A007').click(function () {
+        if (EmpValidate()) {
+            EmpInsertUpdate();
+            slidetabs.setContentHeight();
+        }
+        else {
+            slidetabs.setContentHeight();
+            return false;
+        }
+    });
+
+    function EmpInsertUpdate()
+    {
+        var href = '@Url.Action("EmployeeInsertUpdate")';
+        $.ajax({
+            url: href,
+            data: $('#frmEmp').serialize(),
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#srchList').html(data);
+                $('.error_msg_bg').css("display", "none");
+                $('.error_msg_sm').css("display", "none");
+                $('.error_msg_exist').css("display", "none");
+                $('.error_msg_spclchar').css("display", "none");
+                $('.error_msg_error').css("display", "none");
+                // alert('Successfully inserted.');
+                slidetabs.setContentHeight();
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+                $('.error_msg_bg').css("display", "block");
+                $('.error_msg_error').css("display", "block");
+                //alert("Error:Action is aborted.Please try again later.");
+                slidetabs.setContentHeight();
+            }
+        });
+    }
+
+    function EmpValidate() {
+        return true;
+        if ($('#txtEmpFirstName').val() != '' && $('#txtEmpLastName').val() != '' && $('#txtEmpDoB').val() != '' //&& $('#ddlEmpDesignation').val() != ''
+            // && $('#txtEmpDoJ').val() != '' && $('#txtEmpAddrLine1').val() != '' && $('#txtEmpAddrLine2').val() != ''
+            // && $('#txtEmpCity').val() != '' && $('#txtEmpStateEmirate').val() != '' && $('#txtEmpEmergencyContact').val() != '' && $('#txtEmpEmergencyPhone').val() != ''
+            ) {
+            return true;
+        } else {
+            $('.error_msg_bg').css("display", "block");
+            $('.error_msg_sm').css("display", "block");
+            return false;
+        }
+
+    }
+</script>

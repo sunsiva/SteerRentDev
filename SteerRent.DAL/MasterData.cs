@@ -97,7 +97,7 @@ namespace SteerRent.DAL
         {
             string connectionString = Helper.Helper.GetConnectionString();
             LookupCategoryModel objLookup = new LookupCategoryModel();
-            int ReturnValue = 2;
+            bool ReturnValue = false;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
@@ -158,7 +158,7 @@ namespace SteerRent.DAL
                             output.Direction = ParameterDirection.ReturnValue;
                             cmd.Parameters.Add(output);
                             cmd.ExecuteNonQuery();
-                            ReturnValue =Convert.ToInt32(output.Value);
+                            ReturnValue = Convert.ToInt32(output.Value) > 0 ? false : true;
 
                         }
 
@@ -180,7 +180,7 @@ namespace SteerRent.DAL
                              LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
                              GLookupDesc = row.Field<string>("GLookupDesc"),
                              IsActive = row.Field<bool>("IsActive"),
-                             isGlookExist = ReturnValue==0?true:false
+                             isGlookExist = ReturnValue
                          }).ToList();
                     }
 
@@ -206,11 +206,17 @@ namespace SteerRent.DAL
                             cmd.CommandText = "usp_HLookupInsert";
                             cmd.Parameters.AddWithValue("@LookupCategoryID", obj.LookupCategoryID);
                             cmd.Parameters.AddWithValue("@GLookupID", obj.HLookupList[0].GLookupID);
-                            cmd.Parameters.AddWithValue("@HLookupDesc", obj.HLookupList[0].GLookupDesc);
-                            cmd.Parameters.AddWithValue("@GLookupDesc", obj.HLookupList[0].HLookupDesc);
+                            cmd.Parameters.AddWithValue("@HLookupDesc", obj.HLookupList[0].HLookupDesc);
+                            cmd.Parameters.AddWithValue("@GLookupDesc", obj.HLookupList[0].GLookupDesc);
                             cmd.Parameters.AddWithValue("@CreatedBy", obj.UserId);
                             cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
                             cmd.ExecuteNonQuery();
+
+                            SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
+                            output.Direction = ParameterDirection.ReturnValue;
+                            cmd.Parameters.Add(output);
+                            cmd.ExecuteNonQuery();
+                            ReturnValue = Convert.ToInt32(output.Value) > 0 ? false : true;
                         }
 
                         string qry = "select HL.HLookupID,HL.HLookupDesc,GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID,HL.IsActive from HLookup HL join GLookup GL on HL.GlookupID=GL.GLookupID join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=0";
@@ -230,7 +236,9 @@ namespace SteerRent.DAL
                             GLookupID = row.Field<decimal>("GLookupID"),
                             GLookupDesc = row.Field<string>("GLookupDesc"),
                             HLookupDesc = row.Field<string>("HLookupDesc"),
+                            isHLookExist = ReturnValue,
                             IsActive = row.Field<string>("IsActive")=="1"?true:false
+                            
                         }).ToList();
                     }
 
@@ -682,6 +690,7 @@ namespace SteerRent.DAL
        public List<ChargeCodeModel> ChargeCodesInsertUpdate(ChargeCodeModel objData)
        {
            List<ChargeCodeModel> lstObjReturn = new List<ChargeCodeModel>();
+           bool ReturnValue=false;
            using (SqlConnection con = new SqlConnection(connectionString))
            {
                try
@@ -719,9 +728,15 @@ namespace SteerRent.DAL
                    cmd.Parameters.AddWithValue("@WaivingPercentage", objData.WaivingPercentage);
                    cmd.Parameters.AddWithValue("@IsSecured", objData.IsSecured);
                    cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+
+                   SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
+                   output.Direction = ParameterDirection.ReturnValue;
+                   cmd.Parameters.Add(output);
                    cmd.ExecuteNonQuery();
+                   ReturnValue = Convert.ToInt32(output.Value)>0?false:true;
 
                    lstObjReturn = GetChargeCodes(0);
+                   lstObjReturn[0].isCCExist = ReturnValue;
                }
                catch (Exception ex)
                {
@@ -744,6 +759,7 @@ namespace SteerRent.DAL
        public List<RoleModel> RolesInsertUpdate(RoleModel objData)
        {
            List<RoleModel> lstObjReturn = new List<RoleModel>();
+           bool ReturnValue=false;
            using (SqlConnection con = new SqlConnection(connectionString))
            {
                try
@@ -763,13 +779,25 @@ namespace SteerRent.DAL
                        cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
                        cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
                    }
+
                    cmd.Parameters.AddWithValue("@RoleName", objData.RoleName);
                    cmd.Parameters.AddWithValue("@LoweredRoleName", objData.LoweredRoleName);
                    cmd.Parameters.AddWithValue("@Description", objData.Description);
                    cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
-                   cmd.ExecuteNonQuery();
+                   if (objData.ActionMode == GlobalEnum.Flag.Insert)
+                   {
+                       SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
+                       output.Direction = ParameterDirection.ReturnValue;
+                       cmd.Parameters.Add(output);
+                       cmd.ExecuteNonQuery();
+                       ReturnValue = Convert.ToInt32(output.Value) > 0 ? false : true;
+                   }
+                   else
+                   { cmd.ExecuteNonQuery(); }
 
                    lstObjReturn = getAllRoles(Guid.Empty);
+                   if (lstObjReturn.Count > 0)
+                   { lstObjReturn[0].isRoleExist = ReturnValue; }
                }
                catch (Exception ex)
                {

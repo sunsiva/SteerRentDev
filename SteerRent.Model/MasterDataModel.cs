@@ -51,6 +51,7 @@ namespace SteerRent.Model
         public decimal LookupCategoryID { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
         public GlobalEnum.MasterPages PageMode { get; set; }
+        public bool isHLookExist { get; set; }
         public int UserId { get; set; }
         public bool IsActive { get; set; }
     }
@@ -149,7 +150,7 @@ namespace SteerRent.Model
         public decimal WaivingPercentage { get; set; }
 	    public bool IsDeductible { get; set; }
 	    public bool IsDeductibleWaiver { get; set; }
-        
+        public bool isCCExist { get; set; }
 	    public bool IsSecured { get; set; }
 	    public DateTime CreatedOn { get; set; }
 	    public int UserID { get; set; }
@@ -173,7 +174,7 @@ namespace SteerRent.Model
       public DateTime? UndatedOn { get; set; }
       public bool IsActive { get; set; }
       public int UserID { get; set; }
-      //public List<RoleModel> lstRoles { get; set; }
+      public bool isRoleExist { get; set; }
       public GlobalEnum.Flag ActionMode { get; set; }
     }
 }

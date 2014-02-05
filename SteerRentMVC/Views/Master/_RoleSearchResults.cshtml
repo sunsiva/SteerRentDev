@@ -38,7 +38,8 @@
                                                                     @item.RoleName
                                                                 </td>
                                                                 <td>
-                                                                    @if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))
+                                                                    @*@if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))*@
+                                                                    @if (item.RoleName.Contains("Admin"))
                                                                     {
                                                                     <input type="checkbox" disabled="disabled" name="chkStateDisable" checked="@item.IsActive" class="checkbox-mrg" />
                                                                     }

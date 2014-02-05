@@ -53,16 +53,19 @@
 {
     if (Model.Count > 0)
     {
-    <h5 style="text-align: right"><span id="spnTotCnt">@Model.Count()</span> records found.
-                                                                <span id="spnActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
-                                                                <span id="spnInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
-                                                                }
-                                                            }
+        <h5 style="text-align: right"><span id="spnTotCnt">@Model.Count()</span> records found.
+        <span id="spnActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
+        <span id="spnInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+        }
+    }
 
 <script>
     function fnCCAddUpdate(id) {
         $.get('@Url.Action("ChargeCodeSelect", "Master")/' + id, function (data) {
-              $('#ChargeCodeAddUpdate').replaceWith(data);
+            $('#ChargeCodeAddUpdate').replaceWith(data);
+            if (id > 0) {
+                $('#txtChargeCode').attr("disabled", "disabled");
+            } else { $('#txtChargeCode').removeAttr("disabled"); }
           });
       }
 </script>

@@ -122,6 +122,15 @@ namespace SteerRentMVC.Controllers
             }
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
+            if (objModel != null)
+            {
+                if (objModel.HLookupList[0].isHLookExist)
+                {
+                    return Json(objModel);
+                }
+                else
+                    return PartialView("_HLookupSearchResults", objModel);
+            }
             return PartialView("_HLookupSearchResults", objModel);
         }
 
@@ -305,7 +314,7 @@ namespace SteerRentMVC.Controllers
         public ActionResult CompanyInsert(FormCollection frmCompany)
         {
             objBal.CompanyInsertUpdate(BindCompanySetupData(frmCompany));
-            return View();
+            return Json(1);
         }
 
         /// <summary>
@@ -360,6 +369,21 @@ namespace SteerRentMVC.Controllers
             objModel.ActionMode = GlobalEnum.Flag.Select;
             return PartialView();
         }
+
+        public ActionResult EmployeeInsertUpdate(FormCollection frmEmp)
+        {
+            EmployeeModel objModel = new EmployeeModel();
+            if (frmEmp.Count > 0)
+            {
+                //objModel = BuildEmployeeData(frmEmp, true);
+                objModel.ActionMode = GlobalEnum.Flag.Insert;
+                //objModel = objBal.EmployeeInsertUpdate(objModel);
+                //return PartialView("_LocationSearchResults", objModel);
+            }
+            return PartialView("_EmployeeSearchResults", objModel);
+        }
+
+      
         #endregion
 
         #region "Charge Codes"
@@ -432,9 +456,19 @@ namespace SteerRentMVC.Controllers
         public ActionResult ChargeCodeInsert(FormCollection frmCC)
         {
             ChargeCodeModel objCC = new ChargeCodeModel();
+            List<ChargeCodeModel> lstCCs = new List<ChargeCodeModel>();
             objCC = BindChargeCodeData(frmCC);
             objCC.ActionMode = GlobalEnum.Flag.Insert;
-            return PartialView("_ChargeCodeSearchResults", objBal.ChargeCodesInsertUpdate(objCC));
+            lstCCs=objBal.ChargeCodesInsertUpdate(objCC);
+            if (lstCCs.Count > 0)
+            {
+                if (lstCCs[0].isCCExist)
+                {
+                    return Json(lstCCs);
+                }
+            }
+
+            return PartialView("_ChargeCodeSearchResults", lstCCs);
         }
 
         /// <summary>
@@ -516,6 +550,13 @@ namespace SteerRentMVC.Controllers
             else
                 objRole.ActionMode = GlobalEnum.Flag.Update;
             lstOfRoles = objBal.RolesInsertUpdate(objRole);
+
+            if (lstOfRoles.Count > 0)
+            {
+                if (lstOfRoles[0].isRoleExist)
+                {return Json(1);}
+            }
+
             return PartialView("_RoleSearchResults", lstOfRoles);
         }
 

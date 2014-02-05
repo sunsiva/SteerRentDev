@@ -1,80 +1,80 @@
 ﻿@model SteerRent.Model.LocationModel
 
 <div class="contain_row">
-                                        	<h5 class="contain_title">Locations</h5>
-                                            <div class="contain_sub_row">
-                                            	<p class="label_part">Current Locations</p>
-                                                <div class="label_textarea_part">
-                                                	 <div id="srchList">
-                                                         <table class="gridtable">
-                                                                <tr>
-                                                                   @* <th>
+    <h5 class="contain_title">Locations</h5>
+    <div class="contain_sub_row">
+        <p class="label_part">Current Locations</p>
+        <div class="label_textarea_part">
+            <div id="srchList">
+                <table class="gridtable">
+                    <tr>
+                        @* <th>
                                                                         Sl.No
                                                                     </th>*@
-                                                                    <th>
-                                                                        Location Name
-                                                                    </th>
-                                                                    <th>
-                                                                        Location Code
-                                                                    </th>
-                                                                    <th>
-                                                                        Status
-                                                                    </th>
-                                                                     @*   <th>
+                        <th>Location Name
+                        </th>
+                        <th>Location Code
+                        </th>
+                        <th>Status
+                        </th>
+                        @*   <th>
                                                                         Activate
                                                                     </th>
                                                                     <th>
                                                                         Delete
                                                                     </th>*@
-                                                                </tr>
-                                                                @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
-                                                                {
-                                                                    var cnt=0;
-                                                                    foreach (var item in Model.lstLocation){
-                                                                        cnt = cnt + 1;
-                                                                    <tr>
-                                                                        @*<td >
+                    </tr>
+                    @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
+                    {
+                        var cnt = 0;
+                        foreach (var item in Model.lstLocation)
+                        {
+                            cnt = cnt + 1;
+                        <tr>
+                            @*<td >
                                                                             @Html.Raw(cnt)
                                                                         </td>*@
-                                                                        <td >
-                                                                            <a href='#' onclick="fnLocAddUpdate(@item.LocationId)" title="Click to view '@item.LocationName' details..">@item.LocationName</a>
-                                                                            
-                                                                        </td>
-                                                                        <td>
-                                                                            @item.LocationCode
-                                                                        </td>
-                                                                        <td>
-                                                                            @if(item.IsActive == true)
-                                                                            {<div id="dvActivate-@item.LocationId" class="label_part">Active</div>}
-                                                                            else
-                                                                            {
-                                                                                <div id='dvInActivate-@item.LocationId' class="error_msg">InActive</div>
+                            <td>
+                                <a href='#' onclick="fnLocAddUpdate(@item.LocationId)" title="Click to view '@item.LocationName' details..">@item.LocationName</a>
+
+                            </td>
+                            <td>
+                                @item.LocationCode
+                            </td>
+                            <td>
+                                @if (item.IsActive == true)
+                                {<div id="dvActivate-@item.LocationId" class="label_part">Active</div>}
+                                else
+                                {
+                                    <div id='dvInActivate-@item.LocationId' class="error_msg">InActive</div>
                                                                             }
-                                                                        </td>
-                                                                        @*<td>
+                            </td>
+                            @*<td>
                                                                             <input type="checkbox" id="@item.LocationId" name="chkState" checked="@item.IsActive" class="checkbox-mrg" />
                                                                         </td>
                                                                         <td> @if(item.IsActive == false){ <div id='dvDelete-@item.LocationId' class="error_msg">X</div>}
                                                                             else{<div id='dvNoDelete-@item.LocationId' class="error_msg"></div>}
                                                                         </td>*@
-                                                                    </tr>
+                        </tr>
                                                                     }
                                                                 }
-                                                                else
-                                                                    {
-                                                                    <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
-                                                                }
-                                                        </table>
-                                                         @*<div>
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><span class="error_msg">No record(s) found.</span></td>
+                        </tr>
+                                                                    }
+                </table>
+                @*<div>
                                                                 <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
                                                         </div>*@
-                                                         @if (Model.lstLocation != null)
-    {
-        if (Model.lstLocation.Count > 0)
-        {
-    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
-    <span id="spnActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+                @if (Model.lstLocation != null)
+                {
+                    if (Model.lstLocation.Count > 0)
+                    {
+                    <h5 style="text-align: right"><span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
+    <span id="spnActiveCnt">@Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt">@Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
         }
     }
 
@@ -84,11 +84,11 @@
                                                                 @Html.Partial("_SearchCountFacet",Model)
                                                             }
                                                             </div>*@
-                                                    </div>
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
 
 <script lang="ja" type="text/javascript">
     function fnLocAddUpdate(id) {
@@ -102,30 +102,30 @@
         var LocId = this.id;
         var State = $(this).is(':checked');
         var href = '@Url.Action("LocationStatusUpdate")';
-             $.ajax({
-                 url: href,
-                 data: { Id: LocId, Status: State },
-                 type: "POST",
-                 datatype: "json",
-                 traditional: true,
-                 success: function () {
-                     if (State == true) {
-                         $('#dvInActivate-' + LocId).text('Active').removeClass("error_msg").addClass("label_part");
-                         $('#dvInActivate-' + LocId).attr('id', 'dvActivate-' + LocId);
-                         $('#dvDelete-' + LocId).text('');
-                         $('#dvNoDelete-' + LocId).text('');
-                     }
-                     else {
-                         $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg");
-                         $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
-                         $('#dvDelete-' + LocId).text('X'); $('#dvNoDelete-' + LocId).text('X');
-                     }
-                     //$('#srchList').html(data);
-                 },
-                 error: function (jqXhr, textStatus, errorThrown) {
-                     $('#errMsg').show();
-                 }
-             });
+        $.ajax({
+            url: href,
+            data: { Id: LocId, Status: State },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function () {
+                if (State == true) {
+                    $('#dvInActivate-' + LocId).text('Active').removeClass("error_msg").addClass("label_part");
+                    $('#dvInActivate-' + LocId).attr('id', 'dvActivate-' + LocId);
+                    $('#dvDelete-' + LocId).text('');
+                    $('#dvNoDelete-' + LocId).text('');
+                }
+                else {
+                    $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg");
+                    $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
+                    $('#dvDelete-' + LocId).text('X'); $('#dvNoDelete-' + LocId).text('X');
+                }
+                //$('#srchList').html(data);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+            }
+        });
     });
 
     function fnLocAddUpdate1(id) {
@@ -146,5 +146,5 @@
             }
         });
     }
-   
+
 </script>

@@ -301,6 +301,8 @@
     <Content Include="Views\Reports\UsersReport.cshtml" />
     <Content Include="Views\Fleet\VehicleMaster.cshtml" />
     <Content Include="Views\Fleet\_VehiclePurchase.cshtml" />
+    <Content Include="Views\Master\_EmployeeAddUpdate.cshtml" />
+    <Content Include="Views\Master\_EmployeeSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,13 +31,14 @@
                         <div id="dvPrivileges" style="display:none" class="contain_sub_row">
                             <p class="label_part">Assign Privileges</p>
                             <div class="label_textarea_part">
-                                <table class="gridtable">
+                                <table class="gridtable" border="1">
                                     <tr>
                                         <th width="75%">Features
                                         </th>
-                                        <th width="25%">Assignment
+                                        <th width="25%">Assignment sdsdsd
                                         </th>
                                     </tr>
+                                    <tbody id="trAdminSection" style="display:none">
                                     <tr>
                                         <td>
                                             <b>Administration</b>
@@ -113,6 +114,8 @@
                                             <input name="chkRoleActivate" id="chkRoleUser" type="checkbox" checked disabled class="checkbox-mrg" />
                                         </td>
                                     </tr>
+                                    
+                                        </tbody>
                                     <tr>
                                         <td>
                                             <b>Fleet Management</b>
@@ -181,8 +184,11 @@
         });
 
     function LoadPrivileges() {
+
         $('#dvPrivileges').show();
+
         if ($("#ddlPrivileges option:selected").text() == 'Admin') {
+            $('#trAdminSection').show();
             $('input[name="chkRoleActivate"]').each(function () {
                 this.checked = true;
                 this.disabled = true;
@@ -193,6 +199,7 @@
             });
         }
         else {
+            $('#trAdminSection').hide();
             $('input[name="chkRoleActivateFleet"]').each(function () {
                 this.checked = false;
                 this.disabled = false;

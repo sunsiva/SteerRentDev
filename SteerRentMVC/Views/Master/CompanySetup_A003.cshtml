@@ -249,7 +249,7 @@
                                         </div>
                                         <div class="submit_part">
                                             <div class="contain_submit_row">
-                                                <input type="button" id="btnSubmitA3" class="submit_btn" value="Submit/Update" />
+                                                <input type="button" id="btnSubmitA3" class="submit_btn" value="Submit" />
                                             </div>
                                         </div>
                                         	
@@ -258,10 +258,18 @@
                             </div>    
                         </div>
 <!-- END A003 -->
-<script lang="ja" type="text/javascript">   
+<script lang="ja" type="text/javascript">  
+    
+    if ($('#txtCompanyName').val() != '') {
+        $('#btnSubmitA3').val('Update');
+    }
+    else
+        $('#btnSubmitA3').val('Submit');
+
     function IsEmail(email) {
-        var regex = "/^([a-zA-Z0-9_.+-])+\(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/";
-        return regex.test(email);
+        //var regex = "/^([a-zA-Z0-9_.+-])+\(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/";
+        //return regex.test(email);
+        return true;
     }
     
     $('#ddlCompCountry').click(function () {
@@ -291,29 +299,16 @@
         });
     }
 
-    if ($('#txtCompanyName').val() > 0) {
-        $('#btnSubmitA3').val('Update');
-    }
-    else
-        $('#btnSubmitA3').val('Submit');
-
-    
-
     $('#btnSubmitA3').click(function () {
 
         var phVal = $('#txtLandline').val();
         var emailVal = $('#txtCompEmail').val();
-        alert(IsEmail(emailVal));
 
         if (phVal.match(/^[0-9]*$/)) {
             alert("numeric!");
             // do whatever else...
         }
-        else
-            alert('no');
-
-        return false;
-
+      
         var href = '@Url.Action("CompanyInsert")';
         $.ajax({
             url: href,
