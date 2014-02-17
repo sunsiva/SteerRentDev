@@ -303,6 +303,7 @@
     <Content Include="Views\Fleet\_VehiclePurchase.cshtml" />
     <Content Include="Views\Master\_EmployeeAddUpdate.cshtml" />
     <Content Include="Views\Master\_EmployeeSearchResults.cshtml" />
+    <Content Include="Views\Master\_PrivilegesSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

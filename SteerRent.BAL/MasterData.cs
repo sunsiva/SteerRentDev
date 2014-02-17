@@ -109,5 +109,26 @@ namespace SteerRent.BAL
         { return objDAL.getAllRoles(id); }
 
         #endregion
+
+        #region Privilege
+        /// <summary>
+       /// Assign access to the role
+       /// </summary>
+       /// <param name="objData"></param>
+       /// <returns></returns>
+        public int PrivilegeInsertUpdate(PrivilegeModel objData, string formCollection)
+        {
+            return objDAL.PrivilegeInsertUpdate(objData, formCollection);
+        }
+
+        /// <summary>
+       /// Get privileges to the role assigned
+       /// </summary>
+       /// <returns></returns>
+       public List<PrivilegeModel> GetPrivileges()
+        {
+            return objDAL.GetPrivileges();
+        }
+        #endregion
     }
 }

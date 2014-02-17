@@ -167,14 +167,32 @@ namespace SteerRent.Model
     {
         public Guid ApplicationId { get; set; }
         public Guid RoleId { get; set; }
-      public string RoleName { get; set; }
-      public string LoweredRoleName { get; set; }
-      public string Description { get; set; }
-      public DateTime? CreatedOn { get; set; }
-      public DateTime? UndatedOn { get; set; }
-      public bool IsActive { get; set; }
-      public int UserID { get; set; }
-      public bool isRoleExist { get; set; }
-      public GlobalEnum.Flag ActionMode { get; set; }
+        public string RoleName { get; set; }
+        public string LoweredRoleName { get; set; }
+        public string Description { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? UndatedOn { get; set; }
+        public bool IsActive { get; set; }
+        public int UserID { get; set; }
+        public bool isRoleExist { get; set; }
+        public bool? IsActivated { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
+    }
+
+    /// <summary>
+    /// Privileges for users and roles
+    /// </summary>
+    public class PrivilegeModel
+    {
+        public List<RoleModel> roleList { get; set; }
+        public int ModuleId { get; set; }
+        public int PageId { get; set; }
+        public Guid RoleId { get; set; }
+        public string ModuleName { get; set; }
+        public string PageName { get; set; }
+        public string PageCode { get; set; }
+        public string PageDetails { get; set; }
+        public bool isActive { get; set; }
+        public int UserID { get; set; }
     }
 }

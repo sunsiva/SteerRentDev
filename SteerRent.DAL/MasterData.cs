@@ -775,9 +775,9 @@ namespace SteerRent.DAL
                    else
                    {
                        cmd.CommandText = "usp_aspnet_RolesUpdate";
-                       cmd.Parameters.AddWithValue("@ApplicationId", objData.ApplicationId);
                        cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
-                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
+                       cmd.Parameters.AddWithValue("@UserId", objData.UserID);
+                       cmd.Parameters.AddWithValue("@IsActivated", objData.IsActivated);
                    }
 
                    cmd.Parameters.AddWithValue("@RoleName", objData.RoleName);
@@ -843,6 +843,7 @@ namespace SteerRent.DAL
                        Description = row.Field<string>("Description"),
                        CreatedOn = row.Field<DateTime?>("CreatedOn"),
                        IsActive = row.Field<bool>("IsActive"),
+                       IsActivated = row.Field<bool?>("IsActivated")
                    }).ToList();
                }
                catch (Exception ex)
@@ -851,6 +852,95 @@ namespace SteerRent.DAL
                }
            }
            return lstOfRoles;
+       }
+
+       #endregion
+
+       #region Privilege
+
+       /// <summary>
+       /// Assign access to the role
+       /// </summary>
+       /// <param name="objData"></param>
+       /// <returns></returns>
+       public int PrivilegeInsertUpdate(PrivilegeModel objData, string formCollection)
+       {
+           List<PrivilegeModel> lstObjReturn = new List<PrivilegeModel>();
+           int ReturnValue = 0;
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   cmd.CommandText = "usp_RoleXPage_Insert_Update";
+                   cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
+                   cmd.Parameters.AddWithValue("@PageId", objData.PageId);
+                   cmd.ExecuteNonQuery();
+                   ReturnValue = 1;
+               }
+               catch (Exception ex)
+               {
+                   ReturnValue = 0;
+                   throw ex;
+               }
+           }
+
+           return ReturnValue;
+       }
+
+       /// <summary>
+       /// Get privileges to the role assigned
+       /// </summary>
+       /// <returns></returns>
+       public List<PrivilegeModel> GetPrivileges()
+       {
+           List<PrivilegeModel> lstOfPrivileges = new List<PrivilegeModel>();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               SqlCommand command = con.CreateCommand();
+               command.CommandText = "usp_PrivilegesSelect";
+               try
+               {
+                   con.Open();
+                   //command.Parameters.AddWithValue("@RoleId", id);
+                   command.CommandType = CommandType.StoredProcedure;
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(command);
+                   da.Fill(ds);
+                   
+                   foreach (var item in ds.Tables[0].AsEnumerable())
+                   { 
+                       PrivilegeModel temp = new PrivilegeModel();
+                       temp.RoleId =  new Guid(item["ROLEID"].ToString());
+                       temp.PageId = Convert.ToInt32(item["PAGEID"]);
+                       temp.PageCode = item["PAGECODE"].ToString();
+                       temp.PageDetails = item["PAGEDETAILS"].ToString();
+                       temp.PageName = item["PAGENAME"].ToString();
+                       temp.ModuleName = item["MODULENAME"].ToString();
+                       temp.isActive = Convert.ToBoolean(item["ISACTIVE"]);
+                       lstOfPrivileges.Add(temp);
+                   }
+
+                   //lstOfPrivileges = ds.Tables[0].AsEnumerable().Select(row =>
+                   //new PrivilegeModel
+                   //{
+                   //    //RoleId = row.Field<Guid>("ROLEID"),
+                   //    PageId = row.Field<int>("PAGEID"),
+                   //    PageCode = row.Field<string>("PAGECODE"),
+                   //    PageDetails = row.Field<string>("PAGEDETAILS"),
+                   //    PageName = row.Field<string>("PAGENAME"),
+                   //    ModuleName = row.Field<string>("MODULENAME"),
+                   //    //isActive = row.Field<bool>("ISACTIVE"),
+                   //}).ToList();
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+           return lstOfPrivileges;
        }
 
        #endregion

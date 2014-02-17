@@ -58,23 +58,46 @@
         });
 
         $(document).ready(function () {
+
+            $('[data-name="dvRoleDelete"]').click(function () {
+                var id = this.id;
+                id = id.replace('dvRoleDelete-', '');
+                RefreshGrid('', id, 'Update', false,false);
+            });
+
+            $("input[name=chkRoleState]").change(function () {
+                RefreshGrid('', this.id, 'Update', true, this.checked);
+            });
+
             $('#btnSubmitA8').click(function () {
+                if ($('#txtRoleName').val().toUpperCase() == 'ADMIN') {
+                    $('.error_msg_exist').css("display", "block");
+                    $('.error_msg_bg').css("display", "block");
+                    $('.error_msg_spclchar').css("display", "none");
+                    $('.error_msg_error').css("display", "none");
+                    slidetabs.setContentHeight();
+                    return false;
+                }
+
                 if ($('#txtRoleName').val() != '') {
-                    RefreshGrid('Insert');
+                    RefreshGrid($('#txtRoleName').val(),'0','Insert',true,false);
                 }
                 else {
                     $('.error_msg_bg').css("display", "block");
                     $('.error_msg_sm').css("display", "block");
-                    slidetabs.setContentHeight();
+                    $('.error_msg_spclchar').css("display", "none");
+                    $('.error_msg_exist').css("display", "none");
+                    $('.error_msg_error').css("display", "none");
                 }
+                slidetabs.setContentHeight();
             });
 
-            function RefreshGrid(status)
+            function RefreshGrid(name, id, status, state, isActivated)
             {
                 var href = '@Url.Action("RolesInsertUpdate")';
                 $.ajax({
                     url: href,
-                    data: { role: $('#txtRoleName').val(), action: status },
+                    data: { role: name, id:id, action: status,isActive:state,isDelete:isActivated },
                     type: "POST",
                     datatype: "json",
                     traditional: true,
@@ -89,6 +112,13 @@
                             $('.error_msg_exist').css("display", "none");
                             $('.error_msg_error').css("display", "none");
                         }
+                        if (isActivated == true) {
+                            $('#dvRoleDelete-' + id).text('').removeClass("del_btn");
+                        }
+                        else {
+                            $('#dvRoleDelete-' + id).text('X').addClass("del_btn");
+                        }
+                        $('#dvRoleDelete-' + id).attr('id', 'dvRoleDelete-' + id);
                         slidetabs.setContentHeight();
                     },
                     error: function (jqXhr, textStatus, errorThrown) {

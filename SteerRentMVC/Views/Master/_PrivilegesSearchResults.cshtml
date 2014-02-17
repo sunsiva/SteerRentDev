@@ -1,0 +1,121 @@
+﻿@model List<SteerRent.Model.PrivilegeModel>
+
+<div id="dvPrivileges" style="display:none" class="contain_sub_row">
+                            <p class="label_part">Assign Privileges</p>
+                            <div class="label_textarea_part">
+                                <table class="gridtable" border="1">
+                                    <tr>
+                                        <th width="75%">Features
+                                        </th>
+                                        <th width="25%">Assignment
+                                        </th>
+                                    </tr>
+                                    <tbody id="trAdminSection" style="display:none">
+                                    <tr>
+                                        <td>
+                                            <b>Administration</b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><i>Masters</i></b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>General Lookups
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleGLookups" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hierarchical Lookups
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleHLookups" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Company Setup
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleCompSetup" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Location
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleLoc" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Charge Codes
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleChargeCode" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employee
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleEmployee" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Roles
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoles" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td>Privileges
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRolePrivileges" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Users
+                                        </td>
+                                        <td>
+                                            <input name="chkRoleActivate" id="chkRoleUser" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                        </tbody>
+                                    <tr>
+                                        <td>
+                                            <b>Fleet Management</b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><i>Vehicle</i></b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    @{var lstOfFleet = Model.Where(x => x.ModuleName == "Fleet Management");}
+                                    @foreach(var item in lstOfFleet)
+                                    {
+                                    <tr>
+                                        <td>@item.PageDetails</td>
+                                        <td>
+                                            <input name="chkRoleActivateFleet" id="@item.PageId" type="checkbox" checked="@item.isActive" disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    }
+                                     @*<tr>
+                                        <td>Change (Lease<>Rental)</td>
+                                        <td>
+                                            <input name="chkRoleActivateFleet" id="@Model.PageId" type="checkbox" checked="@Model.isActive" disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>*@
+                                </table>
+                            </div>
+                            <div class="clear"></div>
+                        </div>

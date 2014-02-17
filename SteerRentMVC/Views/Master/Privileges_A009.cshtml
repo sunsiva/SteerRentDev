@@ -1,4 +1,4 @@
-﻿@model List<SteerRent.Model.RoleModel>
+﻿@model  SteerRent.Model.PrivilegeModel
 @{
 
     }
@@ -7,8 +7,8 @@
         <div class="st_view_inner">
             <div class="tab_contant_inner">
                 <div class="contain_row">
-                    <p class="error_msg_bg">&nbsp;</p>
-                    <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                    @*<p class="error_msg_bg">&nbsp;</p>
+                    <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>*@
                 </div>
                 <form name="frmPrivileges" method="get">
                     <div class="contain_row">
@@ -17,7 +17,7 @@
                             <div class="contain_left_part">
                                 <p class="label_part">Select a Role <span>*</span></p>
                                 <div class="label_combo_part">
-                                    @Html.DropDownList("Roles", new SelectList(Model, "RoleId", "RoleName"), "", new { @id = "ddlPrivileges", onchange = "LoadPrivileges()" })
+                                    @Html.DropDownList("Roles", new SelectList(Model.roleList, "RoleId", "RoleName"), "", new { @id = "ddlPrivileges", onchange = "LoadPrivileges()" })
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -28,121 +28,12 @@
                             <div class="clear"></div>
                         </div>
                         <div>&nbsp;</div>
-                        <div id="dvPrivileges" style="display:none" class="contain_sub_row">
-                            <p class="label_part">Assign Privileges</p>
-                            <div class="label_textarea_part">
-                                <table class="gridtable" border="1">
-                                    <tr>
-                                        <th width="75%">Features
-                                        </th>
-                                        <th width="25%">Assignment sdsdsd
-                                        </th>
-                                    </tr>
-                                    <tbody id="trAdminSection" style="display:none">
-                                    <tr>
-                                        <td>
-                                            <b>Administration</b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b><i>Masters</i></b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>General Lookups
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleGLookups" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hierarchical Lookups
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleHLookups" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Company Setup
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleCompSetup" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Location
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleLoc" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Charge Codes
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleChargeCode" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Employee
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleEmployee" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Roles
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoles" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                     <tr>
-                                        <td>Privileges
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRolePrivileges" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Users
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivate" id="chkRoleUser" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                    
-                                        </tbody>
-                                    <tr>
-                                        <td>
-                                            <b>Fleet Management</b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b><i>Vehicle</i></b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Vehicle Master
-                                        </td>
-                                        <td>
-                                            <input name="chkRoleActivateFleet" id="chkRoleVehicleMaster" type="checkbox" checked disabled class="checkbox-mrg" />
-                                        </td>
-                                    </tr>
-                                </table>
+                        <div id="dvPrivileges" class="contain_sub_row">@Html.Partial("_PrivilegesSearchResults", Model)
                             </div>
-                            <div class="clear"></div>
-                        </div>
                     </div>
                     <div class="submit_part">
                         <div class="contain_submit_row">
-                            <button type="button" id="btnSubmitA010" class="submit_btn" value="Submit">Submit</button>
+                            <button type="button" id="btnSubmitA009" class="submit_btn" value="Submit">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -153,7 +44,6 @@
 
 <script type="text/javascript" src="~/Scripts/jquery.slidetabs.js"></script>
 <script lang="ja" type="text/javascript">
-
         // bind slider
         var slidetabs = $('#slidetabs').slidetabs({
             orientation: 'horizontal',
@@ -161,31 +51,51 @@
             touchSupport: true
         });
 
-        $('#btnSubmitA010').click(function () {
+        $('#btnSubmitA009').click(function () {
             var tempData;
             var frmPrevilege;
-            $('input[name="chkRoleActivate"]').each(function () {
-                tempData = tempData + "|" + this.checked;
-            });
-            
-            frmPrevilege = tempData.replace('undefined|')+"|"+ $('#chkRoleVehicleMaster').checked;
-            var href = '@Url.Action("PrivilegesInsertUpdate")';
-
-            $.ajax({
-                url: href,
-                data: frmPrevilege,
-                type: "POST",
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-
+            $('input[name="chkRoleActivateFleet"]').each(function () {
+                if (this.checked) {
+                    tempData = tempData + "|" + this.id;
                 }
             });
+            
+            frmPrevilege = tempData.replace('undefined|', '');
+            if (frmPrevilege != null) {
+                var href = '@Url.Action("PrivilegesInsertUpdate")';
+
+                $.ajax({
+                    url: href,
+                    data: { formCollection: frmPrevilege, RoleId: $('#ddlPrivileges').val() },
+                    type: "POST",
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+
+                    }
+                });
+            }
+
         });
 
     function LoadPrivileges() {
-
         $('#dvPrivileges').show();
+
+        var href = '@Url.Action("GetPrivileges")';
+        $.ajax({
+            url: href,
+            data: { RoleId: $('#ddlPrivileges').val() },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#dvPrivileges').replaceWith(data);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#errMsg').show();
+                //alert("Error:Action is aborted.Please try again later.");
+            }
+        });
 
         if ($("#ddlPrivileges option:selected").text() == 'Admin') {
             $('#trAdminSection').show();
@@ -193,10 +103,11 @@
                 this.checked = true;
                 this.disabled = true;
             });
-            $('input[name="chkRoleActivateFleet"]').each(function () {
-                this.checked = true;
-                this.disabled = true;
-            });
+
+            //$('input[name="chkRoleActivateFleet"]').each(function () {
+            //    this.checked = true;
+            //    this.disabled = true;
+            //});
         }
         else {
             $('#trAdminSection').hide();

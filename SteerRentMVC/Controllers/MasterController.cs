@@ -150,7 +150,7 @@ namespace SteerRentMVC.Controllers
         public JsonResult getHLookupExistCategory(int selCatId)
         {
             return Json(getExistingCategory(selCatId));
-        }
+        }   
 
         public SelectList getExistingCategory(int id)
         {
@@ -504,20 +504,44 @@ namespace SteerRentMVC.Controllers
         public ActionResult Privileges_A009()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
-            objModel.ActionMode = GlobalEnum.Flag.Select;
-
+            PrivilegeModel objPrivilege = new PrivilegeModel();
             List<RoleModel> objRole = new List<RoleModel>();
             objRole = objBal.getAllRoles(Guid.Empty);
-
-            return PartialView(objRole);
+            objPrivilege.roleList = objRole;
+            objPrivilege.PageId = 10;
+            return PartialView(objPrivilege);
         }
 
-        public ActionResult PrivilegesInsertUpdate(string frmPrevilege)
+        public ActionResult PrivilegesInsertUpdate(string formCollection, Guid RoleId)
         {
-            return PartialView("Privileges_A009");
+            objBal = new MasterData();
+            PrivilegeModel obj = new PrivilegeModel();
+            obj.RoleId = RoleId;
+            if (!formCollection.Contains('|') && formCollection != "") //To check if only one value contains the collection
+            { obj.PageId = Convert.ToInt32(formCollection); }
+            objBal.PrivilegeInsertUpdate(obj, formCollection);
+            return Json(1);
         }
+
+        public ActionResult GetPrivileges(Guid RoleId)
+        {
+            List < PrivilegeModel> lstObjModel = new List<PrivilegeModel>();
+            lstObjModel = objBal.GetPrivileges();
+            return PartialView("_PrivilegesSearchResults", lstObjModel);
+        }
+
+        //public SelectList GetPrivileges()
+        //{
+        //    IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
+        //    objBal = new MasterData();
+        //    List < PrivilegeModel> lstObjModel = new List<PrivilegeModel>();
+        //    lstObjModel = objBal.GetPrivileges();
+
+        //    getGlookupdata = (from m in lstObjModel select m).AsEnumerable().Select(m => new SelectListItem() { Text = m.PageName, Value = m.GLookupID.ToString() });
+
+        //    return new SelectList(getGlookupdata, "Value", "Text", null);
+
+        //}
         #endregion
 
         #region "Roles"
@@ -535,20 +559,25 @@ namespace SteerRentMVC.Controllers
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
-        public ActionResult RolesInsertUpdate(string role , string action)
+        public ActionResult RolesInsertUpdate(string role, string id, string action, bool isActive, bool isDelete)
         {
             objBal = new MasterData();
             List<RoleModel> lstOfRoles = new List<RoleModel>();
             RoleModel objRole = new RoleModel();
             objRole.RoleName = role;
             objRole.UserID = 1;
-            objRole.IsActive = true;
+            
+            objRole.IsActive = isActive;
             objRole.LoweredRoleName = role;
             objRole.Description = role;
-            if(action == "Insert")
+            if (action == "Insert")
                 objRole.ActionMode = GlobalEnum.Flag.Insert;
             else
+            {
                 objRole.ActionMode = GlobalEnum.Flag.Update;
+                objRole.RoleId = new Guid(id);
+                objRole.IsActivated = isDelete;
+            }
             lstOfRoles = objBal.RolesInsertUpdate(objRole);
 
             if (lstOfRoles.Count > 0)
