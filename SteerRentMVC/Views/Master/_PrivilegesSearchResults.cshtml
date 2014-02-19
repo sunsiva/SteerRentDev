@@ -1,6 +1,6 @@
 ﻿@model List<SteerRent.Model.PrivilegeModel>
 
-<div id="dvPrivileges" style="display:none" class="contain_sub_row">
+<div id="dvPrivileges" class="contain_sub_row">
                             <p class="label_part">Assign Privileges</p>
                             <div class="label_textarea_part">
                                 <table class="gridtable" border="1">
@@ -87,7 +87,42 @@
                                         </td>
                                     </tr>
                                         </tbody>
+                                    @{var lstOfAdmin = Model.Where(x => x.ModuleName == "Administrator"); var isAdmin = true;}
+                                    @foreach (var item in lstOfAdmin)
+                                    {
+                                       if(lstOfAdmin.Count()>0 && isAdmin)
+                                       {     
+                                           isAdmin=false;
+                                        <tr>
+                                        <td>
+                                            <b>Administration</b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
                                     <tr>
+                                        <td>
+                                            <b><i>Masters</i></b>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    <tr>
+                                        <td>@item.PageDetails</td>
+                                        <td>
+                                            <input name="chkRoleAdmin" type="checkbox" checked disabled class="checkbox-mrg" />
+                                        </td>
+                                    </tr>
+                                    }
+
+                                    @{var lstOfFleet = Model.Where(x => x.ModuleName == "Fleet Management");
+                                      var isFleet = true;
+                                      }
+                                    @foreach (var item in lstOfFleet)
+                                    {
+                                        if (lstOfFleet.Count() > 0 && isFleet) 
+                                    {
+                                           isFleet=false;
+                                        <tr>
                                         <td>
                                             <b>Fleet Management</b>
                                         </td>
@@ -99,13 +134,11 @@
                                         </td>
                                         <td></td>
                                     </tr>
-                                    @{var lstOfFleet = Model.Where(x => x.ModuleName == "Fleet Management");}
-                                    @foreach(var item in lstOfFleet)
-                                    {
+                                    }   
                                     <tr>
                                         <td>@item.PageDetails</td>
                                         <td>
-                                            <input name="chkRoleActivateFleet" id="@item.PageId" type="checkbox" checked="@item.isActive" disabled class="checkbox-mrg" />
+                                            <input name="chkRoleActivateFleet" id="@item.PageId" type="checkbox" checked="@item.isActive" class="checkbox-mrg" />
                                         </td>
                                     </tr>
                                     }

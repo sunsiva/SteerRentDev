@@ -125,9 +125,9 @@ namespace SteerRent.BAL
        /// Get privileges to the role assigned
        /// </summary>
        /// <returns></returns>
-       public List<PrivilegeModel> GetPrivileges()
+       public List<PrivilegeModel> GetPrivileges(Guid roleId)
         {
-            return objDAL.GetPrivileges();
+            return objDAL.GetPrivileges(roleId);
         }
         #endregion
     }

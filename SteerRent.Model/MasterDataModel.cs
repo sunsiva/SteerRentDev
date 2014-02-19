@@ -187,6 +187,7 @@ namespace SteerRent.Model
         public List<RoleModel> roleList { get; set; }
         public int ModuleId { get; set; }
         public int PageId { get; set; }
+        public string PageIds { get; set; }
         public Guid RoleId { get; set; }
         public string ModuleName { get; set; }
         public string PageName { get; set; }

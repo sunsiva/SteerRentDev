@@ -872,12 +872,21 @@ namespace SteerRent.DAL
                try
                {
                    con.Open();
-                   SqlCommand cmd = con.CreateCommand();
-                   cmd.CommandType = CommandType.StoredProcedure;
-                   cmd.CommandText = "usp_RoleXPage_Insert_Update";
-                   cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
-                   cmd.Parameters.AddWithValue("@PageId", objData.PageId);
-                   cmd.ExecuteNonQuery();
+                   var objfrmData = formCollection.Split('|');
+                   for(int i=0;i<objfrmData.Length;i++)
+                   {
+                       var temp = objfrmData[i].Split('-');
+                       if (temp.Length > 0)
+                       {
+                           SqlCommand cmd = con.CreateCommand();
+                           cmd.CommandType = CommandType.StoredProcedure;
+                           cmd.CommandText = "usp_RoleXPage_Insert_Update";
+                           cmd.Parameters.AddWithValue("@RoleId", objData.RoleId);
+                           cmd.Parameters.AddWithValue("@PageId", temp[0]);
+                           cmd.Parameters.AddWithValue("@IsDelete", temp[1]);
+                           cmd.ExecuteNonQuery();
+                       }
+                   }
                    ReturnValue = 1;
                }
                catch (Exception ex)
@@ -894,7 +903,7 @@ namespace SteerRent.DAL
        /// Get privileges to the role assigned
        /// </summary>
        /// <returns></returns>
-       public List<PrivilegeModel> GetPrivileges()
+       public List<PrivilegeModel> GetPrivileges(Guid roleId)
        {
            List<PrivilegeModel> lstOfPrivileges = new List<PrivilegeModel>();
            using (SqlConnection con = new SqlConnection(connectionString))
@@ -906,6 +915,7 @@ namespace SteerRent.DAL
                    con.Open();
                    //command.Parameters.AddWithValue("@RoleId", id);
                    command.CommandType = CommandType.StoredProcedure;
+                   command.Parameters.AddWithValue("@RoleId", roleId);
                    DataSet ds = new DataSet();
                    SqlDataAdapter da = new SqlDataAdapter(command);
                    da.Fill(ds);
