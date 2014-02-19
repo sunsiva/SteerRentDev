@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SteerRent.Model;
 using SteerRent.BAL;
 using System.Collections;
+using System.Web.Security;
 
 namespace SteerRentMVC.Controllers
 {
@@ -375,12 +376,21 @@ namespace SteerRentMVC.Controllers
             EmployeeModel objModel = new EmployeeModel();
             if (frmEmp.Count > 0)
             {
-                //objModel = BuildEmployeeData(frmEmp, true);
+                MembershipUser newUser = Membership.CreateUser(frmEmp["txtEmpFirstName"], "Admin@123");
+                var userId = newUser.ProviderUserKey;
+                objModel = BuildEmployeeData(frmEmp,new Guid(userId.ToString()), true);
                 objModel.ActionMode = GlobalEnum.Flag.Insert;
                 //objModel = objBal.EmployeeInsertUpdate(objModel);
                 //return PartialView("_LocationSearchResults", objModel);
             }
             return PartialView("_EmployeeSearchResults", objModel);
+        }
+
+        private EmployeeModel BuildEmployeeData(FormCollection frmEmp,Guid userId, bool p)
+        {
+            EmployeeModel objFrmEmp = new EmployeeModel();
+
+            return objFrmEmp;
         }
 
       
@@ -508,7 +518,6 @@ namespace SteerRentMVC.Controllers
             List<RoleModel> objRole = new List<RoleModel>();
             objRole = objBal.getAllRoles(Guid.Empty);
             objPrivilege.roleList = objRole;
-            objPrivilege.PageId = 10;
             return PartialView(objPrivilege);
         }
 
@@ -517,8 +526,7 @@ namespace SteerRentMVC.Controllers
             objBal = new MasterData();
             PrivilegeModel obj = new PrivilegeModel();
             obj.RoleId = RoleId;
-            if (!formCollection.Contains('|') && formCollection != "") //To check if only one value contains the collection
-            { obj.PageId = Convert.ToInt32(formCollection); }
+            obj.PageIds = formCollection; 
             objBal.PrivilegeInsertUpdate(obj, formCollection);
             return Json(1);
         }
@@ -526,7 +534,7 @@ namespace SteerRentMVC.Controllers
         public ActionResult GetPrivileges(Guid RoleId)
         {
             List < PrivilegeModel> lstObjModel = new List<PrivilegeModel>();
-            lstObjModel = objBal.GetPrivileges();
+            lstObjModel = objBal.GetPrivileges(RoleId);
             return PartialView("_PrivilegesSearchResults", lstObjModel);
         }
 

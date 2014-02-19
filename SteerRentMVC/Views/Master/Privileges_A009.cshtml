@@ -28,7 +28,7 @@
                             <div class="clear"></div>
                         </div>
                         <div>&nbsp;</div>
-                        <div id="dvPrivileges" class="contain_sub_row">@Html.Partial("_PrivilegesSearchResults", Model)
+                        <div id="dvPrivileges" class="contain_sub_row"
                             </div>
                     </div>
                     <div class="submit_part">
@@ -55,11 +55,8 @@
             var tempData;
             var frmPrevilege;
             $('input[name="chkRoleActivateFleet"]').each(function () {
-                if (this.checked) {
-                    tempData = tempData + "|" + this.id;
-                }
+                    tempData = tempData + "|" + this.id+"-"+this.checked;
             });
-            
             frmPrevilege = tempData.replace('undefined|', '');
             if (frmPrevilege != null) {
                 var href = '@Url.Action("PrivilegesInsertUpdate")';
@@ -80,7 +77,6 @@
 
     function LoadPrivileges() {
         $('#dvPrivileges').show();
-
         var href = '@Url.Action("GetPrivileges")';
         $.ajax({
             url: href,
@@ -90,6 +86,7 @@
             traditional: true,
             success: function (data) {
                 $('#dvPrivileges').replaceWith(data);
+                slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 $('#errMsg').show();
@@ -97,26 +94,26 @@
             }
         });
 
-        if ($("#ddlPrivileges option:selected").text() == 'Admin') {
-            $('#trAdminSection').show();
-            $('input[name="chkRoleActivate"]').each(function () {
-                this.checked = true;
-                this.disabled = true;
-            });
+        //if ($("#ddlPrivileges option:selected").text() == 'Admin') {
+        //    $('#trAdminSection').show();
+        //    $('input[name="chkRoleActivate"]').each(function () {
+        //        this.checked = true;
+        //        this.disabled = true;
+        //    });
 
-            //$('input[name="chkRoleActivateFleet"]').each(function () {
-            //    this.checked = true;
-            //    this.disabled = true;
-            //});
-        }
-        else {
-            $('#trAdminSection').hide();
-            $('input[name="chkRoleActivateFleet"]').each(function () {
-                this.checked = false;
-                this.disabled = false;
-            });
-            //$('#btnSubmitA010').disabled = false;
-        }
+        //    //$('input[name="chkRoleActivateFleet"]').each(function () {
+        //    //    this.checked = true;
+        //    //    this.disabled = true;
+        //    //});
+        //}
+        //else {
+        //    $('#trAdminSection').hide();
+        //    $('input[name="chkRoleActivateFleet"]').each(function () {
+        //        this.checked = false;
+        //        this.disabled = false;
+        //    });
+        //    //$('#btnSubmitA010').disabled = false;
+        //}
         slidetabs.setContentHeight();
     }
 </script>
