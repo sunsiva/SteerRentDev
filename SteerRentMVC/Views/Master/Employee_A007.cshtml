@@ -1,27 +1,81 @@
-﻿@model SteerRent.Model.EmployeeModel
+﻿@model List<SteerRent.Model.EmployeeModel>
 
 <!--- START A007 - Employee Master -->
-                        <div class="A007 st_view">
-                            <div class="st_view_inner">
-                            	<div class="tab_contant_inner">
-                           			<div class="contain_row">
-                                        <p class="error_msg_bg">&nbsp;</p>
-                                    	<p class="error_msg_sm">Please enter all required fields.</p>
-                                        <p class="error_msg_exist">Date of Birth cannot be equal to or greater than today.</p>
-                                        <p class="error_msg_exist">The Employee Id must be unique.</p>
-                                        <p class="error_msg_exist">Employee Id is already associated with another record.</p>
-                                        <p class="error_msg_exist">Date of Joining cannot be greater than Date of Birth.</p>
-                                        <p class="error_msg_exist">The Email-Id format is incorrect.</p>
-                                        <p class="error_msg_exist">The Email-Id is already associated with another Employee.</p>
-                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                       </div>
-                                 <div id="EmployeeSearch">
-                                     @Html.Partial("_EmployeeSearchResults",Model)
-                                 </div>
-                                    <div id="locAddUpdate">
-                                        @Html.Partial("_EmployeeAddUpdate",new SteerRent.Model.EmployeeModel())
-                                    </div>
-                                </div>
-                            </div>    
-                        </div>
+<div class="A007 st_view">
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
+            <div class="contain_row">
+                <p class="error_msg_bg">&nbsp;</p>
+                <p class="error_msg_sm">Please enter all required fields.</p>
+                <p class="error_msg_exist">Date of Birth cannot be equal to or greater than today.</p>
+                <p class="error_msg_exist">The Employee Id must be unique.</p>
+                <p class="error_msg_exist">Employee Id is already associated with another record.</p>
+                <p class="error_msg_exist">Date of Joining cannot be greater than Date of Birth.</p>
+                <p class="error_msg_exist">The Email-Id format is incorrect.</p>
+                <p class="error_msg_exist">The Email-Id is already associated with another Employee.</p>
+                <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <div id="EmployeeSearch">
+                @Html.Partial("_EmployeeSearchResults", Model)
+            </div>
+            <div id="EmployeeAddUpdate">
+                @Html.Partial("_EmployeeAddUpdate", new SteerRent.Model.EmployeeModel())
+            </div>
+        </div>
+    </div>
+</div>
 <!-- END A007 -->
+
+<script lang="ja" type="text/javascript">
+
+    function fnEmpAddUpdate(id) {
+        $.get('@Url.Action("GetEmployeeDetails", "Master")/' + id, function (data) {
+            $('#EmployeeAddUpdate').replaceWith(data);
+        });
+    }
+
+    $('#txtEmpCountry').click(function () {
+        if ($('#txtEmpCountry').val() == 0) {
+            getMasterData('Country', '#txtEmpCountry',false,0);
+        }
+    });
+
+    $('#ddlEmpDesignation').click(function () {
+        if ($('#ddlEmpDesignation').val() == 0) {
+            getMasterData('Designation', '#ddlEmpDesignation', true, 0);
+        }
+    });
+    
+
+    function getMasterData(str, ddlCtrl, isGlookup,gLookupId) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
+            success: function (data) {
+                $(ddlCtrl).empty();
+                $.each(data, function () {
+                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+        });
+    }
+
+    $('#ddlEmpLocation').click(function () {
+        if ($('#ddlEmpLocation').val() == 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetLocationsForEmployee")',
+                data: { str: $('#ddlEmpLocation').val() },
+            success: function (data) {
+                $(ddlEmpLocation).empty();
+                $.each(data, function () {
+                    $(ddlEmpLocation).append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+            });
+        }
+    });
+
+
+</script>
