@@ -112,7 +112,7 @@ namespace SteerRentMVC.Controllers
                 List<HLookupDataModel> lstobjHLData = new List<HLookupDataModel>();
                 objModel.PageMode = GlobalEnum.MasterPages.HLookup;
                 objModel.ActionMode = GlobalEnum.Flag.Insert;
-                objModel.UserId = 1;
+                objModel.UserId = 1; //TODO
                 objModel.IsActive = true;
                 objHLData.GLookupDesc = catValue;
                 objHLData.HLookupDesc = subCatValue;
@@ -123,7 +123,7 @@ namespace SteerRentMVC.Controllers
             }
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
-            if (objModel != null)
+            if (objModel != null && objModel.ActionMode== GlobalEnum.Flag.Insert)
             {
                 if (objModel.HLookupList[0].isHLookExist)
                 {
@@ -141,7 +141,7 @@ namespace SteerRentMVC.Controllers
             objModel.LookupCategoryID = Id;
             objModel.LookupCategoryDesc = string.Empty;
             objModel.IsActive = Status;
-            objModel.UserId = 1;
+            objModel.UserId = 1; //TODO
             objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
             objModel.PageMode = GlobalEnum.MasterPages.HLookup;
             objBal.GetLookupData(objModel);
@@ -207,12 +207,12 @@ namespace SteerRentMVC.Controllers
             return PartialView(objModel);
         }
 
-        public JsonResult getMasterData(string str)
+        public JsonResult getMasterData(string str, bool isGlookup,int gLookupId)
         {
             IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
             objBal = new MasterData();
             List<GLookupDataModel> lstObjModel = new List<GLookupDataModel>();
-            lstObjModel = objBal.GetGLookupDataByLookup(str);
+            lstObjModel = objBal.GetGLookupDataByLookup(str, isGlookup == true ? 1 : 0, gLookupId);
             getGlookupdata = lstObjModel.AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
             return Json(new SelectList(getGlookupdata, "Value", "Text", null));
         }
@@ -326,34 +326,28 @@ namespace SteerRentMVC.Controllers
         private CompanySetup BindCompanySetupData(FormCollection frmCompany)
         {
             CompanySetup objComp = new CompanySetup();
-            //code
-            objComp.BUName = frmCompany["txtCompanyName"];
-            objComp.BuCode = frmCompany["txtCompanyName"];
-            objComp.OrgId = 1;
-            if(frmCompany["txtBUID"] == string.Empty)
-                objComp.BuId = 0;
-            else
-                objComp.BuId = Convert.ToInt32(frmCompany["txtBUID"]);
-
-            //logo
-            //city
-            //country
-            //state
-            //contact persons desig
-            //mobileno
-            objComp.BuAddress1 = frmCompany["txtAddrLine1"];
-            objComp.BuAddress2 = frmCompany["txtAddrLine2"];
-            objComp.BuAddress3 = frmCompany["txtAddrLine3"];
-            objComp.BuPostBox = frmCompany["txtCompPostBox"];
-            objComp.BuPhoneNo = frmCompany["txtLandline"];
-            objComp.BuFax = frmCompany["txtFax"];
-            objComp.BuEmailId = frmCompany["txtCompEmail"];
-            objComp.BuMobile = frmCompany["txtCompMobile"];
-            objComp.BuZip = frmCompany["txtPinZip"];
-            objComp.BuContactPerson = frmCompany["txtContactPerson"];
-            objComp.BuBaseCurrency = 1; // Convert.ToDecimal(frmCompany[""]);
-            objComp.BuDecimals = Convert.ToDecimal(frmCompany[""]);
-            objComp.UserId = 1;
+            objComp.OrgName = frmCompany["txtCompanyName"];
+            objComp.OrgName = frmCompany["txtCompanyName"];
+            objComp.OrgID = frmCompany["txtOrgID"]==string.Empty?0:Convert.ToInt32(frmCompany["txtOrgID"]);
+            objComp.OrgLogoPath = string.Empty;//TODO frmCompany["txtCompanyName"];
+            objComp.OrgAddress1 = frmCompany["txtAddrLine1"];
+            objComp.OrgAddress2 = frmCompany["txtAddrLine2"];
+            objComp.OrgAddress3 = frmCompany["txtAddrLine3"];
+            objComp.OrgCity = frmCompany["txtOrgCity"];//
+            objComp.OrgCountryId = Convert.ToInt32(frmCompany["ddlOrgCountry"]);//
+            objComp.OrgEmirate = Convert.ToInt32(frmCompany["ddlOrgStateEmirate"]);
+            objComp.OrgPostBoxNo = frmCompany["txtOrgPostBox"];
+            objComp.OrgPhoneNo = frmCompany["txtLandline"];
+            objComp.OrgFaxNo = frmCompany["txtFax"];
+            objComp.OrgEmailID = frmCompany["txtCompEmail"];
+            objComp.CMobileNo = frmCompany["txtCompMobile"];
+            objComp.CPersonDesignation = = frmCompany["txtOrgDesignation"];
+            objComp.OrgZip = frmCompany["txtOrgPinZip"];
+            objComp.CPersonName = frmCompany["txtContactPerson"];
+            objComp.CEMailID = frmCompany["txtContactPerson"];//
+            objComp.BaseCurrencyId = Convert.ToDecimal(frmCompany[""]);//
+            objComp.DateFormat = frmCompany[""];//
+            objComp.UserId = "1"; //
             objComp.IsActive = true;
             return objComp;
         }
@@ -365,35 +359,90 @@ namespace SteerRentMVC.Controllers
         public ActionResult Employee_A007()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
-            objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+            List<EmployeeModel> objModel = new List<EmployeeModel>();
+            objModel = objBal.GetEmployeeMasterData(0);
+            return PartialView(objModel);
+        }
+
+        public JsonResult GetLocationsForEmployee(string str)
+        {
+            IEnumerable<SelectListItem> getLocationsdata = new List<SelectListItem>();
+            objBal = new MasterData();
+            LocationModel lstObjModel = new LocationModel();
+            lstObjModel = objBal.GetLocationData(0);
+            getLocationsdata = lstObjModel.lstLocation.AsEnumerable().Select(m => new SelectListItem() { Text = m.LocationName, Value = m.LocationId.ToString() });
+            return Json(new SelectList(getLocationsdata, "Value", "Text", null));
+        }
+
+        public ActionResult GetEmployeeDetails(decimal id)
+        {
+            EmployeeModel objEmpModel = new EmployeeModel();
+            List<EmployeeModel> lstEmpModel = new List<EmployeeModel>();
+            if (id > 0)
+            {
+                //To bind EmployeeModel data
+                lstEmpModel = objBal.GetEmployeeMasterData(id);
+                return PartialView("_EmployeeAddUpdate", lstEmpModel.Count>0?lstEmpModel[0]:objEmpModel);
+            }
+            else
+            {
+                return PartialView("_EmployeeAddUpdate", objEmpModel);
+            }
         }
 
         public ActionResult EmployeeInsertUpdate(FormCollection frmEmp)
         {
             EmployeeModel objModel = new EmployeeModel();
+            List<EmployeeModel> lstEmpModel = new List<EmployeeModel>();
             if (frmEmp.Count > 0)
             {
-                MembershipUser newUser = Membership.CreateUser(frmEmp["txtEmpFirstName"], "Admin@123");
-                var userId = newUser.ProviderUserKey;
-                objModel = BuildEmployeeData(frmEmp,new Guid(userId.ToString()), true);
-                objModel.ActionMode = GlobalEnum.Flag.Insert;
-                //objModel = objBal.EmployeeInsertUpdate(objModel);
-                //return PartialView("_LocationSearchResults", objModel);
+                objModel = BuildEmployeeData(frmEmp);
+                lstEmpModel=objBal.EmployeeInsertUpdate(objModel);
             }
-            return PartialView("_EmployeeSearchResults", objModel);
+            return PartialView("_EmployeeSearchResults", lstEmpModel);
         }
 
-        private EmployeeModel BuildEmployeeData(FormCollection frmEmp,Guid userId, bool p)
+        private EmployeeModel BuildEmployeeData(FormCollection frmEmp)
         {
             EmployeeModel objFrmEmp = new EmployeeModel();
-
+            Guid userId = new Guid();
+            if (frmEmp["txtEmployeeId"].ToString() == "0" || frmEmp["txtEmployeeId"].ToString() == string.Empty)
+            {
+                objFrmEmp.ActionMode = GlobalEnum.Flag.Insert;
+                objFrmEmp.EmployeeId = 0;
+                MembershipUser newUser = Membership.CreateUser(frmEmp["txtEmpFirstName"], "Admin@123");
+                userId = new Guid(newUser.ProviderUserKey.ToString());
+            }
+            else
+            {
+                objFrmEmp.EmployeeId = Convert.ToInt32(frmEmp["txtEmployeeId"]);
+                objFrmEmp.ActionMode = GlobalEnum.Flag.Update;
+            }
+            objFrmEmp.UserId = userId;
+            objFrmEmp.FirstName = frmEmp["txtEmpFirstName"];
+            objFrmEmp.LastName = frmEmp["txtEmpLastName"];
+            objFrmEmp.EmployeeCode = frmEmp["txtEmployeeCode"];
+            objFrmEmp.MiddleName = frmEmp["txtEmpMiddleInitial"];
+            objFrmEmp.Gender = Convert.ToInt16(frmEmp["radEmpGender"]=="M"?1:0);
+            objFrmEmp.DOB = Convert.ToDateTime(frmEmp["txtEmpDoB"]);
+            objFrmEmp.DesignationId = 0;// Convert.ToInt32(frmEmp["ddlEmpDesignation"]);
+            objFrmEmp.BUId = 0;// Convert.ToInt32(frmEmp["ddlEmpBusinessUnit"]);
+            objFrmEmp.LocationId = Convert.ToInt32(frmEmp["ddlEmpLocation"]);
+            objFrmEmp.DOJ = Convert.ToDateTime(frmEmp["txtEmpDoJ"]);
+            objFrmEmp.LeavingDate = Convert.ToDateTime(frmEmp["txtEmpDoL"]);
+            objFrmEmp.Address1 = frmEmp["txtEmpAddrLine1"];
+            objFrmEmp.Address2 = frmEmp["txtEmpAddrLine2"];
+            objFrmEmp.Address3 = frmEmp["txtEmpAddrLine3"];
+            objFrmEmp.City = frmEmp["txtEmpCity"];
+            objFrmEmp.State = frmEmp["txtEmpStateEmirate"];
+            objFrmEmp.CountryId = Convert.ToInt32(frmEmp["txtEmpCountry"]);
+            objFrmEmp.EmergencyContactName = frmEmp["txtEmpEmergencyContact"];
+            objFrmEmp.EmergencyContactPhone = frmEmp["txtEmpEmergencyPhone"];
+            objFrmEmp.IsActive = frmEmp["chkEmpActivate"] == null ? false : true;
+            objFrmEmp.CreatedBy= "1"; //TODO session user id should be sent.
             return objFrmEmp;
         }
-
-      
+              
         #endregion
 
         #region "Charge Codes"

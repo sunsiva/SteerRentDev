@@ -16,11 +16,16 @@ namespace SteerRent.DAL
        //static string conStrUser = Helper.Helper.GetConnectionString_aspnetDB();
 
        #region "Lookup"
-       public List<GLookupDataModel> GetGLookupDataByLookup(string str)
+       public List<GLookupDataModel> GetGLookupDataByLookup(string str, int isGlookup,int gLookupId)
         {
             string connectionString = Helper.Helper.GetConnectionString();
             List<GLookupDataModel> lstOfData = new List<GLookupDataModel>();
-            string queryString = "select GL.GLookupID,GL.GLookupDesc,LC.LookupCategoryID from GLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=1 AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%' ORDER BY GLookupDesc ASC";
+           string queryString =string.Empty;
+            if (gLookupId > 0)
+                queryString = "select GL.HLookupID ID,GL.HLookupDesc [Desc],LC.LookupCategoryID  from HLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=0 AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%' and GlookupID=" + gLookupId + " ORDER BY HLookupDesc ASC";
+           else
+                queryString = "select GL.GLookupID ID,GL.GLookupDesc [Desc],LC.LookupCategoryID from GLookup GL join LookupCategories LC on LC.LookupCategoryID = GL.LookupCategoryID AND IsGLookup=" + isGlookup + "AND GL.IsActive=1 AND LC.IsActive=1 WHERE UPPER(LookupCategoryCode) LIKE '%" + str.ToUpper() + "%' ORDER BY GLookupDesc ASC";
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand command = con.CreateCommand();
@@ -45,8 +50,8 @@ namespace SteerRent.DAL
                     new GLookupDataModel
                     {
                         LookupCategoryID = row.Field<decimal>("LookupCategoryID"),
-                        GLookupDesc = row.Field<string>("GLookupDesc"),
-                        GLookupID = row.Field<decimal>("GLookupID")
+                        GLookupDesc = row.Field<string>("Desc"),
+                        GLookupID = row.Field<decimal>("ID")
 
                     }).ToList();
 
@@ -210,7 +215,6 @@ namespace SteerRent.DAL
                             cmd.Parameters.AddWithValue("@GLookupDesc", obj.HLookupList[0].GLookupDesc);
                             cmd.Parameters.AddWithValue("@CreatedBy", obj.UserId);
                             cmd.Parameters.AddWithValue("@IsActive", obj.IsActive);
-                            cmd.ExecuteNonQuery();
 
                             SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
                             output.Direction = ParameterDirection.ReturnValue;
@@ -575,32 +579,33 @@ namespace SteerRent.DAL
                    con.Open();
                    SqlCommand cmd = con.CreateCommand();
                    cmd.CommandType = CommandType.StoredProcedure;
-                   if (objData.BuId > 0)
-                   {
-                       cmd.CommandText = "usp_BusinessUnitsUpdate";
-                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserId);
-                       cmd.Parameters.AddWithValue("@BuId", objData.BuId);
-                   }
+                   cmd.CommandText = "usp_OrganisationInsertUpdate";
+                   if (objData.OrgID > 0)
+                       cmd.Parameters.AddWithValue("@OrgId", objData.OrgID);
                    else
-                   {
-                       cmd.CommandText = "usp_BusinessUnitsInsert";
-                       cmd.Parameters.AddWithValue("@OrgId", objData.OrgId);
-                       cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
-                   }
-	                cmd.Parameters.AddWithValue("@BuCode", objData.BuCode);
-	                cmd.Parameters.AddWithValue("@BUName", objData.BUName);
-	                cmd.Parameters.AddWithValue("@BuAddress1", objData.BuAddress1);
-                    cmd.Parameters.AddWithValue("@BuAddress2", objData.BuAddress2);
-                    cmd.Parameters.AddWithValue("@BuAddress3", objData.BuAddress3);
-	                cmd.Parameters.AddWithValue("@BuPostBox", objData.BuPostBox);
-	                cmd.Parameters.AddWithValue("@BuPhoneNo", objData.BuPhoneNo);
-	                cmd.Parameters.AddWithValue("@BuFax", objData.BuFax);
-	                cmd.Parameters.AddWithValue("@BuEmailId", objData.BuEmailId);
-	                cmd.Parameters.AddWithValue("@BuMobile", objData.BuMobile);
-	                cmd.Parameters.AddWithValue("@BuZip", objData.BuZip);
-	                cmd.Parameters.AddWithValue("@BuContactPerson", objData.BuContactPerson);
-	                cmd.Parameters.AddWithValue("@BuBaseCurrency", objData.BuBaseCurrency);
-	                cmd.Parameters.AddWithValue("@BuDecimals", objData.BuDecimals);
+                       cmd.Parameters.AddWithValue("@OrgId", 0);
+
+                   cmd.Parameters.AddWithValue("@OrgCode", objData.OrgCode);
+                   cmd.Parameters.AddWithValue("@OrgName", objData.OrgName);
+                    cmd.Parameters.AddWithValue("@OrgLogoPath", objData.OrgLogoPath);
+	                cmd.Parameters.AddWithValue("@OrgAddress1", objData.OrgAddress1);
+                    cmd.Parameters.AddWithValue("@OrgAddress2", objData.OrgAddress2);
+                    cmd.Parameters.AddWithValue("@OrgAddress3", objData.OrgAddress3);
+                    cmd.Parameters.AddWithValue("@OrgCity", objData.OrgCity);
+                    cmd.Parameters.AddWithValue("@OrgCountryId", objData.OrgCountryId);
+                    cmd.Parameters.AddWithValue("@OrgEmirate", objData.OrgEmirate);
+                    cmd.Parameters.AddWithValue("@OrgPostBoxNo", objData.OrgPostBoxNo);
+                    cmd.Parameters.AddWithValue("@OrgPhoneNo", objData.OrgPhoneNo);
+                    cmd.Parameters.AddWithValue("@OrgFaxNo", objData.OrgFaxNo);
+                    cmd.Parameters.AddWithValue("@OrgEmailID", objData.OrgEmailID);
+                    cmd.Parameters.AddWithValue("@CMobileNo", objData.CMobileNo);
+                    cmd.Parameters.AddWithValue("@CPersonDesignation", objData.CPersonDesignation);
+                    cmd.Parameters.AddWithValue("@OrgZip", objData.OrgZip);
+	                cmd.Parameters.AddWithValue("@BuContactPerson", objData.CPersonName);
+                    cmd.Parameters.AddWithValue("@CEMailID", objData.CEMailID);
+                    cmd.Parameters.AddWithValue("@BaseCurrencyId", objData.BaseCurrencyId);
+                    cmd.Parameters.AddWithValue("@DateFormat", objData.DateFormat);
+                    cmd.Parameters.AddWithValue("@UserId", objData.UserId);
                     cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
                     cmd.ExecuteNonQuery();
                     returnData = 1;
@@ -614,6 +619,58 @@ namespace SteerRent.DAL
 
            return returnData;
        }
+
+       //public int CompanyInsertUpdate(CompanySetup objData)
+       //{
+       //    CompanySetup objReturn = new CompanySetup();
+       //    int returnData = 0;
+       //    using (SqlConnection con = new SqlConnection(connectionString))
+       //    {
+       //        try
+       //        {
+       //            con.Open();
+       //            SqlCommand cmd = con.CreateCommand();
+       //            cmd.CommandType = CommandType.StoredProcedure;
+       //            if (objData.BuId > 0)
+       //            {
+       //                cmd.CommandText = "usp_BusinessUnitsUpdate";
+       //                cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserId);
+       //                cmd.Parameters.AddWithValue("@BuId", objData.BuId);
+       //            }
+       //            else
+       //            {
+       //                cmd.CommandText = "usp_BusinessUnitsInsert";
+       //                cmd.Parameters.AddWithValue("@OrgId", objData.OrgId);
+       //                cmd.Parameters.AddWithValue("@CreatedBy", objData.UserId);
+       //            }
+       //            cmd.Parameters.AddWithValue("@BuCode", objData.BuCode);
+       //            cmd.Parameters.AddWithValue("@BUName", objData.BUName);
+       //            cmd.Parameters.AddWithValue("@BuAddress1", objData.BuAddress1);
+       //            cmd.Parameters.AddWithValue("@BuAddress2", objData.BuAddress2);
+       //            cmd.Parameters.AddWithValue("@BuAddress3", objData.BuAddress3);
+       //            cmd.Parameters.AddWithValue("@BuPostBox", objData.BuPostBox);
+       //            cmd.Parameters.AddWithValue("@BuPhoneNo", objData.BuPhoneNo);
+       //            cmd.Parameters.AddWithValue("@BuFax", objData.BuFax);
+       //            cmd.Parameters.AddWithValue("@BuEmailId", objData.BuEmailId);
+       //            cmd.Parameters.AddWithValue("@BuMobile", objData.BuMobile);
+       //            cmd.Parameters.AddWithValue("@BuZip", objData.BuZip);
+       //            cmd.Parameters.AddWithValue("@BuContactPerson", objData.BuContactPerson);
+       //            cmd.Parameters.AddWithValue("@BuBaseCurrency", objData.BuBaseCurrency);
+       //            cmd.Parameters.AddWithValue("@BuDecimals", objData.BuDecimals);
+       //            cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
+       //            cmd.ExecuteNonQuery();
+       //            returnData = 1;
+       //        }
+       //        catch (Exception ex)
+       //        {
+       //            returnData = 0;
+       //            throw ex;
+       //        }
+       //    }
+
+       //    return returnData;
+       //}
+
 
        #endregion
 
@@ -954,6 +1011,142 @@ namespace SteerRent.DAL
        }
 
        #endregion
+
+       #region "Employee Master"
+
+       /// <summary>
+       /// Get Employee Master data
+       /// </summary>
+       /// <returns></returns>
+       public List<EmployeeModel> GetEmployeeMasterData(decimal EmpId)
+       {
+           EmployeeModel objData = new EmployeeModel();
+           List<EmployeeModel> lstData = new List<EmployeeModel>();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                   SqlCommand cmd = con.CreateCommand();
+                   cmd.CommandText = "usp_EmployeeMasterSelect";
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   if (EmpId > 0)
+                       cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                   else
+                       cmd.Parameters.AddWithValue("@EmployeeId", DBNull.Value);
+                   DataSet ds = new DataSet();
+                   SqlDataAdapter da = new SqlDataAdapter(cmd);
+                   da.Fill(ds);
+                  
+                   foreach (DataRow item in ds.Tables[0].Rows)
+                   {
+                       objData = new EmployeeModel();
+                       objData.EmployeeId = Convert.ToInt32(item["EmployeeId"]);
+                       objData.UserId = new Guid(item["UserId"].ToString());
+                       objData.FirstName = item["FirstName"].ToString();
+                       objData.LastName = item["LastName"].ToString();
+                       objData.MiddleName = item["MiddleName"].ToString();
+                       objData.EmployeeCode = item["EmployeeCode"].ToString();
+                       objData.Gender = Convert.ToInt16(item["Gender"]);
+                       objData.DOB = Convert.ToDateTime(item["DOB"]);
+                       objData.DesignationId = Convert.ToInt32(item["DesignationId"]);
+                       //objData.Designation = item["Designation"].ToString();
+                       objData.BUId = Convert.ToInt32(item["BUId"]);
+                       //objData.BU = item["BU"].ToString();
+                       objData.LocationId = Convert.ToInt32(item["LocationId"]);
+                       //objData.Location = item["Location"].ToString();
+                       objData.DOJ = Convert.ToDateTime(item["DOJ"].ToString());
+                       objData.LeavingDate = Convert.ToDateTime(item["LeavingDate"]);
+                       objData.Address1 = item["Address1"].ToString();
+                       objData.Address2 = item["Address2"].ToString();
+                       objData.Address3 = item["Address3"].ToString();
+                       objData.City = item["City"].ToString();
+                       objData.State = item["State"].ToString();
+                       objData.CountryName = item["CountryName"].ToString();
+                       objData.CountryId = Convert.ToInt32(item["CountryId"]);
+                       objData.EmergencyContactName = item["EmergencyContactName"].ToString();
+                       objData.EmergencyContactPhone = item["EmergencyContactPhone"].ToString();
+                       objData.IsActive = Convert.ToBoolean(item["IsActive"]);
+                       lstData.Add(objData);
+                   }
+                   
+                   //cmd = con.CreateCommand();
+                   //cmd.CommandText = "usp_LocationsSelect";
+                   //cmd.CommandType = CommandType.StoredProcedure;
+                   //cmd.Parameters.AddWithValue("@LocationId", DBNull.Value);
+                   //ds = new DataSet();
+                   //da = new SqlDataAdapter(cmd);
+                   //da.Fill(ds);
+                   //LocationModel objLoc;
+                   //foreach (var item in ds.Tables[0].AsEnumerable())
+                   //{
+                   //    objLoc = new LocationModel();
+                   //    objLoc.LocationId = Convert.ToInt32(item["LocationId"]);
+                   //    objLoc.LocationCode = item["LocationCode"].ToString();
+                   //    objLoc.LocationName = item["LocationName"].ToString();
+                   //    lstData[0].LocationList.Add(objLoc);
+                   //}
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+           return lstData;
+       }
+
+       /// <summary>
+       /// Employee master data insertion/update
+       /// </summary>
+       /// <param name="objEmp"></param>
+       /// <returns></returns>
+       public List<EmployeeModel> EmployeeInsertUpdate(EmployeeModel objEmp)
+       {
+           List<EmployeeModel> ReturnValue = new List<EmployeeModel>();
+           using (SqlConnection con = new SqlConnection(connectionString))
+           {
+               try
+               {
+                   con.Open();
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "usp_EmployeeMasterInsertUpdate";
+                    cmd.Parameters.AddWithValue("@EmployeeId", objEmp.EmployeeId);
+                    cmd.Parameters.AddWithValue("@UserId", objEmp.UserId);
+                    cmd.Parameters.AddWithValue("@FirstName", objEmp.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", objEmp.LastName);
+                    cmd.Parameters.AddWithValue("@MiddleName", objEmp.MiddleName);
+                    cmd.Parameters.AddWithValue("@EmployeeCode", objEmp.EmployeeCode);
+                    cmd.Parameters.AddWithValue("@Gender", objEmp.Gender);
+                    cmd.Parameters.AddWithValue("@DOB", objEmp.DOB);
+                    cmd.Parameters.AddWithValue("@DesignationId", objEmp.DesignationId);
+                    cmd.Parameters.AddWithValue("@BUId", objEmp.BUId);
+                    cmd.Parameters.AddWithValue("@LocationId", objEmp.LocationId);
+                    cmd.Parameters.AddWithValue("@DOJ", objEmp.DOJ);
+                    cmd.Parameters.AddWithValue("@LeavingDate", objEmp.LeavingDate);
+                    cmd.Parameters.AddWithValue("@Address1", objEmp.Address1);
+                    cmd.Parameters.AddWithValue("@Address2", objEmp.Address2);
+                    cmd.Parameters.AddWithValue("@Address3", objEmp.Address3);
+                    cmd.Parameters.AddWithValue("@City", objEmp.City);
+                    cmd.Parameters.AddWithValue("@State", objEmp.State);
+                    cmd.Parameters.AddWithValue("@CountryId", objEmp.CountryId);
+                    cmd.Parameters.AddWithValue("@EmergencyContactName", objEmp.EmergencyContactName);
+                    cmd.Parameters.AddWithValue("@EmergencyContactPhone", objEmp.EmergencyContactPhone);
+                    cmd.Parameters.AddWithValue("@IsActive", objEmp.IsActive);
+                    cmd.Parameters.AddWithValue("@CreatedBy", objEmp.CreatedBy);
+                    cmd.ExecuteNonQuery();
+                    ReturnValue=GetEmployeeMasterData(0);
+               }
+               catch (Exception ex)
+               {
+                   throw ex;
+               }
+           }
+
+           return ReturnValue;
+       }
+#endregion
 
    }
 }

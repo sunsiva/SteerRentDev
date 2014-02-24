@@ -22,9 +22,9 @@ namespace SteerRent.BAL
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public List<GLookupDataModel> GetGLookupDataByLookup(string str)
+        public List<GLookupDataModel> GetGLookupDataByLookup(string str,int isGlookup,int gLookupId)
         {
-            return objDAL.GetGLookupDataByLookup(str);
+            return objDAL.GetGLookupDataByLookup(str, isGlookup, gLookupId);
         }
 
         #region Location
@@ -129,6 +129,28 @@ namespace SteerRent.BAL
         {
             return objDAL.GetPrivileges(roleId);
         }
+        #endregion
+
+        #region "Employee Master"
+
+        /// <summary>
+       /// Get Employee Master data
+       /// </summary>
+       /// <returns></returns>
+       public List<EmployeeModel> GetEmployeeMasterData(decimal EmpId)
+       {
+           return objDAL.GetEmployeeMasterData(EmpId);
+       }
+
+       /// <summary>
+       /// Employee master data insertion/update
+       /// </summary>
+       /// <param name="objEmp"></param>
+       /// <returns></returns>
+       public List<EmployeeModel> EmployeeInsertUpdate(EmployeeModel objEmp)
+       {
+           return objDAL.EmployeeInsertUpdate(objEmp);
+       }
         #endregion
     }
 }

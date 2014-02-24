@@ -178,17 +178,17 @@
             <p class="label_part">Location Type <span>*</span></p>
             <div class="label_combo_part">
                 <label class="label_radio">
-                    <input name="chkRevenue" id="chkRevenue" type="checkbox" value="Revenue"  />
+                    <input name="chkRevenue" id="chkRevenue"  checked="@Model.IsARevenue"  type="checkbox" value="Revenue" />
                     Revenue</label><br />
-                        <label class="label_radio">
-                            <input name="chkCounter" id="chkCounter" checked="@Model.IsARevenue" type="checkbox" value="Counter" />
-                            Counter</label><br />
-                        <label class="label_radio">
-                            <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
-                            Workshop</label><br />
-                        <label class="label_radio">
-                            <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
-                            Virtual</label>
+                <label class="label_radio">
+                    <input name="chkCounter" id="chkCounter" checked="@Model.IsACounter" type="checkbox" value="Counter" />
+                    Counter</label><br />
+                <label class="label_radio">
+                    <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
+                    Workshop</label><br />
+                <label class="label_radio">
+                    <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
+                    Virtual</label>
             </div>
             <div class="clear"></div>
         </div>
@@ -320,28 +320,28 @@
     /* This is click event for country dropdown list to load */
     $('#ddlLocCountry').click(function () {
         if ($('#ddlLocCountry').text() == '') {
-            getMasterData('Country', '#ddlLocCountry');
+            getMasterData('Country', '#ddlLocCountry', false, 0);
         }
     });
 
     $('#ddlLocStateEmirate').click(function () {
-        if ($('#ddlLocStateEmirate').text() == '') {
-            getMasterData('State', '#ddlLocStateEmirate');
+        if ($('#ddlLocStateEmirate').text() == '' && $('#ddlLocCountry').text() != '') {
+            getMasterData('Emirate', '#ddlLocStateEmirate', false, $('#ddlLocCountry').val());
         }
     });
 
     $('#ddlLocationIncharge').click(function () {
         if ($('#ddlLocationIncharge').text() == '') {
-            getMasterData('LocationIn', '#ddlLocationIncharge');
+            getMasterData('LocationIn', '#ddlLocationIncharge',true,0);
         }
     });
 
-    function getMasterData(str,ddlCtrl)
+    function getMasterData(str,ddlCtrl,isGlookup,gLookupId)
     {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
-            data: { str: str },
+            data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
             success: function (data) {
                 $(ddlCtrl).empty();
                 $.each(data, function () {
