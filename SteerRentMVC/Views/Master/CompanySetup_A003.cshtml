@@ -35,14 +35,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 1 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtAddrLine1" value="@Model.BuAddress1" id="txtAddrLine1" type="text" placeholder="">
+                                <input name="txtOrgAddrLine1" value="@Model.OrgAddress1" id="txtOrgAddrLine1" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 2 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtAddrLine2" value="@Model.BuAddress2" id="txtAddrLine2" type="text" placeholder="">
+                                <input name="txtOrgAddrLine2" value="@Model.OrgAddress2" id="txtOrgAddrLine2" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -53,14 +53,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 3 <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgAddrLine3" value="@Model.BuAddress3" id="txtOrgAddrLine3" type="text" placeholder="">
+                                <input name="txtOrgAddrLine3" value="@Model.OrgAddress3" id="txtOrgAddrLine3" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">City <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgCity" id="txtOrgCity" value="" type="text" placeholder="">
+                                <input name="txtOrgCity" id="txtOrgCity" value="@Model.OrgCity" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -72,7 +72,7 @@
                             <p class="label_part">Country <span>*</span></p>
                             <div class="label_combo_part">
                                 <select name="ddlOrgCountry" id="ddlOrgCountry">
-                                    <option value="0"></option>
+                                    <option value="@Model.OrgCountryId">@Model.OrgCountry</option>
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -132,14 +132,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">E-Mail Id <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtCompEmail" id="txtCompEmail" value="@Model.BuEmailId" type="text" placeholder="">
+                                <input name="txtOrgEmail" id="txtOrgEmail" value="@Model.OrgEmailID" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Mobile No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtCompMobile" id="txtCompMobile" value="@Model.BuMobile" type="text" placeholder="">
+                                <input name="txtOrgMobile" id="txtOrgMobile" value="@Model.CMobileNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -150,14 +150,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Landline No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtLandline" id="txtLandline" value="@Model.BuPhoneNo" type="text" placeholder="">
+                                <input name="txtOrgLandline" id="txtOrgLandline" value="@Model.OrgPhoneNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Fax No. <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtFax" id="txtFax" value="@Model.BuFax" type="text" placeholder="">
+                                <input name="txtOrgFax" id="txtOrgFax" value="@Model.OrgFaxNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -218,8 +218,8 @@
                         <div class="contain_left_part">
                             <p class="label_part">Choose Base Currency <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlBaseCurrency" id="ddlBaseCurrency">
-                                    <option value="0"></option>
+                                <select name="ddlOrgBaseCurrency" id="ddlOrgBaseCurrency">
+                                    <option value="@Model.BaseCurrencyId">@Model.BaseCurrency</option>
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -239,11 +239,10 @@
                         <div class="contain_left_part">
                             <p class="label_part">Choose Date Format <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlDateFormat">
+                                <select name="ddlOrgDateFormat" id="ddlOrgDateFormat">
                                     <option>-- Select --</option>
                                     <option>DD/MM/YYYY</option>
                                     <option>MM/DD/YYYY</option>
-
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -281,22 +280,22 @@
         return true;
     }
 
-    $('#ddlCompCountry').click(function () {
+    $('#ddlOrgCountry').click(function () {
 
-        if ($('#ddlCompCountry').val() == 0) {
-            getMasterData('Country', '#ddlCompCountry',false,0);
+        if ($('#ddlOrgCountry').val() == 0) {
+            getMasterData('Country', '#ddlOrgCountry', false, 0);
         }
     });
 
-    $('#ddlCompStateEmirate').click(function () {
-        if ($('#ddlCompStateEmirate').val() == 0 && $('#ddlCompCountry').text() != '') {
-            getMasterData('Emirate', '#ddlCompStateEmirate', false, $('#ddlCompCountry').val());
+    $('#ddlOrgStateEmirate').click(function () {
+        if ($('#ddlOrgStateEmirate').val() == 0 && $('#ddlOrgCountry').text() != '') {
+            getMasterData('Emirate', '#ddlOrgStateEmirate', false, $('#ddlOrgCountry').val());
         }
     });
 
-    $('#ddlBaseCurrency').click(function () {
-        if ($('#ddlBaseCurrency').val() == 0 && $('#ddlBaseCurrency').text() != '') {
-            getMasterData('Currency', '#ddlBaseCurrency', true,0);
+    $('#ddlOrgBaseCurrency').click(function () {
+        if ($('#ddlOrgBaseCurrency').val() == 0 && $('#ddlOrgBaseCurrency').text() != '') {
+            getMasterData('Currency', '#ddlOrgBaseCurrency', true, 0);
         }
     });
 
@@ -316,9 +315,9 @@
 
     $('#btnSubmitA3').click(function () {
 
-        var phVal = $('#txtLandline').val();
-        var emailVal = $('#txtCompEmail').val();
-
+        var phVal = $('#txtOrgLandline').val();
+        var emailVal = $('#txtOrgEmail').val();
+     
         if (phVal.match(/^[0-9]*$/)) {
             alert("numeric!");
             // do whatever else...

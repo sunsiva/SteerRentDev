@@ -122,7 +122,7 @@ namespace SteerRent.Model
 
     public class CompanySetup
     {
-        public decimal OrgID { get; set; }
+        public decimal? OrgID { get; set; }
         public string OrgCode { get; set; }
         public string OrgLogoPath { get; set; }
         public string OrgName { get; set; }
@@ -130,9 +130,9 @@ namespace SteerRent.Model
         public string OrgAddress2 { get; set; }
         public string OrgAddress3 { get; set; }
         public string OrgCity { get; set; }
-        public decimal OrgCountryId { get; set; }
+        public decimal? OrgCountryId { get; set; }
         public string OrgCountry { get; set; }
-        public decimal OrgEmirate { get; set; }
+        public decimal? OrgEmirate { get; set; }
         public string OrgEmirateName { get; set; }
         public string OrgPostBoxNo { get; set; }
         public string CPersonName { get; set; }
@@ -143,11 +143,13 @@ namespace SteerRent.Model
         public string OrgPhoneNo { get; set; }
         public string OrgFaxNo { get; set; }
         public string OrgEmailID { get; set; }
-        public decimal BaseCurrencyId { get; set; }
+        public decimal? BaseCurrencyId { get; set; }
         public string BaseCurrency { get; set; }
         public string DateFormat { get; set; }
         public string UserId { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
+        public GlobalEnum.Flag ActionMode { get; set; }
+        public IList<LocationModel> lstLocation { get; set; }
     }
 
     public class BuSetup

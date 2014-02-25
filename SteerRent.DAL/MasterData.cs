@@ -520,7 +520,7 @@ namespace SteerRent.DAL
            using (SqlConnection con = new SqlConnection(connectionString))
            {
                SqlCommand command = con.CreateCommand();
-               command.CommandText = "usp_BusinessUnitsSelect";
+               command.CommandText = "usp_OrganisationSelect";
                try
                {
                    LocationModel locData = GetLocationData(0);
@@ -530,28 +530,42 @@ namespace SteerRent.DAL
                    }
                    con.Open();
                    command.CommandType = CommandType.StoredProcedure;
+                   if (id > 0)
+                       command.Parameters.AddWithValue("@OrgId", id);
+                   else
+                       command.Parameters.AddWithValue("@OrgId", DBNull.Value);
                    DataSet ds = new DataSet();
                    SqlDataAdapter da = new SqlDataAdapter(command);
                    da.Fill(ds);
                    compData= ds.Tables[0].AsEnumerable().Select(row =>
                    new CompanySetup
                    {
-                       BuId = row.Field<decimal>("BuId"),
-                        OrgId = row.Field<decimal>("OrgId"),
-                        BuCode = row.Field<string>("BuCode"),
-                        BUName = row.Field<string>("BUName"),
-                        BuAddress1 = row.Field<string>("BuAddress1"),
-                        BuAddress2 = row.Field<string>("BuAddress2"),
-                        BuAddress3 = row.Field<string>("BuAddress3"),
-                        BuPostBox = row.Field<string>("BuPostBox"),
-                        BuPhoneNo = row.Field<string>("BuPhoneNo"),
-                        BuFax = row.Field<string>("BuFax"),
-                        BuEmailId = row.Field<string>("BuEmailId"),
-                        BuMobile = row.Field<string>("BuMobile"),
-                        BuZip = row.Field<string>("BuZip"),
-                        BuContactPerson = row.Field<string>("BuContactPerson"),
-                        BuBaseCurrency = row.Field<decimal>("BuBaseCurrency"),
-                        BuDecimals = row.Field<byte>("BuDecimals"),
+                       OrgID = row.Field<decimal?>("OrgId"),
+                        OrgCode = row.Field<string>("OrgCode"),
+                        OrgName = row.Field<string>("OrgName"),
+                        OrgLogoPath = row.Field<string>("OrgLogoPath"),
+	                    OrgAddress1 = row.Field<string>("OrgAddress1"),
+                        OrgAddress2 = row.Field<string>("OrgAddress2"),
+                        OrgAddress3 = row.Field<string>("OrgAddress3"),
+                        OrgCity = row.Field<string>("OrgCity"),
+                        OrgCountryId = row.Field<decimal?>("OrgCountryId"),
+                        OrgCountry = row.Field<string>("OrgCountry"),
+                        OrgEmirate = row.Field<decimal?>("OrgEmirate"),
+                        OrgEmirateName = row.Field<string>("OrgEmirateName"),
+                        OrgPostBoxNo = row.Field<string>("OrgPostBoxNo"),
+                        OrgPhoneNo = row.Field<string>("OrgPhoneNo"),
+                        OrgFaxNo = row.Field<string>("OrgFaxNo"),
+                        OrgEmailID = row.Field<string>("OrgEmailID"),
+                        CMobileNo = row.Field<string>("CMobileNo"),
+                        CPersonDesignation = row.Field<string>("CPersonDesignation"),
+                        OrgZip = row.Field<string>("OrgZip"),
+	                    CPersonName = row.Field<string>("CPersonName"),
+                        CEMailID = row.Field<string>("CEMailID"),
+                        BaseCurrencyId = row.Field<decimal?>("BaseCurrencyId"),
+                        BaseCurrency = row.Field<string>("BaseCurrency"),
+                        DateFormat = row.Field<string>("DateFormat"),
+                        UserId = row.Field<string>("UserId"),
+                        IsActive=row.Field<bool?>("IsActive"),
                         lstLocation = locData.LocationId>0?locData.lstLocation.OrderBy(i=>i.LocationName).ToList():new List<LocationModel>()
                    }).SingleOrDefault();
                }
@@ -601,7 +615,7 @@ namespace SteerRent.DAL
                     cmd.Parameters.AddWithValue("@CMobileNo", objData.CMobileNo);
                     cmd.Parameters.AddWithValue("@CPersonDesignation", objData.CPersonDesignation);
                     cmd.Parameters.AddWithValue("@OrgZip", objData.OrgZip);
-	                cmd.Parameters.AddWithValue("@BuContactPerson", objData.CPersonName);
+                    cmd.Parameters.AddWithValue("@CPersonName", objData.CPersonName);
                     cmd.Parameters.AddWithValue("@CEMailID", objData.CEMailID);
                     cmd.Parameters.AddWithValue("@BaseCurrencyId", objData.BaseCurrencyId);
                     cmd.Parameters.AddWithValue("@DateFormat", objData.DateFormat);
@@ -619,6 +633,61 @@ namespace SteerRent.DAL
 
            return returnData;
        }
+
+       /// <summary>
+       /// Getting the company details
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+       //public CompanySetup GetCompanyDetails(int id)
+       //{
+       //    string connectionString = Helper.Helper.GetConnectionString();
+       //    CompanySetup compData = new CompanySetup();
+       //    using (SqlConnection con = new SqlConnection(connectionString))
+       //    {
+       //        SqlCommand command = con.CreateCommand();
+       //        command.CommandText = "usp_BusinessUnitsSelect";
+       //        try
+       //        {
+       //            LocationModel locData = GetLocationData(0);
+       //            if (locData.LocationId > 0)
+       //            {
+       //                locData.lstLocation = (from item in locData.lstLocation where (item.IsActive == true) select item).ToList();
+       //            }
+       //            con.Open();
+       //            command.CommandType = CommandType.StoredProcedure;
+       //            DataSet ds = new DataSet();
+       //            SqlDataAdapter da = new SqlDataAdapter(command);
+       //            da.Fill(ds);
+       //            compData = ds.Tables[0].AsEnumerable().Select(row =>
+       //            new CompanySetup
+       //            {
+       //                BuId = row.Field<decimal>("BuId"),
+       //                OrgId = row.Field<decimal>("OrgId"),
+       //                BuCode = row.Field<string>("BuCode"),
+       //                BUName = row.Field<string>("BUName"),
+       //                BuAddress1 = row.Field<string>("BuAddress1"),
+       //                BuAddress2 = row.Field<string>("BuAddress2"),
+       //                BuAddress3 = row.Field<string>("BuAddress3"),
+       //                BuPostBox = row.Field<string>("BuPostBox"),
+       //                BuPhoneNo = row.Field<string>("BuPhoneNo"),
+       //                BuFax = row.Field<string>("BuFax"),
+       //                BuEmailId = row.Field<string>("BuEmailId"),
+       //                BuMobile = row.Field<string>("BuMobile"),
+       //                BuZip = row.Field<string>("BuZip"),
+       //                BuContactPerson = row.Field<string>("BuContactPerson"),
+       //                BuBaseCurrency = row.Field<decimal>("BuBaseCurrency"),
+       //                BuDecimals = row.Field<byte>("BuDecimals"),
+       //                lstLocation = locData.LocationId > 0 ? locData.lstLocation.OrderBy(i => i.LocationName).ToList() : new List<LocationModel>()
+       //            }).SingleOrDefault();
+       //        }
+       //        catch (Exception ex)
+       //        {
+       //            throw ex;
+       //        }
+       //    }
+       //    return compData;
+       //}
 
        //public int CompanyInsertUpdate(CompanySetup objData)
        //{

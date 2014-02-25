@@ -327,27 +327,27 @@ namespace SteerRentMVC.Controllers
         {
             CompanySetup objComp = new CompanySetup();
             objComp.OrgName = frmCompany["txtCompanyName"];
-            objComp.OrgName = frmCompany["txtCompanyName"];
+            objComp.OrgCode = frmCompany["txtCompanyName"];
             objComp.OrgID = frmCompany["txtOrgID"]==string.Empty?0:Convert.ToInt32(frmCompany["txtOrgID"]);
             objComp.OrgLogoPath = string.Empty;//TODO frmCompany["txtCompanyName"];
-            objComp.OrgAddress1 = frmCompany["txtAddrLine1"];
-            objComp.OrgAddress2 = frmCompany["txtAddrLine2"];
-            objComp.OrgAddress3 = frmCompany["txtAddrLine3"];
+            objComp.OrgAddress1 = frmCompany["txtOrgAddrLine1"];
+            objComp.OrgAddress2 = frmCompany["txtOrgAddrLine2"];
+            objComp.OrgAddress3 = frmCompany["txtOrgAddrLine3"];
             objComp.OrgCity = frmCompany["txtOrgCity"];//
             objComp.OrgCountryId = Convert.ToInt32(frmCompany["ddlOrgCountry"]);//
             objComp.OrgEmirate = Convert.ToInt32(frmCompany["ddlOrgStateEmirate"]);
             objComp.OrgPostBoxNo = frmCompany["txtOrgPostBox"];
-            objComp.OrgPhoneNo = frmCompany["txtLandline"];
-            objComp.OrgFaxNo = frmCompany["txtFax"];
-            objComp.OrgEmailID = frmCompany["txtCompEmail"];
-            objComp.CMobileNo = frmCompany["txtCompMobile"];
-            objComp.CPersonDesignation = = frmCompany["txtOrgDesignation"];
+            objComp.OrgPhoneNo = frmCompany["txtOrgLandline"];
+            objComp.OrgFaxNo = frmCompany["txtOrgFax"];
+            objComp.OrgEmailID = frmCompany["txtOrgEmail"];
+            objComp.CMobileNo = frmCompany["txtOrgMobile"];
+            objComp.CPersonDesignation = frmCompany["txtOrgDesignation"];
             objComp.OrgZip = frmCompany["txtOrgPinZip"];
-            objComp.CPersonName = frmCompany["txtContactPerson"];
-            objComp.CEMailID = frmCompany["txtContactPerson"];//
-            objComp.BaseCurrencyId = Convert.ToDecimal(frmCompany[""]);//
-            objComp.DateFormat = frmCompany[""];//
-            objComp.UserId = "1"; //
+            objComp.CPersonName = frmCompany["txtOrgContactPerson"];
+            objComp.CEMailID = frmCompany["txtOrgEmail"];//
+            objComp.BaseCurrencyId = Convert.ToDecimal(frmCompany["ddlOrgBaseCurrency"]);
+            objComp.DateFormat = frmCompany["ddlOrgDateFormat"];
+            objComp.UserId = "1"; //TODO
             objComp.IsActive = true;
             return objComp;
         }
