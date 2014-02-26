@@ -68,6 +68,18 @@ namespace SteerRent.Model
 	    public string Phone { get; set; }
 	    public string Fax { get; set; }
 	    public string Email { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string AddressLine3 { get; set; }
+        public string Designation { get; set; }
+        public string City { get; set; }
+        public decimal CountryId { get; set; }
+        public decimal EmirateId { get; set; }
+        public string Country { get; set; }
+        public string Emirate { get; set; }
+        public string Zip { get; set; }
+        public decimal LocationInChargeId { get; set; }
+        public string LocationInCharge { get; set; }
 	    public decimal ReciptNoStart { get; set; }
 	    public decimal ReceiptNoCurrent { get; set; }
 	    public decimal RentalAgreementNoStart { get; set; }

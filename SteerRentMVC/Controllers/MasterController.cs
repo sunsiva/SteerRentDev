@@ -239,7 +239,6 @@ namespace SteerRentMVC.Controllers
             if (frmLoc.Count > 0)
             {
                 objModel = BuildLocationData(frmLoc,true );
-                objModel.ActionMode = GlobalEnum.Flag.Insert;
                 objModel = objBal.LocationInsertUpdate(objModel);
                 return PartialView("_LocationSearchResults", objModel);
             }
@@ -249,9 +248,9 @@ namespace SteerRentMVC.Controllers
         private LocationModel BuildLocationData(FormCollection frmLoc, bool chkRevnue)
         {
             LocationModel objModel = new LocationModel();
-            if (frmLoc["lstLocation[0].LocationId"] != string.Empty)
-            { objModel.ActionMode = GlobalEnum.Flag.Update; 
-                objModel.LocationId = Convert.ToInt32(frmLoc["lstLocation[0].LocationId"]);
+            if (frmLoc["txtLocationID"] != string.Empty)
+            { objModel.ActionMode = GlobalEnum.Flag.Update;
+            objModel.LocationId = Convert.ToInt32(frmLoc["txtLocationID"]);
                 objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
             }
             else { objModel.ActionMode = GlobalEnum.Flag.Insert; objModel.IsActive = true; }
@@ -262,9 +261,18 @@ namespace SteerRentMVC.Controllers
             objModel.WorkingHrs = 1;// frmLoc["lstLocation[0].LocationCode"];
             objModel.WorkFrom = DateTime.UtcNow;
             objModel.WorksTill = DateTime.UtcNow;
-            objModel.Phone = frmLoc["txtMobile"];// frmLoc["lstLocation[0].Phone"];
-            objModel.Fax = frmLoc["txtFax"];// frmLoc["lstLocation[0].Fax"];
-            objModel.Email = frmLoc["txtEmail"];// frmLoc["lstLocation[0].Email"];
+            objModel.Phone = frmLoc["txtLocMobile"];// frmLoc["lstLocation[0].Phone"];
+            objModel.Fax = frmLoc["txtLocFax"];// frmLoc["lstLocation[0].Fax"];
+            objModel.Email = frmLoc["txtLocEmail"];// frmLoc["lstLocation[0].Email"];
+            objModel.AddressLine1 = frmLoc["txtLocAddressLine1"].ToString();
+            objModel.AddressLine2 = frmLoc["txtLocAddressLine2"].ToString();
+            objModel.AddressLine3 = frmLoc["txtLocAddressLine3"].ToString();
+            objModel.Designation = frmLoc["txtLocDesignation"].ToString();
+            objModel.City = frmLoc["txtLocCity"].ToString();
+            objModel.CountryId = Convert.ToInt32(frmLoc["ddlLocCountry"]);
+            objModel.EmirateId = Convert.ToInt32(frmLoc["ddlLocStateEmirate"]);
+            objModel.Zip = frmLoc["txtLocZip"].ToString();
+            objModel.LocationInChargeId = Convert.ToInt32(frmLoc["ddlLocationIncharge"]);
             objModel.ReciptNoStart = Convert.ToInt32(frmLoc["txtRecNoStart"]);
             objModel.ReceiptNoCurrent = Convert.ToInt32(frmLoc["txtRecNoCurrent"]);
             objModel.RentalAgreementNoStart = Convert.ToInt32(frmLoc["txtRentAgmtNoStart"]);
@@ -277,7 +285,7 @@ namespace SteerRentMVC.Controllers
             objModel.IsAVirtual = frmLoc["chkVirtual"] == null ? false : true;
             objModel.LeasingAllowed = frmLoc["chkRenting"] == null ? false : true;
             objModel.RentingAllowed = frmLoc["chkLeasing"] == null ? false : true;
-            objModel.UserId = 1;// frmLoc["lstLocation[0].LocationCode"];
+            objModel.UserId = 1;//TODO
             
             objModel.BuId = 1;
             return objModel;

@@ -205,9 +205,9 @@
                                 }
                             </table>
                         @*<fieldset>
-                                                    <legend>Active Locations:</legend>
-                                                    --No Active Locations--
-                                                    </fieldset>*@
+                        <legend>Active Locations:</legend>
+                        --No Active Locations--
+                        </fieldset>*@
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -241,8 +241,19 @@
                             <div class="label_combo_part">
                                 <select name="ddlOrgDateFormat" id="ddlOrgDateFormat">
                                     <option>-- Select --</option>
-                                    <option>DD/MM/YYYY</option>
-                                    <option>MM/DD/YYYY</option>
+                                    @if(Model.DateFormat == "DD/MM/YYYY")
+                                    {
+                                    <option selected>DD/MM/YYYY</option>
+                                        <option>MM/DD/YYYY</option>
+                                    }
+                                    else if (Model.DateFormat == "MM/DD/YYYY")
+                                    {
+                                    <option selected>MM/DD/YYYY</option>
+                                        <option>DD/MM/YYYY</option>
+                                    }
+                                    else
+                                    {<option>DD/MM/YYYY</option>
+                                    <option>MM/DD/YYYY</option>}
                                 </select>
                             </div>
                             <div class="clear"></div>
