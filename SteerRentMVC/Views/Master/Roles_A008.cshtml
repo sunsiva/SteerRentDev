@@ -21,7 +21,7 @@
                                             	<div class="contain_left_part">
                                                 <p class="label_part">Role Name <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtRoleName" id="txtRoleName" type="text" placeholder="">
+                                                        <input name="txtRoleName" id="txtRoleName" class="alpha" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -128,5 +128,14 @@
                     }
                 });
             }
+        });
+
+        $(function () {
+            $(".alpha").attr("maxlength", 20)
+
+            $(".alpha").bind("keypress", function (e) {
+                var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
         });
     </script>

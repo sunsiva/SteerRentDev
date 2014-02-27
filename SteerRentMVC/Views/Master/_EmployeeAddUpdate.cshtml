@@ -8,7 +8,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">First Name <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpFirstName" id="txtEmpFirstName" type="text" placeholder="" value="@Model.FirstName" />
+                        <input name="txtEmpFirstName" id="txtEmpFirstName" class="alpha" type="text" placeholder="" value="@Model.FirstName" />
                         <input name="txtEmployeeId" id="txtEmployeeId" type="hidden" value="@Model.EmployeeId"/>
                     </div>
                     <div class="clear"></div>
@@ -16,7 +16,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">Last Name <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpLastName" id="txtEmpLastName" type="text" placeholder="" value="@Model.LastName" />
+                        <input name="txtEmpLastName" id="txtEmpLastName" class="alpha" type="text" placeholder="" value="@Model.LastName" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">Middle Initial(s) <span></span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" type="text" placeholder=""  value="@Model.MiddleName"/>
+                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" class="alpha" type="text" placeholder=""  value="@Model.MiddleName"/>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">Employee Id <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmployeeCode" id="txtEmployeeCode" type="text" value="@Model.EmployeeCode" placeholder="" />
+                        <input name="txtEmployeeCode" id="txtEmployeeCode" class="alpha" type="text" value="@Model.EmployeeCode" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -129,14 +129,14 @@
                 <div class="contain_left_part">
                     <p class="label_part">Address Line 1 <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpAddrLine1" type="text" placeholder="" value="@Model.Address1" id="txtEmpAddrLine1" />
+                        <input name="txtEmpAddrLine1" type="text" class="alphaNum" placeholder="" value="@Model.Address1" id="txtEmpAddrLine1" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Address Line 2 <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpAddrLine2" type="text" placeholder="" value="@Model.Address2" id="txtEmpAddrLine2" />
+                        <input name="txtEmpAddrLine2" type="text" placeholder="" class="alphanum" value="@Model.Address2" id="txtEmpAddrLine2" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -147,14 +147,14 @@
                 <div class="contain_left_part">
                     <p class="label_part">Address Line 3 <span></span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpAddrLine3" type="text" placeholder="" value="@Model.Address3" id="txtEmpAddrLine3" />
+                        <input name="txtEmpAddrLine3" type="text" placeholder="" class="alphanum" value="@Model.Address3" id="txtEmpAddrLine3" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">City <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpCity" type="text" placeholder="" value="@Model.City" id="txtEmpCity" />
+                        <input name="txtEmpCity" type="text" placeholder="" class="alpha" value="@Model.City" id="txtEmpCity" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -165,7 +165,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">State/Emirate <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpStateEmirate" id="txtEmpStateEmirate" value="@Model.State" />
+                        <input type="text" name="txtEmpStateEmirate" class="alpha" id="txtEmpStateEmirate" value="@Model.State" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -185,14 +185,14 @@
                 <div class="contain_left_part">
                     <p class="label_part">Emergency Contact <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpEmergencyContact" id="txtEmpEmergencyContact"  value="@Model.EmergencyContactName"/>
+                        <input type="text" name="txtEmpEmergencyContact" class="alpha" id="txtEmpEmergencyContact"  value="@Model.EmergencyContactName"/>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Emergency Phone <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpEmergencyPhone" id="txtEmpEmergencyPhone"  value="@Model.EmergencyContactPhone"/>
+                        <input type="text" name="txtEmpEmergencyPhone" class="numeric" id="txtEmpEmergencyPhone"  value="@Model.EmergencyContactPhone"/>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -305,4 +305,44 @@
         }
 
     }
+
+    $(function () {
+        $(".numeric").attr("maxlength", 11)
+        $(".alpha").attr("maxlength", 20)
+        $(".email").attr("maxlength", 20)
+        $(".alphaNumeric").attr("maxlength", 30)
+
+        $(".numeric").bind("keypress", function (e) {
+            var str = /[0-9,.+-]/;
+            return globalValidation(e, str);
+        });
+
+        $(".numeric").bind("paste", function (e) {
+            return false;
+        });
+        $(".numeric").bind("drop", function (e) {
+            return false;
+        });
+
+        $(".alpha").bind("keypress", function (e) {
+            var str = /[a-zA-Z ]/;
+            return globalValidation(e, str);
+        });
+
+        
+        $(".alphaNum").bind("keypress", function (e) {
+            var str = /[a-zA-Z0-9,./ #]/;
+            return globalValidation(e, str);
+        });
+
+        $("#txtEmpAddrLine2").bind("keypress", function (e) {
+            var str = /[a-zA-Z0-9,./ #]/;
+            return globalValidation(e, str);
+        });
+
+        $("#txtEmpAddrLine3").bind("keypress", function (e) {
+            var str = /[a-zA-Z0-9,./ #]/;
+            return globalValidation(e, str);
+        });
+    });
 </script>

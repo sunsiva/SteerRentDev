@@ -58,7 +58,7 @@
                                             	<div class="contain_left_part">
                                                 	<p class="label_part">New Sub-Category <span>*</span></p>
                                                     <div class="label_input_part">
-                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" type="text" placeholder="">
+                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" class="alpha" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -70,7 +70,7 @@
                                                 <p class="label_part">New Category <span>**</span></p>
                                                     
                                                     <div class="label_input_part">
-                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" type="text" placeholder="">
+                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" class="alpha" type="text" placeholder="">
                                                     </div>
                                                     <div class="clear"></div>
                                                 </div>
@@ -205,4 +205,12 @@
                 });
        }
     
+    $(function () {
+        $(".alpha").attr("maxlength", 20)
+      
+        $(".alpha").bind("keypress", function (e) {
+            var str = /[a-zA-Z0-9 ]/;
+            return globalValidation(e, str);
+        });
+    });
 </script>

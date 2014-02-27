@@ -159,12 +159,35 @@
 
 @*    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)*@
-    <script>
+    <script lang="ja" type="text/javascript">
 
         function disposeStorage()
         {
             sessionStorage.removeItem('tabClick');
         }
+
+        function globalValidation(e, str) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode == 8) return true;
+            var keynum;
+            var keychar;
+            if (window.event) // IE
+            {
+                keynum = e.keyCode;
+            }
+            else {
+                if (e.which) // Netscape/Firefox/Opera
+                {
+                    keynum = e.which;
+                }
+                else return true;
+            }
+            keychar = String.fromCharCode(keynum);
+            return str.test(keychar);
+        }
+
+       
+
     </script>
 </body>
 </html>

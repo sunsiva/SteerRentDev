@@ -69,7 +69,7 @@
                     <div class="contain_left_part">
                         <p class="label_part">Enter New Value <span>*</span></p>
                         <div class="label_input_part">
-                            <input name="txtGLookupValue" id="txtGLookupValue" type="text" />
+                            <input name="txtGLookupValue" id="txtGLookupValue" class="alpha" type="text" />
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -92,6 +92,21 @@
     
     <script lang="ja" type="text/javascript">
         $(document).ready(function () {
+
+            $(function () {
+              $(".alpha").attr("maxlength", 20)
+                $(".alphaNumeric").attr("maxlength", 30)
+
+                $(".alpha").bind("keypress", function (e) {
+                    var str = /[a-zA-Z ]/;
+                    return globalValidation(e, str);
+                });
+
+                $(".alphaNumeric").bind("keypress", function (e) {
+                    var str = /[a-zA-Z0-9 ]/;
+                    return globalValidation(e, str);
+                });
+            });
 
             // bind slider
             var slidetabs = $('#slidetabs').slidetabs({
