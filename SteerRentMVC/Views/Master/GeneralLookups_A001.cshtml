@@ -1,26 +1,26 @@
-﻿@{
+﻿@model SteerRent.Model.LookupCategoryModel
+
+@{
     ViewBag.Title = "GeneralLookups_A001";
     Layout = null;// "~/Views/Shared/_EmptyLayout.cshtml";
 }
-
-<script src="~/Scripts/core/steerrent.js" lang="ja" type="text/javascript"></script>
+<script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
 
 <!--- A001 - General Lookups -->
 <div class="A001 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
-            <div class="contain_row">
+            <div class="contain_row" id="GLookupSuccessMsg">
                 <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
             </div>
-            <div class="contain_row">
-                <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
-                <p class="error_msg_sm">Please enter all required fields.</p>
-                <p class="error_msg_sm">The chosen value already exists in the system.</p>
-                <p class="error_msg_sm">Special characters are not allowed.</p>
-                <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            <div class="contain_row ErrorMsg">
+                <p class="error_msg_bg" id="GLookupFailImg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm" id="GLookupReq">Please enter all required fields.</p>
+                <p class="error_msg_sm" id="GLookupExist">The chosen value already exists in the system.</p>
+                @*<p class="error_msg_sm" id="GLookupSpcChr">Special characters are not allowed.</p>*@
+                <p class="error_msg_sm" id="GLookupErrorMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
             </div>
             <form name="" method="post">
-
                 <div class="contain_row">
                     <h5 class="contain_title">General Lookups</h5>
                     <div class="contain_sub_row">
@@ -34,7 +34,6 @@
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
-
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
@@ -43,63 +42,21 @@
                     <div class="contain_sub_row">
                         <p class="label_part">List of Values</p>
                         <div class="label_textarea_part">
-                            <table class="gridtable">
-                                <tr>
-                                    <th width="45%">Category
-                                    </th>
-                                    <th width="45%">Value
-                                    </th>
-                                    <th width="10%">Status
-                                    </th>
-
-                                </tr>
-                                <tr>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-
-                                    <td>
-                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-
-                                    <td>
-                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-
-                                    <td>
-                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
-                                    </td>
-                                </tr>
-                            </table>
-
-                            </br>
-                            <h5 style="text-align: right">xx records found. xx - Active, xx - Inactive.</h5>
+                            <span id="GlookupGrdList">
+                            @Html.Partial("_SearchResults", Model)
+                            </span>
+                            
                         </div>
-
-
                         <div class="clear"></div>
                     </div>
                 </div>
                 <div class="contain_row">
-                    <h5 class="contain_title">Add Lookup Data for "Category"</h5>
+                    <h5 class="contain_title">Add Lookup Data for "<span id="spnGLookupSelValue">Category</span>"</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Enter New Value <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtNewValue" type="text" placeholder="">
+                                <input name="txtGLookupValue" id="txtGLookupValue" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -113,7 +70,7 @@
 
                 <div class="submit_part">
                     <div class="contain_submit_row">
-                        <button type="submit" class="submit_btn" value="Submit">Submit</button>
+                        <input type="button" id="btnSubmitA1" class="submit_btn" value="Submit" />
                     </div>
                 </div>
 

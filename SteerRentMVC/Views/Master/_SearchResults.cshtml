@@ -1,20 +1,15 @@
 ﻿@model SteerRent.Model.LookupCategoryModel
 <div id="GlookupGrdList">
     <table class="gridtable">
-        <tr>
-            <th>
-                Category
-            </th>
-            <th>
-                Value
-            </th>
-            <th>
-                Status
-            </th>
-                <th>
-                Activate
-            </th>
-        </tr>
+       <tr>
+        <th width="45%">Category
+        </th>
+        <th width="45%">Value
+        </th>
+        <th width="10%">Status
+        </th>
+
+    </tr>
         @if (Model.GLookupList != null)
         {
             if (Model.GLookupList.Count > 0)
@@ -27,28 +22,28 @@
                     <td>
                         @item.GLookupDesc
                     </td>
-                    <td>
+                 @*   <td>
                         @if(item.IsActive == true)
                         {<div id="dvActivate-@item.GLookupID" class="label_part">Active</div>}
                         else
                         {
                             <div id='dvInActivate-@item.GLookupID' class="error_msg">InActive</div>
                         }
-                    </td>
-                    <td>
-                        <input type="checkbox" id="@item.GLookupID" checked="@item.IsActive" class="checkbox-mrg" />
+                    </td>*@
+                   <td>
+                        <input type="checkbox" name="chkGLookup" id="@item.GLookupID" checked="@item.IsActive" class="checkbox-mrg" />
                     </td>
                 </tr>
              }
          }
          else
          {
-            <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
+            <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
             }
         }
         else
          {
-            <tr><td colspan="4"><span  class="error_msg">No record(s) found.</span></td></tr>
+            <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
             }
 </table>
     @if (Model.GLookupList != null)
@@ -63,45 +58,5 @@
     </div>
 
 <script lang="ja" type="text/javascript">
-    //Updating Active/Inactive status when clicking on checkbox
-    $("input[type=checkbox]").change(function () {
-        var id = this.id;
-        var State = $(this).is(':checked');
-        
-        @*var href = '@Url.Action("GLookupStatusUpdate", "Master")/' + id + '/' + State;
-        alert(href);
-        $.get('@Url.Action("GLookupStatusUpdate", "Master")/' + id+'/'+ State, function (data) {
-            alert('done');
-            if (State == true) {
-                $('#dvInActivate-' + LocId).text('Active').removeClass("error_msg").addClass("label_part");
-                $('#dvInActivate-' + LocId).attr('id', 'dvActivate-' + LocId);
-            }
-            else {
-                $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg");
-                $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
-            }
-        });*@
-
-        var href = '@Url.Action("GLookupStatusUpdate")';
-        $.ajax({
-            url: href,
-            data: { Id: id, Status: State },
-            type: "POST",
-            datatype: "json",
-            traditional: true,
-            success: function () {
-                if (State == true) {
-                    $('#dvInActivate-' + id).text('Active').removeClass("error_msg").addClass("label_part");
-                    $('#dvInActivate-' + id).attr('id', 'dvActivate-' + id);
-                }
-                else {
-                    $('#dvActivate-' + id).text('InActive').removeClass("label_part").addClass("error_msg");
-                    $('#dvActivate-' + id).attr('id', 'dvInActivate-' + id);
-                }
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-            }
-        });
-    });
+    
 </script>
