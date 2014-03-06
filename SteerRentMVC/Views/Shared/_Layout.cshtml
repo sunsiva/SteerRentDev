@@ -7,8 +7,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-   @* @Styles.Render("~/Content/CSS")
-    @Scripts.Render("~/bundles/modernizr")*@
+    @Styles.Render("~/Content/CSS")
+    @Scripts.Render("~/bundles/modernizr")
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=975" />
@@ -43,13 +43,13 @@
                 </div>
             </div>
             <div class="header_right_part">
-                <div class="serch_box_outter">
+                @*<div class="serch_box_outter">
                     <form method="post" name="serch-box">
                         <div class="serch_box_inner"><input name="" class="serch_input" placeholder="Enter Keyword To search.." type="text" /></div>
                         <button type="button" class="serch_btn"></button>
                         <div class="clear"></div>
                   </form>
-                </div>  
+                </div>  *@
             	<!--Start Menu--> 
                 <div class="menu_part">
                     <a class="menu_item" id="menu_item">Menu</a>
@@ -64,49 +64,37 @@
                                         <h5 class="menu_box_submodule">Masters</h5>
                                         <ul class="page_ul">    
                                             <li><a class="page_name" data-url="@Url.Action("GeneralLookups_A001","Master")">General Lookups</a></li>
-                                            <li><a class="page_name" data-url="@Url.Action("HierarchicalLookup_A002","Master")">Hierarchical Lookups</a></li>
+                                            @*<li><a class="page_name" data-url="@Url.Action("HierarchicalLookup_A002","Master")">Hierarchical Lookups</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("CompanySetup_A003","Master")">Company Setup</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("Location_A004","Master")">Location</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("ChargeCodes_A005","Master")">Charge Codes</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("Employee_A007","Master")">Employee</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("Roles_A008","Master")">Roles</a></li>
                                             <li><a class="page_name" data-url="@Url.Action("Privileges_A009","Master")">Privileges</a></li>
-                                            <li><a class="page_name" data-url="@Url.Action("Users_A010","Master")">Users</a></li>
+                                            <li><a class="page_name" data-url="@Url.Action("Users_A010","Master")">Users</a></li>*@
                                         </ul>
                                     </div>
                                     <!--End Menu Colume-->
                                     
-                                    <!--Start Menu Colume-->
-                                  <div class="submodule_colume">
+                                    <!--Start Menu Colume:Report-->
+                                  @*<div class="submodule_colume">
                                         <h5 class="menu_box_submodule">Report</h5>
                                         <ul class="page_ul">
                                             <li><a class="page_name" data-url="@Url.Action("UsersReport","Reports")">User Report</a></li>
-                                        </ul>
-                                    </div>
-                                    <!--End Menu Colume-->
-                                    
-                                   @*   <!--Start Menu Colume-->
-                                    <div class="submodule_colume">
-                                        <h5 class="menu_box_submodule">Sub Module Name</h5>
-                                        <ul class="page_ul">
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
-                                            <li><a class="page_name" data-url="content.html">Page Name</a></li>
                                         </ul>
                                     </div>*@
                                     <!--End Menu Colume-->
                                     <div class="clear"></div>                                                                                    
                                  </div>
-                                  <h5 class="menu_box_subtitle">Fleet Management</h5> 
+                                  @*<h5 class="menu_box_subtitle">Fleet Management</h5> *@
                                 <div class="sub_module_row">
-                                    <!--Start Menu Colume--> 
-                                    <div class="submodule_colume">
+                                    <!--Start Menu Colume: Fleet--> 
+                                    @*<div class="submodule_colume">
                                         <h5 class="menu_box_submodule">Vehicle</h5>
                                         <ul class="page_ul">    
                                             <li><a class="page_name" data-url="@Url.Action("VehicleMaster","Fleet")">Vehicle Master</a></li>
                                         </ul>
-                                    </div>
+                                    </div>*@
                                     <!--End Menu Colume-->
                                     </div>
                             </div>
@@ -122,19 +110,15 @@
         <!-- End Header part
 		==================================================-->
             @RenderBody()
-        <!-- Start Footer Part
+                 <!-- Start Footer Part
     	==================================================-->
         <div class="footer_part">
             <p class="copyright_part">&copy;2014 SteerRent</p>
             <div class="footer_menu_part">
+                <a class="footer_item" href="javascript:;">Report Bug</a>
+                <div class="diwider">|</div>
                 <a class="footer_item" href="javascript:;">Help</a>
-                <div class="diwider">|</div>
-                <a class="footer_item" href="javascript:;">Report</a>
-                <div class="diwider">|</div>
-                <a class="footer_item" href="javascript:;">Bug</a>
-                <div class="diwider">|</div>
-                <a class="footer_item" href="javascript:;">Contact</a>
-                <div class="clear"></div>                                                                
+                <div class="clear"></div>                                                              
             </div>
             <div class="clear"></div>
         </div>    
