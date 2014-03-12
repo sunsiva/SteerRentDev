@@ -1,4 +1,5 @@
 ﻿@model SteerRent.Model.LookupCategoryModel
+<script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
 <div id="GlookupGrdList">
     <table class="gridtable">
        <tr>
@@ -8,7 +9,6 @@
         </th>
         <th width="10%">Status
         </th>
-
     </tr>
         @if (Model.GLookupList != null)
         {
@@ -22,14 +22,6 @@
                     <td>
                         @item.GLookupDesc
                     </td>
-                 @*   <td>
-                        @if(item.IsActive == true)
-                        {<div id="dvActivate-@item.GLookupID" class="label_part">Active</div>}
-                        else
-                        {
-                            <div id='dvInActivate-@item.GLookupID' class="error_msg">InActive</div>
-                        }
-                    </td>*@
                    <td>
                         <input type="checkbox" name="chkGLookup" id="@item.GLookupID" checked="@item.IsActive" class="checkbox-mrg" />
                     </td>
@@ -46,17 +38,56 @@
             <tr><td colspan="3"><span  class="error_msg">No record(s) found.</span></td></tr>
             }
 </table>
+    
     @if (Model.GLookupList != null)
     {
         if (Model.GLookupList.Count > 0)
         {
-    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.GLookupList.Count()</span> records found.
-    <span id="spnActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+        <h5 style="text-align:right"> <span id="spnTotCnt">@Model.GLookupList.Count()</span> records found.
+        <span id="spnGLookActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == true).Count()</span> - Active,
+        <span id="spnGLookInActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
         }
     }
     </div>
 
 <script lang="ja" type="text/javascript">
-    
+    //Updating Active/Inactive status when clicking on checkbox
+    $("input[name='chkGLookup']").change(function () {
+        var id = this.id;
+        var State = $(this).is(':checked');
+        var href = '@Url.Action("GLookupStatusUpdate")';
+            $.ajax({
+                url: href,
+                data: { Id: id, Status: State },
+                type: "POST",
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var actCnt = Number($('#spnGLookActiveCnt').text());
+                    var inActCnt = Number($('#spnGLookInActiveCnt').text());
+                    if (State == true) {
+                        if (actCnt>=0) 
+                            $('#spnGLookActiveCnt').text(actCnt + 1);
+                        if (inActCnt>0) 
+                            $('#spnGLookInActiveCnt').text(inActCnt - 1);
+                        //$('#dvInActivate-' + id).text('Active').removeClass("error_msg").addClass("label_part");
+                        //$('#dvInActivate-' + id).attr('id', 'dvActivate-' + id);
+                    }
+                    else {
+                        if (actCnt>0) 
+                            $('#spnGLookActiveCnt').text(actCnt - 1);
+                        if (inActCnt>=0) 
+                            $('#spnGLookInActiveCnt').text(inActCnt + 1);
+                        //$('#dvActivate-' + id).text('InActive').removeClass("label_part").addClass("error_msg");
+                        //$('#dvActivate-' + id).attr('id', 'dvInActivate-' + id);
+                    }
+                    $('#GLookupSuccessMsg').attr("style", "display:block");
+                    $('.ErrorMsg').attr("style", "display:none");
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('#GLookupFailImg').attr("style", "display:block");
+                    $('#GLookupErrorMsg').attr("style", "display:block");
+                }
+            });
+        });
 </script>

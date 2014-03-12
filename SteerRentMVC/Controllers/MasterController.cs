@@ -49,20 +49,21 @@ namespace SteerRentMVC.Controllers
             {
                 objModel.PageMode = GlobalEnum.MasterPages.GLookup;
                 objModel.ActionMode = GlobalEnum.Flag.Insert;
-                objModel.UserId = 1;
+                objModel.UserId = 1; //TODO
                 objModel.IsActive = true;
                 objModel.LookupCategoryCode = value; //To be inserted in Glookup value column
             }
 
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
-            //if (objModel.GLookupList.Count > 0)
-            //{
-            //    if (objModel.GLookupList[0].isGlookExist)
-            //    {
-            //        return PartialView("GeneralLookups_A001", objModel);
-            //    }
-            //}
+            if (objModel.GLookupList.Count > 0)
+            {
+                if (objModel.GLookupList[0].isGlookExist)
+                {
+                    ViewData["IsGlookExist"] = true;
+                    return Json(objModel);
+                }
+            }
 
             //objModel = (from item in lstObjModel where (item.LookupCategoryID == id) select item).SingleOrDefault();
             //objModel.LookupCategoryList = objModel.GLookupList;
@@ -79,11 +80,10 @@ namespace SteerRentMVC.Controllers
             objModel.LookupCategoryID = Id;
             objModel.LookupCategoryDesc = string.Empty;
             objModel.IsActive = Status;
-            objModel.UserId = 1;
+            objModel.UserId = 1; // TODO
             objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
             objModel.PageMode = GlobalEnum.MasterPages.GLookup;
             objBal.GetLookupData(objModel);
-
         }
 
         public ActionResult HierarchicalLookup_A002()

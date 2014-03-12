@@ -1,11 +1,12 @@
 ﻿@model SteerRent.Model.LookupCategoryModel
 
 @{
+    var cat = Model.LookupCategoryList.Where(m => m.IsGLookup == true).ToList();
     ViewBag.Title = "GeneralLookups_A001";
     Layout = null;// "~/Views/Shared/_EmptyLayout.cshtml";
 }
 <script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
-
+@ViewData["IsGlookExist"]
 <!--- A001 - General Lookups -->
 <div class="A001 st_view">
     <div class="st_view_inner">
@@ -27,9 +28,7 @@
                         <div class="contain_left_part">
                             <p class="label_part">Category<span></span></p>
                             <div class="label_combo_part">
-                                <select name="ddlCategory">
-                                    <option></option>
-                                </select>
+                                @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "", new { @id = "ddlCategory" })
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -45,7 +44,6 @@
                             <span id="GlookupGrdList">
                             @Html.Partial("_SearchResults", Model)
                             </span>
-                            
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -67,15 +65,56 @@
                         <div class="clear"></div>
                     </div>
                 </div>
-
                 <div class="submit_part">
                     <div class="contain_submit_row">
                         <input type="button" id="btnSubmitA1" class="submit_btn" value="Submit" />
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
 </div>
 <!-- END A001 -->
+
+<script>
+    // bind slider
+    var slidetabs = $('#slidetabs').slidetabs({
+        orientation: 'horizontal',
+        autoHeight: true,
+        touchSupport: true
+    });
+
+    function RefreshGrid(status) {
+        var href = '@Url.Action("GeneralLookupSubmit")';
+        $.ajax({
+            url: href,
+            data: { id: $('#ddlCategory').val(), value: $('#txtGLookupValue').val(), status: status },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#GlookupGrdList').replaceWith(data);
+                $('#txtGLookupValue').val('');
+                if (status == 'Insert') {
+                    $('#GLookupSuccessMsg').attr("style", "display:block");
+                    $('.ErrorMsg').attr("style", "display:none");
+                }
+                slidetabs.setContentHeight();
+                //var items = [];
+                //items.push("<option>--Select Sub-Category--</option>");
+                //alert(data);
+                //$.each(data, function () {
+                //    items.push("<option value=" + this.Value + ">" + this.Text + "</option>");
+                //});
+                //$("#ddlSubCategory").html(items.join(' '));
+                //alert('Glookup');
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#GLookupFailImg').attr("style", "display:block");
+                $('#GLookupErrorMsg').attr("style", "display:block");
+                slidetabs.setContentHeight();
+            }
+        });
+    }
+
+</script>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SteerRentMVC.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace SteerRentMVC.Controllers
 
         public ActionResult Dashboard()
         {
+            SessionManager.DisplayName = "Admin";
             return View();
         }
 

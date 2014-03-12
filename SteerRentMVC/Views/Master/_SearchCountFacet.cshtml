@@ -1,5 +1,10 @@
-﻿@model SteerRent.Model.LocationModel
-
-<h5> <span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
-    <span id="spnActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt"> @Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+﻿@model SteerRent.Model.LookupCategoryModel
+ @if (Model.GLookupList != null)
+ {
+     if (Model.GLookupList.Count > 0)
+     {
+    <h5 style="text-align:right"> <span id="spnTotCnt">@Model.GLookupList.Count()</span> records found.
+    <span id="spnActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnInActiveCnt"> @Model.GLookupList.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+     }
+ }

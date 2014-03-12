@@ -21,7 +21,6 @@ $(document).ready(function (e) {
 		autoHeight:true,
 		touchSupport:true
 	});
-	
 
 	//click tab delete
 	$('#slidetabs').off('click').on('click', '.cancel_btn', function(e) {
@@ -53,8 +52,6 @@ $(document).ready(function (e) {
 	            }
 	        });
 	    }
-
-
 	});
 	
 	// datepicker
