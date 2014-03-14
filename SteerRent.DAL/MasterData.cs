@@ -130,7 +130,7 @@ namespace SteerRent.DAL
 
                     //if (obj.ActionMode == GlobalEnum.Flag.Select && (obj.PageMode == GlobalEnum.MasterPages.Lookup || obj.PageMode == GlobalEnum.MasterPages.GAndLookup || obj.PageMode == GlobalEnum.MasterPages.HAndLookup))
                     {
-                        cmd.CommandText = "SELECT LookupCategoryID,LookupCategoryCode,LookupCategoryDesc,IsActive,IsGLookup FROM LookupCategories";// "usp_LookupCategoriesSelect";
+                        cmd.CommandText = "SELECT LookupCategoryID,LookupCategoryCode,LookupCategoryDesc,IsActive,IsGLookup FROM LookupCategories order by LookupCategoryCode asc";// "usp_LookupCategoriesSelect";
                         cmd.CommandType = CommandType.Text;
                         //cmd.Parameters.AddWithValue("@LookupCategoryID", DBNull.Value);
                         ds = new DataSet();

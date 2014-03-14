@@ -6,7 +6,7 @@
     Layout = null;// "~/Views/Shared/_EmptyLayout.cshtml";
 }
 <script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
-@ViewData["IsGlookExist"]
+
 <!--- A001 - General Lookups -->
 <div class="A001 st_view">
     <div class="st_view_inner">
@@ -26,7 +26,7 @@
                     <h5 class="contain_title">General Lookups</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
-                            <p class="label_part">Category<span></span></p>
+                            <p class="label_part">Category <span>*</span></p>
                             <div class="label_combo_part">
                                 @Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(cat, "LookupCategoryID", "LookupCategoryCode"), "", new { @id = "ddlCategory" })
                             </div>
@@ -65,6 +65,7 @@
                         <div class="clear"></div>
                     </div>
                 </div>
+                <div class="clear"></div>
                 <div class="submit_part">
                     <div class="contain_submit_row">
                         <input type="button" id="btnSubmitA1" class="submit_btn" value="Submit" />
@@ -84,21 +85,55 @@
         touchSupport: true
     });
 
-    function RefreshGrid(status) {
+        $('#ddlCategory').change(function () {
+            $.ErrorHide();
+            $('#txtGLookupValue').val('');
+            var ddlVal=$('#ddlCategory').val();
+            if (ddlVal > 0) {
+                $('#spnGLookupSelValue').text($("#ddlCategory option:selected").text());
+                RefreshGrid(ddlVal,'','Select');
+                slidetabs.setContentHeight();
+            }
+            else { RefreshGrid(0,'','Empty'); }
+        });
+
+        $('#btnSubmitA1').click(function () {
+            $.ErrorHide();
+            var txtCategoryVal = $.trim($('#txtGLookupValue').val());
+            if ($('#ddlCategory').val() > 0 && txtCategoryVal != '') {
+                RefreshGrid($('#ddlCategory').val(),txtCategoryVal,'Insert');
+                $('#txtGLookupValue').val('');
+                $('#txtGLookupValue').focus();
+                slidetabs.setContentHeight();
+            }
+            else {
+                $('.ErrorMsg').attr("style", "display:block");
+                $('#GLookupFailImg').attr("style", "display:block");
+                $('#GLookupReq').attr("style", "display:block");
+                slidetabs.setContentHeight();
+            }
+        });
+
+    function RefreshGrid(selVal, txtVal, status) {
         var href = '@Url.Action("GeneralLookupSubmit")';
         $.ajax({
             url: href,
-            data: { id: $('#ddlCategory').val(), value: $('#txtGLookupValue').val(), status: status },
+            data: { id: selVal, value: txtVal, status: status },
             type: "POST",
             datatype: "json",
             traditional: true,
             success: function (data) {
-                $('#GlookupGrdList').replaceWith(data);
-                $('#txtGLookupValue').val('');
                 if (status == 'Insert') {
-                    $('#GLookupSuccessMsg').attr("style", "display:block");
-                    $('.ErrorMsg').attr("style", "display:none");
-                }
+                    $('.ErrorMsg').attr("style", "display:block");
+                    if (data.length) {
+                        $('#GlookupGrdList').replaceWith(data);
+                        $('#GLookupSuccessMsg').attr("style", "display:block");
+                    }
+                    else {
+                        $('#GLookupFailImg').attr("style", "display:block");
+                        $('#GLookupExist').attr("style", "display:block");
+                    }
+                } else { $('#GlookupGrdList').replaceWith(data); }
                 slidetabs.setContentHeight();
                 //var items = [];
                 //items.push("<option>--Select Sub-Category--</option>");
@@ -117,4 +152,5 @@
         });
     }
 
+    
 </script>

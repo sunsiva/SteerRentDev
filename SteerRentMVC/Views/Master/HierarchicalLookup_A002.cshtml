@@ -4,213 +4,147 @@
     
     ViewBag.Title = "HierarchicalLookups_A001";
 }
+<script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
 <!--- START A002 - Hierarchical Lookups -->
-                        <div class="A002 st_view">
-                            <div class="st_view_inner">
-                            	<div class="tab_contant_inner">
-                           			<div class="contain_row">
-                                    	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please select/enter required field(s).</p>
-                                        <p class="error_msg_exist">The chosen value already exists in the system.</p>
-                                        <p class="error_msg_spclchar">Special characters are not allowed.</p>
-                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                    </div>
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">Hierarchical Lookups</h5>
-                                            <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                <p class="label_part">Category & Sub-Category<span></span></p>
-                                                    <div class="label_combo_part">
-                                                    	@Html.DropDownListFor(model => model.LookupCategoryID, new SelectList(objCategories, "LookupCategoryID", "LookupCategoryCode"), "", new { @id = "ddlHLookupCategory" })
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                	
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>                                                                                                
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">Existing Values</h5>
-                                            <div class="contain_sub_row">
-                                            	<p class="label_part">List of Values</p>
-                                                <div id="HLookupGrdList">
-                                                    @Html.Partial("_HLookupSearchResults", Model)
-                                                    </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
+<div class="A002 st_view">
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
+            <div class="contain_row">
+                <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
+            </div>
+            <div class="contain_row">
+                <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm">Please enter all required fields.</p>
+                <p class="error_msg_sm">The chosen value already exists in the system.</p>
+                <p class="error_msg_sm">Special characters are not allowed.</p>
+                <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <form name="" method="post">
 
-                                        <div class="contain_row">
-                                        	<h5 class="contain_title">Add Lookup Data for " <span id="spnHLookupSelValue">Category & Sub-Category</span>"</h5>
-                                            <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                <p class="label_part">Existing Category <span>**</span></p>
-                                                    
-                                                    <div class="label_combo_part">
-                                                        <select name="ddlHLookupExistCategory" id="ddlHLookupExistCategory"></select>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                	<p class="label_part">New Sub-Category <span>*</span></p>
-                                                    <div class="label_input_part">
-                                                        <input name="txtHLookupSubCatValue" id="txtHLookupSubCatValue" class="alpha" type="text" placeholder="">
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>                                                                                                
-                                            </div>
-                                            <div>OR</div>
-                                            <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                <p class="label_part">New Category <span>**</span></p>
-                                                    
-                                                    <div class="label_input_part">
-                                                        <input name="txtHLookupCatValue" id="txtHLookupCatValue" class="alpha" type="text" placeholder="">
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                	<p class="label_part"><span></span></p>
-                                                   
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>                                                                                                
-                                            </div>
-                                        </div>                                                                          
-                                </div>
-                                                                        <div class="submit_part">
-                                            <div class="contain_submit_row">
-                                                <input type="button" id="btnSubmitA2" class="submit_btn" value="Submit" />
-                                            </div>
-                                        </div>
-                            </div>    
+                <div class="contain_row">
+                    <h5 class="contain_title">Hierarchical Lookups</h5>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Category & Sub-Category<span></span></p>
+                            <div class="label_combo_part">
+                                <select name="ddlCategory">
+                                    <option></option>
+                                    <option>Vehicle Group & Sub-Group</option>
+                                    <option>Vehicle Type & Sub-Type</option>
+                                    <option>Vehicle Make & Brand</option>
+                                    <option>Vehicle Color & Sub-Color</option>
+                                    <option>Country & State/Emirate</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
                         </div>
+                        <div class="contain_left_part">
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div class="contain_sub_row">
+                        <p class="label_part">List of Values</p>
+                        <div class="label_textarea_part">
+                            <table class="gridtable">
+                                <tr>
+                                    <th width="45%">Category
+                                    </th>
+                                    <th width="45%">Sub-Category
+                                    </th>
+                                    <th width="10%">Status
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <td>Row 1
+                                    </td>
+                                    <td>Row 1
+                                    </td>
+
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Row 1
+                                    </td>
+                                    <td>Row 1
+                                    </td>
+
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Row 1
+                                    </td>
+                                    <td>Row 1
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            </br>
+                            <h5 style="text-align: right">xx records found. xx - Active, xx - Inactive.</h5>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="contain_row">
+                    <h5 class="contain_title">Add Lookup Data for "Category & Sub-Category"</h5>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Existing Category <span>**</span></p>
+
+                            <div class="label_combo_part">
+                                <select name="ddlCategory">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+                            <p class="label_part">New Sub-Category <span>*</span></p>
+                            <div class="label_input_part">
+                                <input name="txtNewSubCat" type="text" placeholder="">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div>OR</div>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">New Category <span>**</span></p>
+
+                            <div class="label_input_part">
+                                <input name="txtNewCat" type="text" placeholder="">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+                            <p class="label_part"><span></span></p>
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="submit_part">
+                    <div class="contain_submit_row">
+                        <button type="button" class="submit_btn" value="Submit">Submit</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 <!-- END A002 -->
-<script lang="ja" type="text/javascript">
-   
-        // bind slider
-        var slidetabs = $('#slidetabs').slidetabs({
-            orientation: 'horizontal',
-            autoHeight: true,
-            touchSupport: true
-        });
-  
-    $('#ddlHLookupCategory').change(function () {
-        if ($('#ddlHLookupCategory').val() > 0) {
-            $('#spnHLookupSelValue').text($("#ddlHLookupCategory option:selected").text());
-            RefreshGrid('Select');
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("getHLookupExistCategory")',
-                data: { selCatId: $('#ddlHLookupCategory').val() },
-                success: function (data) {
-                    $("#ddlHLookupExistCategory").empty();
-                    $.each(data, function () {
-                        $("#ddlHLookupExistCategory").append($('<option />').attr('value', this.Value).text(this.Text));
-                    });
-                }
-             })
-        }
-    });
-
-    $("#ddlHLookupExistCategory11").change(function () {
-        if ($('#ddlHLookupCategory').val() > 0) {
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("getCityJson")',
-                data: { stateId: $('#ddlHLookupCategory').val() },
-                success: function (data) {
-                    var size = data.length;
-                    var items = [];
-                    items.push("&lt;option>--Choose Your Area--&lt;/option>");
-                    for (i = 0; i < size; i++) {
-                        var s = i;
-                    }
-                    $.each(data, function () {
-                        alert(this.Text);
-                        items.push("&lt;option value=" + this.Value + ">" + this.Text + "&lt;/option>");
-                    });
-
-                    $("#ddlHLookupExistCategory").html(items.join(' '));
-                }
-            })
-        }
-    });
-
-    $('#btnSubmitA2').click(function () {
-                
-        if ($('#ddlHLookupCategory').val() > 0) {
-            RefreshGrid('Insert');
-            slidetabs.setContentHeight();
-        }
-        else {
-            $('.error_msg_bg').css("display", "block");
-            $('.error_msg_sm').css("display", "block");
-            slidetabs.setContentHeight();
-        }
-    });
-
-    function RefreshGrid(status)
-    {
-        var catvalue = $('#txtHLookupCatValue').val();
-        var catid = $('#ddlHLookupExistCategory').val();
-        if (status == 'Insert') {
-            if (catvalue == '' && catid == '') {
-                $('.error_msg_sm').css("display", "block"); $('.error_msg_bg').css("display", "block");
-                return false;
-            }
-        }
-        var href = '@Url.Action("HierarchicalLookupSubmit")';
-                $.ajax({
-                    url: href,
-                    data: { id: $('#ddlHLookupCategory').val(), catValue: catvalue,catId: catid, subCatValue: $('#txtHLookupSubCatValue').val(), status: status },
-                    type: "POST",
-                    datatype: "json",
-                    traditional: true,
-                    success: function (data) {
-                        
-                        if (status == 'Insert') {
-                                if (data.HLookupList[0].isHLookExist) {
-                                    $('.error_msg_exist').css('display', 'block');
-                                    $('.error_msg_bg').css("display", "block");
-                                }
-                                else {
-                                    $('#HLookupGrdList').replaceWith(data);
-                                    $('.error_msg_exist').css('display', 'none');
-                                    $('.error_msg_bg').css("display", "none");
-                                }
-                            } else {
-                                $('#HLookupGrdList').replaceWith(data);
-                                $('.error_msg_exist').css('display', 'none');
-                                $('.error_msg_bg').css("display", "none");
-                            }
-                        $('#txtHLookupCatValue').val('');
-                        $('#txtHLookupSubCatValue').val('');
-                        $('.error_msg_sm').css("display", "none");
-                        $('.error_msg_spclchar').css("display", "none");
-                        $('.error_msg_error').css("display", "none");
-                        slidetabs.setContentHeight();
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        $('.error_msg_bg').css("display", "block");
-                        $('.error_msg_error').css("display", "block"); //("Error:Action is aborted.Please try again later.");
-                        slidetabs.setContentHeight();
-                    }
-                });
-       }
-    
-    $(function () {
-        $(".alpha").attr("maxlength", 20)
-      
-        $(".alpha").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9 ]/;
-            return globalValidation(e, str);
-        });
-    });
-</script>

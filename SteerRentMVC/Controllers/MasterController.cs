@@ -39,32 +39,33 @@ namespace SteerRentMVC.Controllers
             objBal = new MasterData();
             objModel = new LookupCategoryModel();
             lstObjModel = new List<LookupCategoryModel>();
-
-            if (status == "Select")
-            {
-                objModel.ActionMode = GlobalEnum.Flag.Select;
-                objModel.PageMode = GlobalEnum.MasterPages.GAndLookup;
-            }
-            else
-            {
-                objModel.PageMode = GlobalEnum.MasterPages.GLookup;
-                objModel.ActionMode = GlobalEnum.Flag.Insert;
-                objModel.UserId = 1; //TODO
-                objModel.IsActive = true;
-                objModel.LookupCategoryCode = value; //To be inserted in Glookup value column
-            }
-
-            objModel.LookupCategoryID = id;
-            objModel = objBal.GetLookupData(objModel);
-            if (objModel.GLookupList.Count > 0)
-            {
-                if (objModel.GLookupList[0].isGlookExist)
+            
+                if (status == "Select")
                 {
-                    ViewData["IsGlookExist"] = true;
-                    return Json(objModel);
+                    objModel.ActionMode = GlobalEnum.Flag.Select;
+                    objModel.PageMode = GlobalEnum.MasterPages.GAndLookup;
                 }
-            }
+                else if (status == "Empty")
+                {
+                    return PartialView("_SearchResults", objModel);
+                }
+                else
+                {
+                    objModel.PageMode = GlobalEnum.MasterPages.GLookup;
+                    objModel.ActionMode = GlobalEnum.Flag.Insert;
+                    objModel.UserId = 1; //TODO
+                    objModel.IsActive = true;
+                    objModel.LookupCategoryCode = value; //To be inserted in Glookup value column
+                }
 
+                objModel.LookupCategoryID = id;
+                objModel = objBal.GetLookupData(objModel);
+                if (objModel != null && status != "Select")
+                {
+                    if (objModel.GLookupList[0].isGlookExist)
+                        return Json(objModel);
+                }
+       
             //objModel = (from item in lstObjModel where (item.LookupCategoryID == id) select item).SingleOrDefault();
             //objModel.LookupCategoryList = objModel.GLookupList;
 
