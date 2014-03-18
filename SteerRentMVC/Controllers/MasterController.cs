@@ -107,6 +107,10 @@ namespace SteerRentMVC.Controllers
                 objModel.ActionMode = GlobalEnum.Flag.Select;
                 objModel.PageMode = GlobalEnum.MasterPages.HLookup;
             }
+            else if (status == "Empty")
+            {
+                return PartialView("_SearchResults", objModel);
+            }
             else
             {
                 HLookupDataModel objHLData = new HLookupDataModel();
@@ -124,14 +128,11 @@ namespace SteerRentMVC.Controllers
             }
             objModel.LookupCategoryID = id;
             objModel = objBal.GetLookupData(objModel);
-            if (objModel != null && objModel.ActionMode== GlobalEnum.Flag.Insert)
+            if (objModel != null && status != "Select")
             {
                 if (objModel.HLookupList[0].isHLookExist)
-                {
                     return Json(objModel);
-                }
-                else
-                    return PartialView("_HLookupSearchResults", objModel);
+               
             }
             return PartialView("_HLookupSearchResults", objModel);
         }
@@ -149,12 +150,12 @@ namespace SteerRentMVC.Controllers
 
         }
 
-        public JsonResult getHLookupExistCategory(int selCatId)
+        public JsonResult getHLookupExistCategory(int id)
         {
-            return Json(getExistingCategory(selCatId));
+            return Json(getExistingCategory(id));
         }   
 
-        public SelectList getExistingCategory(int id)
+        private SelectList getExistingCategory(int id)
         {
             IEnumerable<SelectListItem> getGlookupdata = new List<SelectListItem>();
                 objBal = new MasterData();
@@ -162,7 +163,7 @@ namespace SteerRentMVC.Controllers
                 lstObjModel = new List<LookupCategoryModel>();
                 objModel.ActionMode = GlobalEnum.Flag.Select;
                 objModel.PageMode = GlobalEnum.MasterPages.GLookup;
-                objModel.UserId = 1;
+                objModel.UserId = 1; //To do
                 objModel.IsActive = true;
                 objModel.LookupCategoryID = id;
                 objModel = objBal.GetLookupData(objModel);
