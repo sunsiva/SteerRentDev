@@ -109,7 +109,7 @@ namespace SteerRentMVC.Controllers
             }
             else if (status == "Empty")
             {
-                return PartialView("_SearchResults", objModel);
+                return PartialView("_HLookupSearchResults", objModel);
             }
             else
             {
@@ -168,7 +168,7 @@ namespace SteerRentMVC.Controllers
                 objModel.LookupCategoryID = id;
                 objModel = objBal.GetLookupData(objModel);
 
-                getGlookupdata = (from m in objModel.GLookupList where m.IsActive == true && m.LookupCategoryID == id select m).AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
+                getGlookupdata = (from m in objModel.GLookupList where m.LookupCategoryID == id select m).AsEnumerable().Select(m => new SelectListItem() { Text = m.GLookupDesc, Value = m.GLookupID.ToString() });
                 return new SelectList(getGlookupdata, "Value", "Text", null);
 
                 //List<SelectListItem> list = new List<SelectListItem>();

@@ -94,7 +94,7 @@
                 RefreshGrid(ddlVal,'','Select');
                 slidetabs.setContentHeight();
             }
-            else { RefreshGrid(0,'','Empty'); }
+            else { RefreshGrid(0, '', 'Empty'); $('#spnGLookupSelValue').text("Category"); }
         });
 
         $('#btnSubmitA1').click(function () {
@@ -103,7 +103,6 @@
             if ($('#ddlCategory').val() > 0 && txtCategoryVal != '') {
                 RefreshGrid($('#ddlCategory').val(),txtCategoryVal,'Insert');
                 $('#txtGLookupValue').val('');
-                $('#txtGLookupValue').focus();
                 slidetabs.setContentHeight();
             }
             else {

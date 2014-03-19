@@ -1,32 +1,32 @@
 ﻿@model SteerRent.Model.CompanySetup
 <!--- START A003 - Company Setup -->
-
-
 <div class="A003 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
             <div class="contain_row">
-                <p class="error_msg_bg">&nbsp;</p>
-                <p class="error_msg_sm">Please enter all required fields.</p>
-                <p class="error_msg_spclchar">Invalid E-Mail Id format.</p>
-                <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
+                <p class="success_msg_bg" id="OrgSuccessMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
             </div>
-            <form method="get" id="frmCompanySetup">
+            <div class="contain_row OrdErrorMsg">
+                <p class="error_msg_bg" id="OrgFailImg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm" id="OrgReqMsg">Please enter all required fields.</p>
+                <p class="error_msg_sm" id="OrgInvalidMailMsg">Invalid E-Mail Id format.</p>
+                <p class="error_msg_sm" id="OrgRequestErrorMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <form name="" method="post">
                 <div class="contain_row">
                     <h5 class="contain_title">Basic Information</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Company Name <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtCompanyName" value="@Model.OrgName" class="alpha" id="txtCompanyName" type="text" placeholder="">
-                                <input name="txtOrgID" value="@Model.OrgID" id="txtBUID" type="hidden">
+                                <input name="txtCompanyName" id="txtCompanyName" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="contain_left_part" style="display: none">
+                        <div class="contain_left_part">
                             <p class="label_part">Company Logo<span></span></p>
                             <div class="label_input_part">
-                                <input name="txtCompanyLogo" value="" id="txtCompanyLogo" type="text" placeholder="">
+                                <button type="button" class="add_btn" value="add">+</button>&nbsp;<img src="~/images/comp_logo.png" width="100px" height="35px" />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -37,72 +37,52 @@
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 1 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgAddrLine1" value="@Model.OrgAddress1" class="alphaNum"  id="txtOrgAddrLine1" type="text" placeholder="">
+                                <input name="txtAddrLine2" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 2 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgAddrLine2" value="@Model.OrgAddress2" class="alphaNum" id="txtOrgAddrLine2" type="text" placeholder="">
+                                <input name="txtAddrLine2" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div>&nbsp;</div>
                     <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Address Line 3 <span></span></p>
-                            <div class="label_input_part">
-                                <input name="txtOrgAddrLine3" value="@Model.OrgAddress3" class="alphaNum" id="txtOrgAddrLine3" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
                         <div class="contain_left_part">
                             <p class="label_part">City <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgCity" id="txtOrgCity" value="@Model.OrgCity" class="alpha" type="text" placeholder="">
+                                <input name="txtCity" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div>&nbsp;</div>
-                    <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Country <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlOrgCountry" id="ddlOrgCountry">
-                                    <option value="@Model.OrgCountryId">@Model.OrgCountry</option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">State/Emirate <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlOrgStateEmirate" id="ddlOrgStateEmirate">
-                                    <option value="@Model.OrgEmirate">@Model.OrgEmirateName</option>
+                                <select name="ddlCountry">
+                                    <option></option>
                                 </select>
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div>&nbsp;</div>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
-                            <p class="label_part">Pin/Zip <span></span></p>
-                            <div class="label_input_part">
-                                <input name="txtOrgPinZip" id="txtOrgPinZip" class="numeric" value="@Model.OrgZip" type="text" placeholder="">
+                            <p class="label_part">State/Emirate <span>*</span></p>
+                            <div class="label_combo_part">
+                                <select name="ddlStateEmirate">
+                                    <option></option>
+                                </select>
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
-                            <p class="label_part">Post Box No.</p>
+                            <p class="label_part">Pin/Zip <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgPostBox" id="txtOrgPostBox" class="numeric" value="@Model.OrgPostBoxNo" type="text" placeholder="">
+                                <input type="text" name="txtPinZip">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -116,50 +96,48 @@
                         <div class="contain_left_part">
                             <p class="label_part">Full Name <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgContactPerson" id="txtOrgContactPerson" class="alpha" value="@Model.CPersonName" type="text" placeholder="">
+                                <input name="txtContactPerson" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Designation <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgDesignation" id="txtOrgDesignation" class="alpha" value="@Model.CPersonDesignation" type="text" placeholder="" />
+                                <input name="txtDesignation" type="text" placeholder="" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div>&nbsp;</div>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">E-Mail Id <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgEmail" id="txtOrgEmail" class="email" value="@Model.OrgEmailID" type="email" placeholder="">
+                                <input name="txtEmail" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Mobile No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgMobile" id="txtOrgMobile" class="numeric" value="@Model.CMobileNo" type="text" placeholder="">
+                                <input name="txtMobile" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div>&nbsp;</div>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Landline No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgLandline" id="txtOrgLandline" class="numeric" value="@Model.OrgPhoneNo" type="text" placeholder="">
+                                <input name="txtLandline" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Fax No. <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgFax" id="txtOrgFax" class="numeric" value="@Model.OrgFaxNo" type="text" placeholder="">
+                                <input name="txtFax" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -171,97 +149,49 @@
                     <div class="contain_sub_row">
                         <p class="label_part">Active Locations</p>
                         <div class="label_textarea_part">
-                            <table>
-                                @*1. Location Code - Location Name</br>
-                                    2. Location Code - Location Name</br>
-                                    3. Location Code - Location Name</br>
-                                    4. Location Code - Location Name</br>*@
-                                @if (Model != null)
-                                {
-                                    if (Model.lstLocation != null && Model.lstLocation.Count > 0)
-                                    {
-                                        var cnt = 0;
-                                        foreach (var item in Model.lstLocation)
-                                        {
-                                            cnt = cnt + 1;
-                                    <tr>
-                                        <td>
-                                            @Html.Raw(cnt)<span>.</span>
-                                            @item.LocationCode<span> - </span>@item.LocationName
-                                        </td>
-                                    </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                    <tr>
-                                        <td><span class="error_msg">--No Active Locations--</span></td>
-                                    </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td><span class="error_msg">--No Active Locations--</span></td>
-                                    </tr>
-                                }
-                            </table>
-                        @*<fieldset>
-                        <legend>Active Locations:</legend>
-                        --No Active Locations--
-                        </fieldset>*@
+                            --No Active Locations--</br>
+                                                	1. Location Code - Location Name</br>
+                                                    2. Location Code - Location Name</br>
+                                                    3. Location Code - Location Name</br>
+                                                    4. Location Code - Location Name</br>
                         </div>
                         <div class="clear"></div>
                     </div>
                 </div>
                 <div class="contain_row">
-                    <h5 class="contain_title">Base Currency</h5>
+                    <h5 class="contain_title">Currency & Date Format</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
-                            <p class="label_part">Choose Base Currency <span>*</span></p>
+                            <p class="label_part">Base Currency <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlOrgBaseCurrency" id="ddlOrgBaseCurrency">
-                                    <option value="@Model.BaseCurrencyId">@Model.BaseCurrency</option>
+                                <select name="ddlBaseCurrency">
+                                    <option></option>
                                 </select>
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
-                            @*<h5>Users will be allowed to configure Rate Plans in the currency that is chosen here. Invoices will be raised in this currency. lf customers prefer to pay in a differency currency the respective departments will have to calculate the exchange rate and process the payments. Users will have the option to choose other currencies during the payment process.*@
-                            </h5>
-                                                    <div class="clear"></div>
+                            <h5>NOTE: Currency format cannot be changed once configured.</h5>
+                            <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
                     </div>
                     <div>&nbsp;</div>
-                </div>
-                <div class="contain_row">
-                    <h5 class="contain_title">Date Format</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
-                            <p class="label_part">Choose Date Format <span>*</span></p>
+                            <p class="label_part">Date Format <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlOrgDateFormat" id="ddlOrgDateFormat">
-                                    <option>-- Select --</option>
-                                    @if(Model.DateFormat == "DD/MM/YYYY")
-                                    {
-                                    <option selected>DD/MM/YYYY</option>
-                                        <option>MM/DD/YYYY</option>
-                                    }
-                                    else if (Model.DateFormat == "MM/DD/YYYY")
-                                    {
-                                    <option selected>MM/DD/YYYY</option>
-                                        <option>DD/MM/YYYY</option>
-                                    }
-                                    else
-                                    {<option>DD/MM/YYYY</option>
-                                    <option>MM/DD/YYYY</option>}
+                                <select name="ddlDateFormat">
+                                    <option></option>
+                                    <option>DD/MM/YYYY</option>
+                                    <option>MM/DD/YYYY</option>
+
                                 </select>
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
-                            <h5></h5>
+                            <h5>NOTE: Date format cannot be changed once configured.</h5>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
@@ -270,7 +200,7 @@
                 </div>
                 <div class="submit_part">
                     <div class="contain_submit_row">
-                        <input type="button" id="btnSubmitA3" class="submit_btn" value="Submit" />
+                        <input type="button" class="submit_btn" id="btnSubmitA3" value="Submit" />
                     </div>
                 </div>
 
@@ -279,6 +209,7 @@
     </div>
 </div>
 <!-- END A003 -->
+
 <script lang="ja" type="text/javascript">
 
     $(function () {
@@ -286,28 +217,6 @@
         $(".alpha").attr("maxlength", 20)
         $(".email").attr("maxlength", 20)
         $(".alphaNum").attr("maxlength", 30)
-
-        $(".numeric").bind("keypress", function (e) {
-            var str = /[0-9,.+-]/;
-            return globalValidation(e, str);
-        });
-
-        $(".numeric").bind("paste", function (e) {
-            return false;
-        });
-        $(".numeric").bind("drop", function (e) {
-            return false;
-        });
-
-        $(".alpha").bind("keypress", function (e) {
-            var str = /[a-zA-Z ]/;
-            return globalValidation(e, str);
-        });
-
-        $(".alphaNum").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9,./ #]/;
-            return globalValidation(e, str);
-        });
     });
 
     if ($('#txtCompanyName').val() != '') {
@@ -364,12 +273,6 @@
 
         var phVal = $('#txtOrgLandline').val();
         var emailVal = $('#txtOrgEmail').val();
-     
-        //if (phVal.match(/^[0-9]*$/)) {
-        //    alert("numeric!");
-        //    // do whatever else...
-        //}
-
         var href = '@Url.Action("CompanyInsert")';
         $.ajax({
             url: href,

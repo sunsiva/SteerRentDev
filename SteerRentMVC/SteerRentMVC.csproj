@@ -220,6 +220,7 @@
     <Content Include="images\bullet.png" />
     <Content Include="images\car_icon.png" />
     <Content Include="images\comp_logo.png" />
+    <Content Include="images\favicon.ico" />
     <Content Include="images\heroAccent.png" />
     <Content Include="images\logo - Copy.png" />
     <Content Include="images\orderedList0.png" />

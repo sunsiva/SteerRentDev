@@ -52,7 +52,7 @@
                         <div class="contain_left_part">
                             <p class="label_part">Existing Category <span>**</span></p>
 
-                            <div class="label_combo_part">
+                            <div class="label_combo_part dvHExistCategory">
                                 <select name="ddlHExistCategory" id="ddlHExistCategory" tabindex="1">
                                     
                                 </select>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="submit_part">
                     <div class="contain_submit_row">
-                        <input type="button" id="btnSubmitA2" class="submit_btn" value="Submit" />
+                        <input type="button" tabindex="3" id="btnSubmitA2" class="submit_btn" value="Submit" />
                     </div>
                 </div>
 
@@ -104,6 +104,18 @@
         touchSupport: true
     });
 
+    //Clears New category value while selecting from existing category
+    $('#ddlHExistCategory').change(function () {
+        $('#txtHLookupCat').val('');
+    });
+
+    //Clears Existing category value while entering in new category textbox
+    $('#txtHLookupCat').keypress(function () {
+        if ($('#ddlHExistCategory').val() > 0) {
+            $("div.dvHExistCategory select").val("");
+        }
+    });
+
     $('#ddlHCategory').change(function () {
         $.ErrorHideHLookup();
         $('#txtHLookupCat').val('');
@@ -112,11 +124,11 @@
         if (ddlVal > 0) {
             RefreshHLookupGrid(ddlVal, '', 'Select');
             $('#spnHLookupSelValue').text($("#ddlHCategory option:selected").text());
-            $('#txtHLookupSubCat').focus()
+            
             BindHLookupExistingCategory($('#ddlHCategory').val());
             slidetabs.setContentHeight();
         }
-        else { RefreshHLookupGrid(0, '', 'Empty'); }
+        else { RefreshHLookupGrid(0, '', 'Empty'); $('#spnHLookupSelValue').text("Category & Sub-Category");}
     });
 
     function BindHLookupExistingCategory(catId)
@@ -142,10 +154,9 @@
         if ($('#ddlHCategory').val() > 0 && txtSubCategoryVal != '' && ( txtCategoryVal != '' || $('#ddlHExistCategory').val() > 0)) {
             RefreshHLookupGrid($('#ddlHCategory').val(), txtCategoryVal, 'Insert');
             $('#txtHLookupCat').val('');
-            $('#txtHLookupCat').focus();
             $('#txtHLookupSubCat').val('')
+            BindHLookupExistingCategory($('#ddlHCategory').val());
             slidetabs.setContentHeight();
-            BindHLookupExistingCategory();
         }
         else {
             $('.ErrorMsgHLook').attr("style", "display:block");
@@ -173,6 +184,7 @@
                 if (status == 'Insert') {
                     $('.ErrorMsgHLook').attr("style", "display:block");
                     if (data.length) {
+                        
                         $('#HLookupGrdList').replaceWith(data);
                         $('#HLookupSuccessMsg').attr("style", "display:block");
                     }
