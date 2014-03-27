@@ -13,7 +13,9 @@
         $(function () {
             $('.ErrorMsg').attr("style", "display:none");
             $('.ErrorMsgHLook').attr("style", "display:none");
-            //$('.error_msg_sm').attr("style", "display:none");
+            $('.ErrorMsgOrg').attr("style", "display:none");
+            
+            $('#OrgSuccessMsg').attr("style", "display:none");
             $('#GLookupSuccessMsg').attr("style", "display:none");
             $('#HLookupSuccessMsg').attr("style", "display:none");
 
@@ -35,7 +37,16 @@
                 return globalValidation(e, str);
             });
         });
-    
+
+        $.ValidateEmail = function (obj) {
+            var email = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            if (!obj.match(email)) {
+                return false;
+            }
+            else
+                return true;
+        }
+
         $.ErrorHide = function () {
             $('.ErrorMsg').attr("style", "display:none");
             $('#GLookupSuccessMsg').attr("style", "display:none");
@@ -55,9 +66,9 @@
         }
 
         $.ErrorHideOrg = function () {
-            $('.OrdErrorMsg').attr("style", "display:none");
+            $('.ErrorMsgOrg').attr("style", "display:none");
             $('#OrgSuccessMsg').attr("style", "display:none");
-            $('#OrgFailImg').attr("style", "display:none");
+            $('#OrgFailMsg').attr("style", "display:none");
             $('#OrgReqMsg').attr("style", "display:none");
             $('#OrgInvalidMailMsg').attr("style", "display:none");
             $('#OrgRequestErrorMsg').attr("style", "display:none");
@@ -68,29 +79,32 @@
         };
 
         $(function () {
-            $(".numeric").attr("maxlength", 11)
-            $(".alpha").attr("maxlength", 20)
-            $(".email").attr("maxlength", 20)
-            $(".alphaNum").attr("maxlength", 30)
+            $(".numeric20").attr("maxlength", 20)
+            $(".numeric9").attr("maxlength", 9)
+            $(".alpha49").attr("maxlength", 49)
+            $(".alphaNum90").attr("maxlength", 95)
+            $(".email30").attr("maxlength", 30)
 
-            $(".numeric").bind("keypress", function (e) {
+            $(".numeric20").bind("keypress", function (e) {
                 var str = /[0-9,.+-]/;
                 return globalValidation(e, str);
             });
+            $(".numeric20").bind("paste", function (e) {    return false;});
+            $(".numeric20").bind("drop", function (e) { return false;});
 
-            $(".numeric").bind("paste", function (e) {
-                return false;
+            $(".numeric9").bind("keypress", function (e) {
+                var str = /[0-9,.+-]/;
+                return globalValidation(e, str);
             });
-            $(".numeric").bind("drop", function (e) {
-                return false;
-            });
+            $(".numeric9").bind("paste", function (e) { return false; });
+            $(".numeric9").bind("drop", function (e) { return false; });
 
-            $(".alpha").bind("keypress", function (e) {
+            $(".alpha49").bind("keypress", function (e) {
                 var str = /[a-zA-Z ]/;
                 return globalValidation(e, str);
             });
 
-            $(".alphaNum").bind("keypress", function (e) {
+            $(".alphaNum95").bind("keypress", function (e) {
                 var str = /[a-zA-Z0-9,./ #]/;
                 return globalValidation(e, str);
             });
@@ -120,6 +134,17 @@
             }
             keychar = String.fromCharCode(keynum);
             return str.test(keychar);
+        }
+
+        function lengthRange(inputtxt, minlength, maxlength) {
+            var userInput = inputtxt.value;
+            if (userInput.length >= minlength && userInput.length <= maxlength) {
+                return true;
+            }
+            else {
+                alert("Please input between " + minlength + " and " + maxlength + " characters");
+                return false;
+            }
         }
     /* END: General */
 });

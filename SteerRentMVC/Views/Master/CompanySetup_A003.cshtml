@@ -1,25 +1,29 @@
 ﻿@model SteerRent.Model.CompanySetup
+
+<script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
+
 <!--- START A003 - Company Setup -->
 <div class="A003 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
-            <div class="contain_row">
-                <p class="success_msg_bg" id="OrgSuccessMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
+            <div class="contain_row" id="OrgSuccessMsg">
+                <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
             </div>
-            <div class="contain_row OrdErrorMsg">
-                <p class="error_msg_bg" id="OrgFailImg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+            <div class="contain_row ErrorMsgOrg">
+                <p class="error_msg_bg" id="OrgFailMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
                 <p class="error_msg_sm" id="OrgReqMsg">Please enter all required fields.</p>
                 <p class="error_msg_sm" id="OrgInvalidMailMsg">Invalid E-Mail Id format.</p>
-                <p class="error_msg_sm" id="OrgRequestErrorMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+                @*<p class="error_msg_sm" id="OrgRequestErrorMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>*@
             </div>
-            <form name="" method="post">
+            <form name="frmCompanySetup" id="frmCompanySetup" method="get">
                 <div class="contain_row">
                     <h5 class="contain_title">Basic Information</h5>
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Company Name <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtCompanyName" id="txtCompanyName" type="text" placeholder="">
+                                <input name="txtCompanyName" value="@Model.OrgName" class="alpha49" id="txtCompanyName" type="text" placeholder="">
+                                <input name="txtOrgID" value="@Model.OrgID" id="txtBUID" type="hidden">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -37,14 +41,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 1 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtAddrLine2" type="text" placeholder="">
+                                <input name="txtOrgAddrLine1" value="@Model.OrgAddress1" class="alphaNum95"  id="txtOrgAddrLine1" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Address Line 2 <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtAddrLine2" type="text" placeholder="">
+                                <input name="txtOrgAddrLine2" id="txtOrgAddrLine2" class="alphaNum95" value="@Model.OrgAddress2" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -54,15 +58,15 @@
                         <div class="contain_left_part">
                             <p class="label_part">City <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtCity" type="text" placeholder="">
+                                <input name="txtOrgCity" id="txtOrgCity" value="@Model.OrgCity" class="alpha49" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Country <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlCountry">
-                                    <option></option>
+                                <select name="ddlOrgCountry" id="ddlOrgCountry">
+                                    <option value="@Model.OrgCountryId">@Model.OrgCountry</option>
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -73,8 +77,8 @@
                         <div class="contain_left_part">
                             <p class="label_part">State/Emirate <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlStateEmirate">
-                                    <option></option>
+                                <select name="ddlOrgStateEmirate" id="ddlOrgStateEmirate">
+                                    <option value="@Model.OrgEmirate">@Model.OrgEmirateName</option>
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -82,7 +86,7 @@
                         <div class="contain_left_part">
                             <p class="label_part">Pin/Zip <span>*</span></p>
                             <div class="label_input_part">
-                                <input type="text" name="txtPinZip">
+                                <input name="txtOrgPinZip" id="txtOrgPinZip" class="numeric20" value="@Model.OrgZip" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -96,14 +100,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Full Name <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtContactPerson" type="text" placeholder="">
+                                <input name="txtOrgContactPerson" id="txtOrgContactPerson" class="alpha49" value="@Model.CPersonName" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Designation <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtDesignation" type="text" placeholder="" />
+                                <input name="txtOrgDesignation" id="txtOrgDesignation" class="alpha49" value="@Model.CPersonDesignation" type="text" placeholder="" />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -113,14 +117,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">E-Mail Id <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtEmail" type="text" placeholder="">
+                                <input name="txtOrgEmail" id="txtOrgEmail" class="email30" value="@Model.OrgEmailID" type="email" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Mobile No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtMobile" type="text" placeholder="">
+                                <input name="txtOrgMobile" id="txtOrgMobile" class="numeric20" value="@Model.CMobileNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -130,14 +134,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Landline No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtLandline" type="text" placeholder="">
+                                <input name="txtOrgLandline" id="txtOrgLandline" class="numeric9" value="@Model.OrgPhoneNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Fax No. <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtFax" type="text" placeholder="">
+                                <input name="txtOrgFax" id="txtOrgFax" class="numeric9" value="@Model.OrgFaxNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -149,11 +153,45 @@
                     <div class="contain_sub_row">
                         <p class="label_part">Active Locations</p>
                         <div class="label_textarea_part">
-                            --No Active Locations--</br>
-                                                	1. Location Code - Location Name</br>
-                                                    2. Location Code - Location Name</br>
-                                                    3. Location Code - Location Name</br>
-                                                    4. Location Code - Location Name</br>
+                            <table>
+                                @*1. Location Code - Location Name</br>
+                                    2. Location Code - Location Name</br>
+                                    3. Location Code - Location Name</br>
+                                    4. Location Code - Location Name</br>*@
+                                @if (Model != null)
+                                {
+                                    if (Model.lstLocation != null && Model.lstLocation.Count > 0)
+                                    {
+                                        var cnt = 0;
+                                        foreach (var item in Model.lstLocation)
+                                        {
+                                            cnt = cnt + 1;
+                                    <tr>
+                                        <td>
+                                            @Html.Raw(cnt)<span>.</span>
+                                            @item.LocationCode<span> - </span>@item.LocationName
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                    <tr>
+                                        <td><span class="error_msg">--No Active Locations--</span></td>
+                                    </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td><span class="error_msg">--No Active Locations--</span></td>
+                                    </tr>
+                                }
+                            </table>
+                        @*<fieldset>
+                        <legend>Active Locations:</legend>
+                        --No Active Locations--
+                        </fieldset>*@
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -164,8 +202,8 @@
                         <div class="contain_left_part">
                             <p class="label_part">Base Currency <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlBaseCurrency">
-                                    <option></option>
+                                <select name="ddlOrgBaseCurrency" id="ddlOrgBaseCurrency">
+                                    <option value="@Model.BaseCurrencyId">@Model.BaseCurrency</option>
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -181,11 +219,21 @@
                         <div class="contain_left_part">
                             <p class="label_part">Date Format <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlDateFormat">
-                                    <option></option>
-                                    <option>DD/MM/YYYY</option>
-                                    <option>MM/DD/YYYY</option>
-
+                                <select name="ddlOrgDateFormat" id="ddlOrgDateFormat">
+                                    <option>-- Select --</option>
+                                    @if(Model.DateFormat == "1")
+                                    {
+                                    <option selected value="1">DD/MM/YYYY</option>
+                                        <option value="2">MM/DD/YYYY</option>
+                                    }
+                                    else if (Model.DateFormat == "2")
+                                    {
+                                    <option value="1">MM/DD/YYYY</option>
+                                        <option selected value="2">DD/MM/YYYY</option>
+                                    }
+                                    else
+                                    {<option value="1">DD/MM/YYYY</option>
+                                    <option value="2">MM/DD/YYYY</option>}
                                 </select>
                             </div>
                             <div class="clear"></div>
@@ -203,42 +251,23 @@
                         <input type="button" class="submit_btn" id="btnSubmitA3" value="Submit" />
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
 </div>
 <!-- END A003 -->
 
+
 <script lang="ja" type="text/javascript">
 
-    $(function () {
-        $(".numeric").attr("maxlength", 11)
-        $(".alpha").attr("maxlength", 20)
-        $(".email").attr("maxlength", 20)
-        $(".alphaNum").attr("maxlength", 30)
-    });
-
-    if ($('#txtCompanyName').val() != '') {
+    if ($.trim($('#txtCompanyName').val()) != '') {
         $('#btnSubmitA3').val('Update');
     }
     else
         $('#btnSubmitA3').val('Submit');
 
-    function lengthRange(inputtxt, minlength, maxlength) {
-        var userInput = inputtxt.value;
-        if (userInput.length >= minlength && userInput.length <= maxlength) {
-            return true;
-        }
-        else {
-            alert("Please input between " + minlength + " and " + maxlength + " characters");
-            return false;
-        }
-    }
-
     $('#ddlOrgCountry').click(function () {
-
-        if ($('#ddlOrgCountry').val() == 0) {
+        if ($('#ddlOrgCountry').val() == null || $('#ddlOrgCountry').val() == 0) {
             getMasterData('Country', '#ddlOrgCountry', false, 0);
         }
     });
@@ -270,9 +299,46 @@
     }
 
     $('#btnSubmitA3').click(function () {
+        var isFormValid = IsFormDataValid();
+        if (!isFormValid) {
+            $('.ErrorMsgOrg').attr("style", "display:block");
+            $('#OrgInvalidMailMsg').attr("style", "display:none");
+            $('#OrgReqMsg').attr("style", "display:block");
+            slidetabs.setContentHeight();
+            return;
+        }
+        var isValidEmail = $.ValidateEmail($.trim($('#txtOrgEmail').val()));
+        if (!isValidEmail) {
+            $('.ErrorMsgOrg').attr("style", "display:block");
+            $('#OrgInvalidMailMsg').attr("style", "display:block");
+            $('#OrgReqMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+            return;
+        }
+        else {
+            $('.ErrorMsgOrg').attr("style", "display:none");
+            $('#OrgInvalidMailMsg').attr("style", "display:none");
+            $('#OrgReqMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+        }
 
-        var phVal = $('#txtOrgLandline').val();
-        var emailVal = $('#txtOrgEmail').val();
+        if (isFormValid && isValidEmail) {
+            SubmitCompanySetup();
+            slidetabs.setContentHeight();
+        }
+       
+    });
+
+    function IsFormDataValid() {
+        if ($.trim($('#txtCompanyName').val()) != '' && $.trim($('#txtOrgAddrLine1').val()) != '' && $.trim($('#txtOrgCity').val()) != '' && $.trim($('#txtOrgPinZip').val()) != '' && $.trim($('#txtOrgContactPerson').val()) != ''
+             && $.trim($('#txtOrgEmail').val()) != '' && $.trim($('#txtOrgMobile').val()) != '' && $.trim($('#txtOrgLandline').val()) != '' && $('#ddlOrgBaseCurrency').val() > 0
+             && $('#ddlOrgDateFormat').val() > 0) {
+            return true;
+        }
+        else return false;
+    }
+
+    function SubmitCompanySetup(){
         var href = '@Url.Action("CompanyInsert")';
         $.ajax({
             url: href,
@@ -281,17 +347,16 @@
             datatype: "json",
             traditional: true,
             success: function (data) {
-                $('.error_msg_bg').css("display", "none");
-                $('.error_msg_sm').css("display", "none");
-                $('.error_msg_exist').css("display", "none");
-                $('.error_msg_spclchar').css("display", "none");
-                $('.error_msg_error').css("display", "none");
+                $('#OrgSuccessMsg').attr("style", "display:block");
+                $('#btnSubmitA3').val('Update');
+                slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-                $('.error_msg_bg').css("display", "block");
-                $('.error_msg_error').css("display", "block");
+                $('.ErrorMsgOrg').attr("style", "display:block");
+                $('#OrgFailMsg').attr("style", "display:block");
+                $('#OrgSuccessMsg').attr("style", "display:none");
+                slidetabs.setContentHeight();
             }
         });
-    });
+    }
 </script>

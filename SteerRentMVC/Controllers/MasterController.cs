@@ -342,11 +342,11 @@ namespace SteerRentMVC.Controllers
             objComp.OrgLogoPath = string.Empty;//TODO frmCompany["txtCompanyName"];
             objComp.OrgAddress1 = frmCompany["txtOrgAddrLine1"];
             objComp.OrgAddress2 = frmCompany["txtOrgAddrLine2"];
-            objComp.OrgAddress3 = frmCompany["txtOrgAddrLine3"];
-            objComp.OrgCity = frmCompany["txtOrgCity"];//
+            objComp.OrgAddress3 = string.Empty;//TODO frmCompany["txtOrgAddrLine3"];
+            objComp.OrgCity = frmCompany["txtOrgCity"];
             objComp.OrgCountryId = Convert.ToInt32(frmCompany["ddlOrgCountry"]);//
             objComp.OrgEmirate = Convert.ToInt32(frmCompany["ddlOrgStateEmirate"]);
-            objComp.OrgPostBoxNo = frmCompany["txtOrgPostBox"];
+            objComp.OrgPostBoxNo = string.Empty;//TODO frmCompany["txtOrgPostBox"];
             objComp.OrgPhoneNo = frmCompany["txtOrgLandline"];
             objComp.OrgFaxNo = frmCompany["txtOrgFax"];
             objComp.OrgEmailID = frmCompany["txtOrgEmail"];

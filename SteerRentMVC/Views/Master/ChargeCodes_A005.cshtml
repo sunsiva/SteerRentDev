@@ -1,35 +1,206 @@
 ﻿@model List<SteerRent.Model.ChargeCodeModel>
 
 <!--- START A005 - Charge Codes -->
-                        <div class="A005 st_view">
-                            <div class="st_view_inner">
-                            	<div class="tab_contant_inner">
-                                            <h5 class="contain_title">Charge Codes</h5>
-                                            <div class="contain_sub_row">
-                                            	<p class="label_part">Existing Codes</p>
-                                                <div class="label_textarea_part">
-                                                    <div id="grdChargeCodes">
-                                                	    @Html.Partial("_ChargeCodeSearchResults",Model)
-                                                    </div>
-                                                    <br />
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                           			<div class="contain_row">
-                                    	<p class="error_msg_bg">&nbsp;</p>
-                                        <p class="error_msg_sm">Please select/enter required field(s).</p>
-                                        <p class="error_msg_exist">The Charge Code entered already exists in the system.</p>
-                                        @*<p class="error_msg_sm">Enter appropriate value for 'Service Charges Applicable'.</p>
-                                        <p class="error_msg_sm">Enter appropriate value for 'Deductible on Accident/Damage'.</p>*@
-                                        <p class="error_msg_spclchar">Special characters are not allowed.</p>
-                                        <p class="error_msg_error">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>
-                                    </div>
+<div class="A005 st_view">
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
 
-                                    <div id="ChargeCodeAddUpdate">
-                                        @Html.Partial("_ChargeCodeAddUpdate",new SteerRent.Model.ChargeCodeModel())
-                                        </div>
-                                </div>
-                            </div>    
+            <form name="" method="post">
+                <div class="contain_row">
+                    <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
+                </div>
+                <div class="contain_row">
+                    <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                    <p class="error_msg_sm">Please enter all required fields.</p>
+                    <p class="error_msg_sm">The Charge Code entered already exists in the system.</p>
+                    <p class="error_msg_sm">Special characters are not allowed in Charge Code</p>
+                    <p class="error_msg_sm">Enter appropriate value for 'Service Charges Applicable'.</p>
+                    <p class="error_msg_sm">Enter appropriate value for 'Deductible on Accident/Damage'.</p>
+                    <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+                </div>
+                <div class="contain_row">
+                    <!--<h5 class="contain_title">Charge Codes</h5>-->
+                    <div class="contain_sub_row">
+                        <p class="label_part"><b>Charge Codes</b></p>
+                        <div class="label_textarea_part">
+                            <table class="gridtable">
+                                <tr>
+                                    <th width="30%">Code
+                                    </th>
+                                    <th width="60%">Description
+                                    </th>
+                                    <th width="10%">Status
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>Row 1
+                                    </td>
+                                    <td>Row 1
+                                    </td>
+                                    <td>Active
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>Row 1
+                                    </td>
+                                    <td>Row 1
+                                    </td>
+                                    <td>
+                                        <font color="red">Inactive</font>
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                            </br>
+                            <h5 style="text-align: right">xx records found. xx - Active, xx - Inactive.</h5>
                         </div>
 
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="contain_row">
+                    <h5 class="contain_title">Add/Update Charge Code</h5>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Code <span>*</span></p>
+                            <div class="label_input_part">
+                                <input name="txtChargeCode" type="text" placeholder="">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div class="contain_sub_row">
+                        <p class="label_part">Description <span>*</span></p>
+                        <div class="label_textarea_part">
+                            <textarea name="txtDescription"></textarea>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <div>&nbsp;</div>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Label TBD <span></span></p>
+                            <div class="label_combo_part">
+                                <label class="label_radio">
+                                    <input name="chkGroupDriven" type="checkbox" value="GroupDriven">
+                                    Group Driven</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkUnitDriven" type="checkbox" value="UnitDriven">
+                                                            Unit Driven</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkAdhoc" type="checkbox" value="Adhoc">
+                                                            Adhoc</label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Label TBD <span></span></p>
+                            <div class="label_combo_part">
+                                <label class="label_radio">
+                                    <input name="chkInsurance" type="checkbox" value="Insurance">
+                                    Insurance</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkRental" type="checkbox" value="Rental">
+                                                            Rental</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkDiscount" type="checkbox" value="Discount">
+                                                            Discount</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkNonRental" type="checkbox" value="NonRental">
+                                                            Non Rental</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkTrafficViolation" type="checkbox" value="TrafficViolation">
+                                                            Traffic Violation</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkOtherCompliance" type="checkbox" value="OtherCompliance">
+                                                            Other Compliance</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkVASWhileRenting" type="checkbox" value="VASWhileRenting">
+                                                            VAS While Renting</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkVASWhileClosing" type="checkbox" value="VASWhileClosing">
+                                                            VAS While Closing</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkServiceChargesApplicable" type="checkbox" value="ServiceChargesApplicable">
+                                                            Service Charges Applicable</label></br>
+                                                            <img align="left" src="/testbed_test1/images/tab.png" /><label class="label_radio"><input name="radServiceType" type="radio" value="Fixed">
+                                                                Fixed </label>
+                                </br>
+                                                            <img align="left" src="/testbed_test1/images/tab.png" /><input name="chkDeductibleWaiver" type="text" style="width: 40px; height: 16px; padding: 2px; display: block; outline: none; background: none; font-family: Arial, Helvetica, sans-serif; color: #000; border: 1px solid #ccc;"></br>
+                                                            <img align="left" src="/testbed_test1/images/tab.png" /><label class="label_radio"><input name="radServiceType" type="radio" value="Percentage">
+                                                                Percentage </label>
+                                </br>
+                                                            <img align="left" src="/testbed_test1/images/tab.png" /><input name="chkDeductibleWaiver" type="text" style="width: 40px; height: 16px; padding: 2px; display: block; outline: none; background: none; font-family: Arial, Helvetica, sans-serif; color: #000; border: 1px solid #ccc;"></br>
+                            </div>
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+                            <p class="label_part"><span></span></p>
+                            <div class="label_combo_part">
+                                <label class="label_radio">
+                                    <input name="chkVAS" type="checkbox" value="VAS">
+                                    Value Added Services</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkDeductible" type="checkbox" value="Deductible">
+                                                            Deductible on Acc/Damage</label></br>
+                                                            <img align="left" src="/testbed_test1/images/tab.png" /><input name="chkDeductibleWaiver" type="text" style="width: 40px; height: 16px; padding: 2px; display: block; outline: none; background: none; font-family: Arial, Helvetica, sans-serif; color: #000; border: 1px solid #ccc;">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="contain_row">
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">&nbsp;<span></span></p>
+                            <div class="label_combo_part">
+                                <label class="label_radio">
+                                    <input name="chkActivate" type="checkbox" value="Activate">
+                                    Activate this Charge Code</label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="contain_left_part">
+                            <p class="label_part">&nbsp;<span></span></p>
+                            <div class="label_input_part">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="submit_part">
+                    <div class="contain_submit_row">
+                        <button type="button" class="submit_btn" value="Submit">Submit/Update</button>
+                        <button type="button" class="addnew_btn" value="Add New">Add New</button>
+                        <button type="button" class="delete_btn" value="Delete">Delete</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 <!-- END A005 -->

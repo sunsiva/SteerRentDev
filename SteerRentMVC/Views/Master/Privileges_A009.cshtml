@@ -3,43 +3,132 @@
 
     }
 <!--- START A009 - Privileges-->
-    <div class="A009 st_view">
-        <div class="st_view_inner">
-            <div class="tab_contant_inner">
+<div class="A009 st_view">
+    <div class="st_view_inner">
+        <div class="tab_contant_inner">
+            <div class="contain_row">
+                <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
+            </div>
+            <div class="contain_row">
+                <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <form name="" method="post">
+
                 <div class="contain_row">
-                    @*<p class="error_msg_bg">&nbsp;</p>
-                    <p class="error_msg_sm">Error(s) while processing your request. Please try again. Contact your administrator if the issue persists.</p>*@
-                </div>
-                <form name="frmPrivileges" method="get">
-                    <div class="contain_row">
-                        <h5 class="contain_title">Privileges</h5>
-                        <div class="contain_sub_row">
-                            <div class="contain_left_part">
-                                <p class="label_part">Select a Role <span>*</span></p>
-                                <div class="label_combo_part">
-                                    @Html.DropDownList("Roles", new SelectList(Model.roleList, "RoleId", "RoleName"), "", new { @id = "ddlPrivileges", onchange = "LoadPrivileges()" })
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="contain_left_part">
-                                <p class="label_part"><span></span></p>
-                                <div class="clear"></div>
+                    <!--<h5 class="contain_title">Privileges</h5>-->
+                    <div class="contain_sub_row">
+                        <div class="contain_left_part">
+                            <p class="label_part">Choose Role <span>*</span></p>
+                            <div class="label_combo_part">
+                                <select name="ddlRoles">
+                                    <option></option>
+                                </select>
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div>&nbsp;</div>
-                        <div id="dvPrivileges" class="contain_sub_row"
-                            </div>
-                    </div>
-                    <div class="submit_part">
-                        <div class="contain_submit_row">
-                            <button type="button" id="btnSubmitA009" class="submit_btn" value="Submit">Submit</button>
+                        <div class="contain_left_part">
+                            <p class="label_part"><span></span></p>
+                            <div class="clear"></div>
                         </div>
+                        <div class="clear"></div>
                     </div>
-                </form>
-            </div>
+                    <div>&nbsp;</div>
+                    <div class="contain_sub_row">
+                        <p class="label_part">Assign Privileges</p>
+                        <div class="label_textarea_part">
+                            <table class="gridtable">
+                                <tr>
+                                    <th width="75%">Features
+                                    </th>
+                                    <th width="25%">Assignment
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Funct Module 1</b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><i>Sub Module</i></b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Page 1
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Page 2
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Page 3
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Administration</b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><i>Sub Module</i></b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Page 1
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Page 2
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Page 3
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" checked disabled class="checkbox-mrg" />
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="submit_part">
+                    <div class="contain_submit_row">
+                        <button type="submit" class="submit_btn" value="Submit">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 <!-- END A009 -->
 
 <script type="text/javascript" src="~/Scripts/jquery.slidetabs.js"></script>
