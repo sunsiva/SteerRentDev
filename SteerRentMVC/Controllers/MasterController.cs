@@ -7,6 +7,7 @@ using SteerRent.Model;
 using SteerRent.BAL;
 using System.Collections;
 using System.Web.Security;
+using System.IO;
 
 namespace SteerRentMVC.Controllers
 {
@@ -309,11 +310,34 @@ namespace SteerRentMVC.Controllers
 
         #region "Company Setup"
 
+        public string FileUpload()
+        {
+             string fileHostedPath = string.Empty;
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase file = Request.Files[i]; //Uploaded file
+                //Use the following properties to get file's name, size and MIMEType
+                int fileSize = file.ContentLength;
+                string fileName = file.FileName;
+                string mimeType = file.ContentType;
+                System.IO.Stream fileContent = file.InputStream;
+                //To save file, use SaveAs method
+                fileHostedPath = Server.MapPath("~/Content/") + fileName;
+                file.SaveAs(fileHostedPath); //File will be saved in application root
+            }
+
+            //HttpPostedFileBase obj=Request.Files[fleUpload];
+            //obj.SaveAs(fleUpload);
+            return fileHostedPath;
+        }
+
         // GET: /Company Setup/
         public ActionResult CompanySetup_A003()
         {
             objBal = new MasterData();
             CompanySetup objData = objBal.GetCompanyDetails(0);
+            if (objData == null)
+                objData = new CompanySetup();
             return PartialView(objData);
         }
 
@@ -339,7 +363,7 @@ namespace SteerRentMVC.Controllers
             objComp.OrgName = frmCompany["txtCompanyName"];
             objComp.OrgCode = frmCompany["txtCompanyName"];
             objComp.OrgID = frmCompany["txtOrgID"]==string.Empty?0:Convert.ToInt32(frmCompany["txtOrgID"]);
-            objComp.OrgLogoPath = string.Empty;//TODO frmCompany["txtCompanyName"];
+            objComp.OrgLogoPath = string.Empty; // TODO
             objComp.OrgAddress1 = frmCompany["txtOrgAddrLine1"];
             objComp.OrgAddress2 = frmCompany["txtOrgAddrLine2"];
             objComp.OrgAddress3 = string.Empty;//TODO frmCompany["txtOrgAddrLine3"];

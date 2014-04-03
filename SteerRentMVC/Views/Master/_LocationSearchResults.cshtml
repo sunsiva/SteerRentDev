@@ -1,28 +1,15 @@
 ﻿@model SteerRent.Model.LocationModel
 
 <div class="contain_row">
-    <h5 class="contain_title">Locations</h5>
+    <h5 class="label_part">Locations</h5>
     <div class="contain_sub_row">
-        <p class="label_part">Current Locations</p>
         <div class="label_textarea_part">
             <div id="srchList">
                 <table class="gridtable">
                     <tr>
-                        @* <th>
-                                                                        Sl.No
-                                                                    </th>*@
-                        <th>Location Name
-                        </th>
-                        <th>Location Code
-                        </th>
-                        <th>Status
-                        </th>
-                        @*   <th>
-                                                                        Activate
-                                                                    </th>
-                                                                    <th>
-                                                                        Delete
-                                                                    </th>*@
+                        <th width="60%">Location Name</th>
+                        <th width="25%">Location Code</th>
+                        <th width="15%">Status</th>
                     </tr>
                     @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)
                     {

@@ -14,10 +14,13 @@
             $('.ErrorMsg').attr("style", "display:none");
             $('.ErrorMsgHLook').attr("style", "display:none");
             $('.ErrorMsgOrg').attr("style", "display:none");
-            
+            $('.ErrorMsgLoc').attr("style", "display:none");
+
             $('#OrgSuccessMsg').attr("style", "display:none");
             $('#GLookupSuccessMsg').attr("style", "display:none");
             $('#HLookupSuccessMsg').attr("style", "display:none");
+            $('#LocSuccessMsg').attr("style", "display:none");
+
 
             $("#txtGLookupValue").attr("maxlength", 50)
             $("#txtGLookupValue").bind("keypress", function (e) {
@@ -74,14 +77,31 @@
             $('#OrgRequestErrorMsg').attr("style", "display:none");
         }
 
+        $.ErrorHideLoc = function () {
+            $('.ErrorMsgLoc').attr("style", "display:none");
+            $('#LocSuccessMsg').attr("style", "display:none");
+            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocFailMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocSpecialChrMsg').attr("style", "display:none");
+            $('#LocInvalidMailMsg').attr("style", "display:none");
+            $('#LocNonNumMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
+        }
+
         $.trim = function (text) {
             return text.replace(/^\s+|\s+$/g, '');
         };
 
         $(function () {
             $(".numeric20").attr("maxlength", 20)
+            $(".numeric19").attr("maxlength", 19)
             $(".numeric9").attr("maxlength", 9)
+
             $(".alpha49").attr("maxlength", 49)
+            $(".alpha9").attr("maxlength", 9)
+            $(".alpha19").attr("maxlength", 19)
+
             $(".alphaNum90").attr("maxlength", 95)
             $(".email30").attr("maxlength", 30)
 
@@ -91,6 +111,13 @@
             });
             $(".numeric20").bind("paste", function (e) {    return false;});
             $(".numeric20").bind("drop", function (e) { return false;});
+
+            $(".numeric19").bind("keypress", function (e) {
+                var str = /[0-9,.+-]/;
+                return globalValidation(e, str);
+            });
+            $(".numeric19").bind("paste", function (e) { return false; });
+            $(".numeric19").bind("drop", function (e) { return false; });
 
             $(".numeric9").bind("keypress", function (e) {
                 var str = /[0-9,.+-]/;
@@ -103,11 +130,25 @@
                 var str = /[a-zA-Z ]/;
                 return globalValidation(e, str);
             });
+            $(".alpha19").bind("keypress", function (e) {
+                var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
+            $(".alpha9").bind("keypress", function (e) {
+                var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
 
             $(".alphaNum95").bind("keypress", function (e) {
                 var str = /[a-zA-Z0-9,./ #]/;
                 return globalValidation(e, str);
             });
+
+            $(".alphaNum9").bind("keypress", function (e) {
+                var str = /[a-zA-Z0-9 ]/;
+                return globalValidation(e, str);
+            });
+            
         });
     /* END:  MASTER*/
 

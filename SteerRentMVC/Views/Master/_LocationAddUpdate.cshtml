@@ -1,304 +1,296 @@
 ﻿@model SteerRent.Model.LocationModel
+@{
+    dynamic lsAgtStart = Model.LeaseAgreementNoStart;
+    lsAgtStart = lsAgtStart == 0 ? string.Empty : lsAgtStart;
+    dynamic lsAgtCurrent = Model.LeaseAgreementNoCurrent;
+    lsAgtCurrent = lsAgtCurrent == 0 ? string.Empty : lsAgtCurrent;
+    dynamic rentAgtStart = Model.RentalAgreementNoStart;
+    rentAgtStart = rentAgtStart == 0 ? string.Empty : rentAgtStart;
+    dynamic rentAgtCurrent = Model.RentalAgreementNoCurrent;
+    rentAgtCurrent = rentAgtCurrent == 0 ? string.Empty : rentAgtCurrent;
+    dynamic reciptStart = Model.ReciptNoStart;
+    reciptStart = reciptStart == 0 ? string.Empty : reciptStart;
+    dynamic reciptCurrent = Model.ReceiptNoCurrent;
+    reciptCurrent = reciptCurrent == 0 ? string.Empty : reciptCurrent;
+    }
 
 <div id="locAddUpdate">
-    <form method="get" id="frmLoc">
-<div class="contain_row">
-      @{ if (Model.LocationId > 0){ 
-    <h5 class="contain_title">Update Location</h5>}
-       else
-       {<h5 class="contain_title">Add Location</h5>} 
+    <div class="contain_row">
+        @{ if (Model.LocationId > 0)
+           { 
+            <h5 class="contain_title">Update Location</h5>}
+           else
+           {<h5 class="contain_title">Add Location</h5>} 
         }
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Location Name <span>*</span></p>
-            <div class="label_input_part">
-                @*@Html.TextBoxFor(model => model.lstLocation[0].LocationName, new { name = "txtLocationName", id = "txtLocationName", placeholder = "Location Name" })*@
-                @Html.HiddenFor(model => model.lstLocation[0].LocationId)
-                <input name="txtLocationName" id="txtLocationName" type="text" class="alpha" value="@Model.LocationName" />
-                <input name="txtLocationID" id="txtLocationID" type="hidden" value="@Model.LocationId" />
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Location Name <span>*</span></p>
+                <div class="label_input_part">
+                    @Html.HiddenFor(model => model.lstLocation[0].LocationId)<input name="txtLocationID" id="txtLocationID" type="hidden" value="@Model.LocationId" />
+                    <input name="txtLocationName" id="txtLocationName" type="text" class="alpha49" value="@Model.LocationName" />
+                    
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Location Code <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocationCode" id="txtLocationCode" value="@Model.LocationCode" class="alphaNum9" type="text" placeholder="">
+                </div>
+                <div class="clear"></div>
             </div>
             <div class="clear"></div>
         </div>
-        <div class="contain_left_part">
-            <p class="label_part">Location Code <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocationCode" id="txtLocationCode" type="text" class="alpha" value="@Model.LocationCode" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Address Line 1 <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocAddressLine1" id="txtLocAddressLine1" type="text" class="alphaNum" placeholder="" value="@Model.AddressLine1" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Address Line 2 <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocAddressLine2" id="txtLocAddressLine2" type="text" class="alphaNum" placeholder="" value="@Model.AddressLine2" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Address Line 3 <span></span></p>
-            <div class="label_input_part">
-                <input name="txtLocAddressLine3" id="txtLocAddressLine3" type="text" placeholder="" class="alphaNum" value="@Model.AddressLine3" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">City <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocCity" id="txtLocCity" type="text" placeholder="" class="alpha" value="@Model.City" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Country <span>*</span></p>
-            <div class="label_combo_part">
-                <select name="ddlLocCountry" id="ddlLocCountry"><option value="@Model.CountryId">@Model.Country</option></select>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">State/Emirate <span>*</span></p>
-            <div class="label_combo_part">
-                 <select name="ddlLocStateEmirate" id="ddlLocStateEmirate"><option value="@Model.EmirateId">@Model.Emirate</option></select>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Pin/Zip <span></span></p>
-            <div class="label_input_part">
-                <input name="txtLocZip" id="txtLocZip" type="text" placeholder="" class="numeric" value="@Model.Zip" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Location Incharge <span>*</span></p>
-            <div class="label_combo_part">
-                <select name="ddlLocationIncharge" id="ddlLocationIncharge"><option value="@Model.LocationInChargeId">@Model.LocationInCharge</option></select>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Designation <span></span></p>
-            <div class="label_input_part">
-                @*<input name="txtDesignation" disabled type="text" placeholder="RO value. Fetch from Emp Master" value="" />*@
-                <input name="txtLocDesignation" id="txtLocDesignation" type="text" placeholder="" class="alpha" value="@Model.Designation" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Landline No. <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocLandlineNo" id="txtLocLandlineNo" type="number" class="numeric" value="@Model.Phone" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Mobile No. <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocMobile" id="txtLocMobile" type="number" class="numeric" value="@Model.Phone" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">E-Mail ID <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLocEmail" id="txtLocEmail" type="email" placeholder="" class="email" value="@Model.Email" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Fax No. <span></span></p>
-            <div class="label_input_part">
-                <input name="txtLocFax" id="txtLocFax" type="number" class="numeric" value="@Model.Fax" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Working Hrs - From <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom" type="number" class="numeric" value="@Model.WorkFrom" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Working Hrs - To <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="number" class="numeric" value="@Model.WorksTill"/>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Location Type <span>*</span></p>
-            <div class="label_combo_part">
-                <label class="label_radio">
-                    <input name="chkRevenue" id="chkRevenue"  checked="@Model.IsARevenue"  type="checkbox" value="Revenue" />
-                    Revenue</label><br />
-                <label class="label_radio">
-                    <input name="chkCounter" id="chkCounter" checked="@Model.IsACounter" type="checkbox" value="Counter" />
-                    Counter</label><br />
-                <label class="label_radio">
-                    <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
-                    Workshop</label><br />
-                <label class="label_radio">
-                    <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
-                    Virtual</label>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Operations <span>*</span></p>
-            <div class="label_combo_part">
-                <label class="label_radio">
-                    <input name="chkRenting" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Revenue" />
-                    Renting Allowed</label><br />
-                    <label class="label_radio">
-                    <input name="chkLeasing" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Counter" />
-                    Leasing Allowed</label><br />   
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-        
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Receipt No. Start <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtRecNoStart" id="txtRecNoStart" type="number" class="numeric" value="@Model.ReciptNoStart" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Receipt No. Current <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtRecNoCurrent" id="txtRecNoCurrent" type="number" class="numeric"  value="@Model.ReceiptNoCurrent" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Rental Agmt No. Start <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtRentAgmtNoStart" id="txtRentAgmtNoStart" type="number" class="numeric" value="@Model.RentalAgreementNoCurrent" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Rental Agmt No. Current <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtRentAgmtNoCurrent" id="txtRentAgmtNoCurrent" type="number" class="numeric" value="@Model.RentalAgreementNoCurrent" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div>&nbsp;</div>
-    <div class="contain_sub_row">
-        <div class="contain_left_part">
-            <p class="label_part">Lease Agmt No. Start <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLeaseAgmtNoStart" id="txtLeaseAgmtNoStart" type="number" class="numeric" value="@Model.LeaseAgreementNoStart" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="contain_left_part">
-            <p class="label_part">Lease Agmt No. Current <span>*</span></p>
-            <div class="label_input_part">
-                <input name="txtLeaseAgmtNoCurrent" id="txtLeaseAgmtNoCurrent" type="number" class="numeric" value="@Model.LeaseAgreementNoCurrent" />
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
         <div>&nbsp;</div>
-                                            <div>&nbsp;</div>
-         <div class="contain_sub_row">
-                                            	<div class="contain_left_part">
-                                                <p class="label_part">&nbsp;<span></span></p>
-                                                    <div class="label_combo_part">
-                                                        <label class="label_radio"><input name="chkLocActivate" checked="@Model.IsActive" id="chkLocActivate" type="checkbox" value="Activate"> Activate this Location</label>                                                        </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="contain_left_part">
-                                                    <p class="label_part">&nbsp;<span></span></p>
-                                                    <div class="label_input_part">
-                                                    </div>                                                    
-                                                    <div class="clear"></div>
-                                                </div>
-                                            	<div class="clear"></div>                                                                                                
-                                            </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Address Line 1 <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocAddressLine1" id="txtLocAddressLine1" type="text" class="alpha49" placeholder="" value="@Model.AddressLine1" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Address Line 2 <span></span></p>
+                <div class="label_input_part">
+                    <input name="txtLocAddressLine2" id="txtLocAddressLine2" type="text" class="alpha49" placeholder="" value="@Model.AddressLine2" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">City <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocCity" id="txtLocCity" type="text" placeholder="" class="alpha29" value="@Model.City" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Country <span>*</span></p>
+                <div class="label_combo_part">
+                    <select name="ddlLocCountry" id="ddlLocCountry">
+                        <option value="@Model.CountryId">@Model.Country</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">State/Emirate <span>*</span></p>
+                <div class="label_combo_part">
+                    <select name="ddlLocStateEmirate" id="ddlLocStateEmirate">
+                        <option value="@Model.EmirateId">@Model.Emirate</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Pin/Zip <span></span></p>
+                <div class="label_input_part">
+                    <input name="txtLocZip" id="txtLocZip" type="text" placeholder=""  class="numeric20" value="@Model.Zip" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Location Incharge <span>*</span></p>
+                <div class="label_combo_part">
+                    <select name="ddlLocationIncharge" id="ddlLocationIncharge">
+                        <option value="@Model.LocationInChargeId">@Model.LocationInCharge</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Designation <span></span></p>
+                <div class="label_input_part">
+                    <input name="txtLocDesignation" id="txtLocDesignation" type="text" placeholder="" class="alpha29" value="@Model.Designation" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Landline No. <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocLandlineNo" id="txtLocLandlineNo" type="text" class="numeric19" value="@Model.Phone" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Mobile No. <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocMobile" id="txtLocMobile" type="text" class="numeric19" value="@Model.Phone" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">E-Mail ID <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLocEmail" id="txtLocEmail" type="email" placeholder="" class="email30" value="@Model.Email" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Fax No. <span></span></p>
+                <div class="label_input_part">
+                    <input name="txtLocFax" id="txtLocFax" type="text" class="numeric19" value="@Model.Fax" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Working Hrs - From <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom" type="text" class="baseinput time" readonly="true"/>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Working Hrs - To <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" readonly="true"  class="baseinput time"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Location Type <span>*</span></p>
+                <div class="label_radio_part">
+                    <label class="label_radio">
+                        <input name="chkRevenue" id="chkRevenue"  checked="@Model.IsARevenue"  type="checkbox" value="Revenue" />
+                        Revenue</label><br />
+                    <label class="label_radio">
+                        <input name="chkCounter" id="chkCounter" checked="@Model.IsACounter" type="checkbox" value="Counter" />
+                        Counter</label><br />
+                    <label class="label_radio">
+                        <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
+                        Workshop</label><br />
+                    <label class="label_radio">
+                        <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
+                        Virtual</label>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Operations <span>*</span></p>
+                <div class="label_radio_part">
+                    <label class="label_radio">
+                        <input name="chkRenting" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Revenue" />
+                        Renting Allowed</label></br>
+                                                        <label class="label_radio">
+                                                            <input name="chkLeasing" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Counter" />
+                                                            Leasing Allowed</label>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Receipt No. Start <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtRecNoStart" id="txtRecNoStart" type="text" class="numeric9" value="@reciptStart" />
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Receipt No. Current <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtRecNoCurrent" id="txtRecNoCurrent" type="text" class="numeric9"  value="@reciptCurrent" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Rental Agmt No. Start <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtRentAgmtNoStart" id="txtRentAgmtNoStart" type="text" class="numeric9" value="@rentAgtStart" />
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Rental Agmt No. Current <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtRentAgmtNoCurrent" id="txtRentAgmtNoCurrent" type="text" class="numeric9" value="@rentAgtCurrent" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">Lease Agmt No. Start <span>*</span></p>
+                <div class="label_input_part">
+                   
+                    <input name="txtLeaseAgmtNoStart" id="txtLeaseAgmtNoStart" type="text" class="numeric9" value="@lsAgtStart" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_left_part">
+                <p class="label_part">Lease Agmt No. Current <span>*</span></p>
+                <div class="label_input_part">
+                    <input name="txtLeaseAgmtNoCurrent" id="txtLeaseAgmtNoCurrent" type="text" class="numeric9" value="@lsAgtCurrent" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
-    
-<div class="submit_part">
-    <div class="contain_submit_row">
-         @{ if (Model.LocationId > 0)
-            { 
-             <input type="button" id="btnSubmitUpdA4" class="submit_btn" value="Update" />
-             <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
-             @*<input type="button" class="delete_btn" value="Delete" id="btnDeleteA4" />*@
+    <div class="contain_row">
+        <div class="contain_sub_row">
+            <div class="contain_left_part">
+                <p class="label_part">&nbsp;<span></span></p>
+                <div class="label_radio_part">
+                    <label class="label_radio">
+                        <input name="chkLocActivate" checked="@Model.IsActive" id="chkLocActivate" type="checkbox" value="Activate" />
+                        Activate this Location</label>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="submit_part">
+        <div class="contain_submit_row">
+            @{ if (Model.LocationId > 0)
+               { 
+                <button type="submit" id="btnSubmitUpdA4" class="submit_btn" value="Submit">Submit/Update</button>
+                <button type="button" id="btnAddNewA4" class="addnew_btn" value="Add New">Add New</button>
+                <button type="button" id="btnDeleteA4" class="delete_btn" value="Delete">Delete</button>
             }
-            else
-            {<input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />} 
-        }
-        
+               else
+               {<input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />} 
+            }
+        </div>
     </div>
 </div>
-        </form>
-   </div> 
-<script>
+
+<script type="text/javascript" lang="ja">
 
     // bind slider
     var slidetabs = $('#slidetabs').slidetabs({
@@ -308,37 +300,62 @@
     });
 
     $('#btnSubmitA4').click(function () {
-        
-        if (locValidate()) {
-            LocInsertUpdate();
+        var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
+        var isFormDataValid = locValidate();
+
+        if (!isFormDataValid) {
+            $('.ErrorMsgLoc').attr("style", "display:block");
+            $('#LocInvalidMailMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
+            $('#LocReqMsg').attr("style", "display:block");
+            slidetabs.setContentHeight();
+            return;
+        }
+
+        if (!isValidEmail) {
+            $('.ErrorMsgLoc').attr("style", "display:block");
+            $('#LocInvalidMailMsg').attr("style", "display:block");
+            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+            return;
         }
         else {
+            $('.ErrorMsgLoc').attr("style", "display:none");
+            $('#LocInvalidMailMsg').attr("style", "display:none");
+            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
             slidetabs.setContentHeight();
-            return false;
+        }
+
+        if (isFormDataValid && isValidEmail) {
+            LocInsertUpdate();
         }
     });
 
     /* This is click event for country dropdown list to load */
-    $('#ddlLocCountry').click(function () {
+    $('#ddlLocCountry1').click(function () {
         if ($('#ddlLocCountry').text() == '') {
             getMasterData('Country', '#ddlLocCountry', false, 0);
         }
     });
 
-    $('#ddlLocStateEmirate').click(function () {
+    $('#ddlLocStateEmirate1').click(function () {
         if ($('#ddlLocStateEmirate').text() == '' && $('#ddlLocCountry').text() != '') {
             getMasterData('Emirate', '#ddlLocStateEmirate', false, $('#ddlLocCountry').val());
         }
     });
 
-    $('#ddlLocationIncharge').click(function () {
+    $('#ddlLocationIncharge1').click(function () {
         if ($('#ddlLocationIncharge').text() == '') {
-            getMasterData('LocationIn', '#ddlLocationIncharge',true,0);
+            getMasterData('LocationIn', '#ddlLocationIncharge', true, 0);
         }
     });
 
-    function getMasterData(str,ddlCtrl,isGlookup,gLookupId)
-    {
+    function getMasterData(str, ddlCtrl, isGlookup, gLookupId) {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
@@ -351,7 +368,7 @@
                 slidetabs.setContentHeight();
             }
         });
-   }
+    }
 
     $('#btnSubmitUpdA4').click(function () {
         if (locValidate()) {
@@ -364,8 +381,7 @@
         }
     });
 
-    function LocInsertUpdate()
-    {
+    function LocInsertUpdate() {
         var href = '@Url.Action("LocationInsert")';
         $.ajax({
             url: href,
@@ -384,56 +400,28 @@
                 slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-                $('.error_msg_bg').css("display", "block");
-                $('.error_msg_error').css("display", "block");
+                $('.ErrorMsgLoc').attr("style", "display:block");
+                $('#LocNetworkErrMsg').attr("style", "display:block");
+                $('#LocSuccessMsg').attr("style", "display:none");
                 //alert("Error:Action is aborted.Please try again later.");
                 slidetabs.setContentHeight();
             }
         });
     }
 
-    function locValidate()
-    {
+    function locValidate() {
         slidetabs.setContentHeight();
-        if ($('#txtLocationName').val() != '' && $('#txtLocationCode').val() != '' && $('#txtLocAddressLine1').val() != '' && $('#txtLocAddressLine2').val() != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
-           && $('#txtLocLandlineNo').val() != '' && $('#txtLocMobile').val() != '' && $('#txtLocEmail').val() != '' && $('#txtWorkingTimeFrom').val() != '' && $('#txtWorkingTimeTo').val() != '' && $('#txtRecNoStart').val() != '' && $('#txtRecNoCurrent').val() != '' && $('#txtRentAgmtNoStart').val() != '' && $('#txtRentAgmtNoCurrent').val() != '' && $('#txtLeaseAgmtNoStart').val() != '' && $('#txtLeaseAgmtNoCurrent').val() != '')
-        {
-            return true;} else {
-            $('.error_msg_bg').css("display", "block");
-            $('.error_msg_sm').css("display", "block");
+        if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
+           && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != '') {
+            return true;
+        } else {
+            $('.ErrorMsgLoc').attr("style", "display:block");
+            $('#LocFailMsg').attr("style", "display:block");
+            $('#LocSuccessMsg').attr("style", "display:none");
             return false;
         }
-        
+
     }
 
-    $(function () {
-        $(".numeric").attr("maxlength", 11)
-        $(".alpha").attr("maxlength", 20)
-        $(".email").attr("maxlength", 20)
-        $(".alphaNum").attr("maxlength", 30)
-
-        $(".numeric").bind("keypress", function (e) {
-            var str = /[0-9,.+-]/;
-            return globalValidation(e, str);
-        });
-
-        $(".numeric").bind("paste", function (e) {
-            return false;
-        });
-        $(".numeric").bind("drop", function (e) {
-            return false;
-        });
-
-        $(".alpha").bind("keypress", function (e) {
-            var str = /[a-zA-Z ]/;
-            return globalValidation(e, str);
-        });
-
-        $(".alphaNum").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9,./ #]/;
-            return globalValidation(e, str);
-        });
-    });
 </script>
     
