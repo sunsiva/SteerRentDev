@@ -74,7 +74,7 @@
                                 <select name="ddlOrgCountry" id="ddlOrgCountry">
                                     <option value="@Model.OrgCountryId"></option>
                                 </select>
-                                <input type="hidden" id="hdOrgCountry" value="@Model.OrgCountry" />
+                                <input type="hidden" id="hdOrgCountry" value="@Model.OrgCountryId" />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -141,14 +141,14 @@
                         <div class="contain_left_part">
                             <p class="label_part">Landline No. <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgLandline" id="txtOrgLandline" class="numeric9" value="@Model.OrgPhoneNo" type="text" placeholder="">
+                                <input name="txtOrgLandline" id="txtOrgLandline" class="numeric20" value="@Model.OrgPhoneNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
                             <p class="label_part">Fax No. <span></span></p>
                             <div class="label_input_part">
-                                <input name="txtOrgFax" id="txtOrgFax" class="numeric9" value="@Model.OrgFaxNo" type="text" placeholder="">
+                                <input name="txtOrgFax" id="txtOrgFax" class="numeric20" value="@Model.OrgFaxNo" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -212,6 +212,7 @@
                                 <select name="ddlOrgBaseCurrency" id="ddlOrgBaseCurrency">
                                     <option value="@Model.BaseCurrencyId">@Model.BaseCurrency</option>
                                 </select>
+                                <input type="hidden" value="@Model.BaseCurrencyId" id="hdOrgCurrency" />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -271,9 +272,11 @@
     }
     else
         $('#btnSubmitA3').val('Submit');
+   
+    getMasterData('Country', '#ddlOrgCountry', false, 0, $('#hdOrgCountry').val());
+    getMasterData('Currency', '#ddlOrgBaseCurrency', true, 0, $('#hdOrgCurrency').val());
 
-    //getMasterData('Country', '#ddlOrgCountry', false, 0);
-    $('#ddlOrgCountry').val($("#hdOrgCountry").val());
+    //$("#ddlOrgCountry option[value='" + 1 + "']").attr('selected', 'selected');
     //getMasterData('Currency', '#ddlOrgBaseCurrency', true, 0);
     //$('#ddlOrgCountry').click(function () {
     //    if ($('#ddlOrgCountry').val() == null || $('#ddlOrgCountry').val() == 0) {
@@ -282,14 +285,13 @@
     //    }
     //});
 
-    $('#ddlOrgBaseCurrency').click(function () {
-        if ($('#ddlOrgBaseCurrency').val() == null || $('#ddlOrgBaseCurrency').val() == 0) {
-            getMasterData('Currency', '#ddlOrgBaseCurrency', false, 0);
-        }
-    });
+    //$('#ddlOrgBaseCurrency').click(function () {
+    //    if ($('#ddlOrgBaseCurrency').val() == null || $('#ddlOrgBaseCurrency').val() == 0) {
+    //        getMasterData('Currency', '#ddlOrgBaseCurrency', false, 0);
+    //    }
+    //});
 
     $("#ddlOrgCountry").change(loadEmirates);
-       
     function loadEmirates()
     {
         $.ajax({
@@ -311,7 +313,7 @@
     //    }
     //});
 
-    function getMasterData(str, ddlCtrl, isGlookup, gLookupId) {
+    function getMasterData(str, ddlCtrl, isGlookup, gLookupId,selValue) {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
@@ -320,7 +322,10 @@
                 $(ddlCtrl).empty();
                 $(ddlCtrl).append($('<option />').attr('value', '0').text(''));
                 $.each(data, function () {
-                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                    if (this.Value == selValue)
+                    { $(ddlCtrl).append($('<option selected />').attr('value', this.Value).text(this.Text)); } else {
+                        $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                    }
                 });
             }
         });

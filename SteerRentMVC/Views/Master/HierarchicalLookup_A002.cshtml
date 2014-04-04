@@ -155,6 +155,7 @@
             RefreshHLookupGrid($('#ddlHCategory').val(), txtCategoryVal, 'Insert');
             $('#txtHLookupCat').val('');
             $('#txtHLookupSubCat').val('')
+            $('.ErrorMsgHLook').attr("style", "display:none");
             BindHLookupExistingCategory($('#ddlHCategory').val());
             slidetabs.setContentHeight();
         }
@@ -182,13 +183,12 @@
             traditional: true,
             success: function (data) {
                 if (status == 'Insert') {
-                    $('.ErrorMsgHLook').attr("style", "display:block");
                     if (data.length) {
-                        
                         $('#HLookupGrdList').replaceWith(data);
                         $('#HLookupSuccessMsg').attr("style", "display:block");
                     }
                     else {
+                        $('.ErrorMsgHLook').attr("style", "display:block");
                         $('#HLookupFailImg').attr("style", "display:block");
                         $('#HLookupExist').attr("style", "display:block");
                     }
