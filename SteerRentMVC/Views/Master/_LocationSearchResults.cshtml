@@ -4,7 +4,7 @@
     <h5 class="label_part">Locations</h5>
     <div class="contain_sub_row">
         <div class="label_textarea_part">
-            <div id="srchList">
+            <div id="srchLocList">
                 <table class="gridtable">
                     <tr>
                         <th width="60%">Location Name</th>
@@ -34,7 +34,7 @@
                                 else
                                 {
                                     <div id='dvInActivate-@item.LocationId' class="error_msg">InActive</div>
-                                                                            }
+                                }
                             </td>
                             @*<td>
                                                                             <input type="checkbox" id="@item.LocationId" name="chkState" checked="@item.IsActive" class="checkbox-mrg" />
@@ -43,14 +43,14 @@
                                                                             else{<div id='dvNoDelete-@item.LocationId' class="error_msg"></div>}
                                                                         </td>*@
                         </tr>
-                                                                    }
-                                                                }
+                        }
+                    }
                     else
                     {
                         <tr>
                             <td colspan="3"><span class="error_msg">No record(s) found.</span></td>
                         </tr>
-                                                                    }
+                    }
                 </table>
                 @*<div>
                                                                 <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
@@ -62,8 +62,8 @@
                     <h5 style="text-align: right"><span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
     <span id="spnActiveCnt">@Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
     <span id="spnInActiveCnt">@Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
-        }
-    }
+                    }
+                }
 
 @*                                                         <div style="margin-left:470px">
                                                          @if (Model.lstLocation != null && Model.lstLocation.Count() > 0)

@@ -352,14 +352,14 @@ namespace SteerRent.DAL
                        objData.LocationName = item["LocationName"].ToString();
                        objData.ListedInWeb = item["ListedInWeb"].ToString()== ""? false : Convert.ToBoolean(item["ListedInWeb"]);
                        objData.WorkingHrs = item["WorkingHrs"].ToString()== ""? 0 :Convert.ToDecimal(item["WorkingHrs"]);
-                       objData.WorkFrom = item["WorkFrom"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(item["WorkFrom"].ToString());
-                       objData.WorksTill = item["WorksTill"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(item["WorksTill"].ToString());
+                       objData.WorkFrom = item["WorkFrom"].ToString();
+                       objData.WorksTill = item["WorksTill"].ToString();
                        objData.Phone = item["Phone"].ToString();
                        objData.Fax = item["Fax"].ToString();
                        objData.Email = item["Email"].ToString();
                        objData.AddressLine1 = item["AddressLine1"].ToString();
                         objData.AddressLine2 = item["AddressLine2"].ToString();
-                        objData.AddressLine3 = item["AddressLine3"].ToString();
+                        //objData.AddressLine3 = item["AddressLine3"].ToString();
                         objData.Designation = item["Designation"].ToString();
                         objData.City = item["City"].ToString();
                         objData.CountryId = Convert.ToInt32(item["CountryId"]);
@@ -501,7 +501,7 @@ namespace SteerRent.DAL
            cmd.Parameters.AddWithValue("@Email", objData.Email);
            cmd.Parameters.AddWithValue("@AddressLine1", objData.AddressLine1);
            cmd.Parameters.AddWithValue("@AddressLine2", objData.AddressLine2);
-           cmd.Parameters.AddWithValue("@AddressLine3", objData.AddressLine3);
+           //cmd.Parameters.AddWithValue("@AddressLine3", objData.AddressLine3);
            cmd.Parameters.AddWithValue("@Designation", objData.Designation);
            cmd.Parameters.AddWithValue("@City", objData.City);
            cmd.Parameters.AddWithValue("@CountryId", objData.CountryId);

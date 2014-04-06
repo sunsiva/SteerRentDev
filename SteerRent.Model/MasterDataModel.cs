@@ -63,8 +63,8 @@ namespace SteerRent.Model
 	    public string LocationName { get; set; }
 	    public bool ListedInWeb { get; set; }
 	    public decimal WorkingHrs { get; set; }
-	    public DateTime? WorkFrom { get; set; }
-	    public DateTime? WorksTill { get; set; }
+	    public string WorkFrom { get; set; }
+	    public string WorksTill { get; set; }
 	    public string Phone { get; set; }
 	    public string Fax { get; set; }
 	    public string Email { get; set; }

@@ -28,7 +28,6 @@
                 <div class="label_input_part">
                     @Html.HiddenFor(model => model.lstLocation[0].LocationId)<input name="txtLocationID" id="txtLocationID" type="hidden" value="@Model.LocationId" />
                     <input name="txtLocationName" id="txtLocationName" type="text" class="alpha49" value="@Model.LocationName" />
-                    
                 </div>
                 <div class="clear"></div>
             </div>
@@ -73,6 +72,7 @@
                     <select name="ddlLocCountry" id="ddlLocCountry">
                         <option value="@Model.CountryId">@Model.Country</option>
                     </select>
+                    <input type="hidden" id="hdLocCountry" value="@Model.CountryId" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -156,15 +156,14 @@
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - From <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom" type="text" class="baseinput time" readonly="true"/>
-
+                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom" value="@Model.WorkFrom" type="text" class="baseinput time" readonly="true" />
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - To <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" readonly="true"  class="baseinput time"/>
+                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" value="@Model.WorksTill" readonly="true" class="baseinput time" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -195,7 +194,7 @@
                 <div class="label_radio_part">
                     <label class="label_radio">
                         <input name="chkRenting" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Revenue" />
-                        Renting Allowed</label></br>
+                        Renting Allowed</label><br />
                                                         <label class="label_radio">
                                                             <input name="chkLeasing" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Counter" />
                                                             Leasing Allowed</label>
@@ -228,7 +227,6 @@
                 <p class="label_part">Rental Agmt No. Start <span>*</span></p>
                 <div class="label_input_part">
                     <input name="txtRentAgmtNoStart" id="txtRentAgmtNoStart" type="text" class="numeric9" value="@rentAgtStart" />
-
                 </div>
                 <div class="clear"></div>
             </div>
@@ -245,7 +243,7 @@
             <div class="contain_left_part">
                 <p class="label_part">Lease Agmt No. Start <span>*</span></p>
                 <div class="label_input_part">
-                   
+
                     <input name="txtLeaseAgmtNoStart" id="txtLeaseAgmtNoStart" type="text" class="numeric9" value="@lsAgtStart" />
                 </div>
                 <div class="clear"></div>
@@ -274,15 +272,14 @@
             <div class="clear"></div>
         </div>
     </div>
-
     <div class="submit_part">
         <div class="contain_submit_row">
             @{ if (Model.LocationId > 0)
                { 
-                <button type="submit" id="btnSubmitUpdA4" class="submit_btn" value="Submit">Submit/Update</button>
+                <button type="submit" id="btnSubmitUpdA4" class="submit_btn" value="Submit">Update</button>
                 <button type="button" id="btnAddNewA4" class="addnew_btn" value="Add New">Add New</button>
                 <button type="button" id="btnDeleteA4" class="delete_btn" value="Delete">Delete</button>
-            }
+               }
                else
                {<input type="button" id="btnSubmitA4" class="submit_btn" value="Submit" />} 
             }
@@ -298,6 +295,12 @@
         autoHeight: true,
         touchSupport: true
     });
+
+    //if ($.trim($('#txtLocationName').val()) != '') {
+    //    $('#btnSubmitA4').val('Update');
+    //}
+    //else
+    //    $('#btnSubmitA4').val('Submit');
 
     $('#btnSubmitA4').click(function () {
         var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
@@ -337,33 +340,38 @@
     });
 
     /* This is click event for country dropdown list to load */
-    $('#ddlLocCountry1').click(function () {
-        if ($('#ddlLocCountry').text() == '') {
-            getMasterData('Country', '#ddlLocCountry', false, 0);
-        }
-    });
+    getMasterData('Country', '#ddlLocCountry', false, 0, $('#hdLocCountry').val());
+    getMasterData('Location', '#ddlLocationIncharge', true, 0, '');
 
-    $('#ddlLocStateEmirate1').click(function () {
-        if ($('#ddlLocStateEmirate').text() == '' && $('#ddlLocCountry').text() != '') {
-            getMasterData('Emirate', '#ddlLocStateEmirate', false, $('#ddlLocCountry').val());
-        }
-    });
+    $("#ddlLocCountry").change(loadEmirates);
+    function loadEmirates() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlLocCountry').val() },
+            success: function (data) {
+                $("#ddlLocStateEmirate").children().remove();
+                $("#ddlLocStateEmirate").append($('<option />').attr('value', '0').text(''));
+                $.each(data, function () {
+                    $("#ddlLocStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+        });
+    }
 
-    $('#ddlLocationIncharge1').click(function () {
-        if ($('#ddlLocationIncharge').text() == '') {
-            getMasterData('LocationIn', '#ddlLocationIncharge', true, 0);
-        }
-    });
-
-    function getMasterData(str, ddlCtrl, isGlookup, gLookupId) {
+    function getMasterData(str, ddlCtrl, isGlookup, gLookupId, selValue) {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
             data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
             success: function (data) {
                 $(ddlCtrl).empty();
+                $(ddlCtrl).append($('<option />').attr('value', '0').text(''));
                 $.each(data, function () {
-                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                    if (this.Value == selValue)
+                    { $(ddlCtrl).append($('<option selected />').attr('value', this.Value).text(this.Text)); } else {
+                        $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                    }
                 });
                 slidetabs.setContentHeight();
             }
@@ -385,7 +393,7 @@
         var href = '@Url.Action("LocationInsert")';
         $.ajax({
             url: href,
-            data: $('#frmLoc').serialize(),
+            data: $('#frmLocation').serialize(),
             type: "POST",
             datatype: "json",
             traditional: true,
@@ -413,11 +421,13 @@
         slidetabs.setContentHeight();
         if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
            && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != '') {
+            slidetabs.setContentHeight();
             return true;
         } else {
             $('.ErrorMsgLoc').attr("style", "display:block");
             $('#LocFailMsg').attr("style", "display:block");
             $('#LocSuccessMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
             return false;
         }
 

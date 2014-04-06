@@ -13,7 +13,7 @@
 <div class="A004 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
-            <form name="frmLocation" method="post">
+            <form name="frmLocation" id="frmLocation" method="get">
                 <div class="contain_row" id="LocSuccessMsg">
                     <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
                 </div>
@@ -27,10 +27,12 @@
                     <p class="error_msg_sm" id="LocNetworkErrMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
                 </div>
                 <div>
+                    <div id="srchLocList">
                     @Html.Partial("_LocationSearchResults", Model)
+                        </div>
                 </div>
                 <div id="locAddUpdate">
-                    @Html.Partial("_LocationAddUpdate", Model)
+                    @Html.Partial("_LocationAddUpdate", new SteerRent.Model.LocationModel())
                 </div>
             </form>
         </div>
@@ -52,8 +54,7 @@
              });
 
          $('#LocationName').focus(function () { $('#errImg').hide(); $('#valMsg').hide(); $('#errMsg').hide(); });
-         $('#btnSubmitA4').click(function () {
-
+         @*$('#btnSubmitA4').click(function () {
              if ($('#txtLocationName').val() == '' || $('#txtLocationName').val() == '') {
                  $('#errImg').show(); $('#valMsg').show();
                  return false;
@@ -72,7 +73,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-                        $('#srchList').html(data);
+                        $('#srchLocList').html(data);
                         $('#spnResultsMsg').html('Successfully inserted.');
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
@@ -80,6 +81,6 @@
                         //alert("Error:Action is aborted.Please try again later.");
                     }
                 });
-            }
+            }*@
         });
     </script>

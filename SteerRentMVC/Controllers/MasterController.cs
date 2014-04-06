@@ -251,7 +251,7 @@ namespace SteerRentMVC.Controllers
         private LocationModel BuildLocationData(FormCollection frmLoc, bool chkRevnue)
         {
             LocationModel objModel = new LocationModel();
-            if (frmLoc["txtLocationID"] != string.Empty)
+            if (frmLoc["txtLocationID"] != "0" || frmLoc["txtLocationID"] != string.Empty)
             { objModel.ActionMode = GlobalEnum.Flag.Update;
             objModel.LocationId = Convert.ToInt32(frmLoc["txtLocationID"]);
                 objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
@@ -262,14 +262,14 @@ namespace SteerRentMVC.Controllers
             objModel.LocationCode = frmLoc["txtLocationCode"];
             objModel.ListedInWeb = true;// frmLoc["lstLocation[0].LocationCode"];
             objModel.WorkingHrs = 1;// frmLoc["lstLocation[0].LocationCode"];
-            objModel.WorkFrom = DateTime.UtcNow;
-            objModel.WorksTill = DateTime.UtcNow;
+            objModel.WorkFrom = frmLoc["txtWorkingTimeFrom"];// DateTime.UtcNow;
+            objModel.WorksTill = frmLoc["txtWorkingTimeTo"];
             objModel.Phone = frmLoc["txtLocMobile"];// frmLoc["lstLocation[0].Phone"];
             objModel.Fax = frmLoc["txtLocFax"];// frmLoc["lstLocation[0].Fax"];
             objModel.Email = frmLoc["txtLocEmail"];// frmLoc["lstLocation[0].Email"];
             objModel.AddressLine1 = frmLoc["txtLocAddressLine1"].ToString();
             objModel.AddressLine2 = frmLoc["txtLocAddressLine2"].ToString();
-            objModel.AddressLine3 = frmLoc["txtLocAddressLine3"].ToString();
+            //objModel.AddressLine3 = frmLoc["txtLocAddressLine3"].ToString();
             objModel.Designation = frmLoc["txtLocDesignation"].ToString();
             objModel.City = frmLoc["txtLocCity"].ToString();
             objModel.CountryId = Convert.ToInt32(frmLoc["ddlLocCountry"]);
