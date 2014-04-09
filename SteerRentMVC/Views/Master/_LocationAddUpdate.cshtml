@@ -13,8 +13,17 @@
     dynamic reciptCurrent = Model.ReceiptNoCurrent;
     reciptCurrent = reciptCurrent == 0 ? string.Empty : reciptCurrent;
     }
-
 <div id="locAddUpdate">
+    
+        <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="~/Content/timer/jquery.ui.timepicker.js?v=0.3.3"></script>
+    <link rel="stylesheet" href="~/Content/timer/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/timer/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+    <script src="~/Scripts/steerrent.js"></script>
+
     <div class="contain_row">
         @{ if (Model.LocationId > 0)
            { 
@@ -105,6 +114,7 @@
                     <select name="ddlLocationIncharge" id="ddlLocationIncharge">
                         <option value="@Model.LocationInChargeId">@Model.LocationInCharge</option>
                     </select>
+                    <input type="hidden" id="hdLocationInCharge" name="hdLocationInCharge" value="@Model.LocationInChargeId" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -156,14 +166,14 @@
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - From <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom" value="@Model.WorkFrom" type="text" class="baseinput time" readonly="true" />
+                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom"  value="@Model.WorkFrom" type="text" class="numeric9 baseinput time" />
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - To <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" value="@Model.WorksTill" readonly="true" class="baseinput time" />
+                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" value="@Model.WorksTill" class="numeric9 baseinput time" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -276,7 +286,7 @@
         <div class="contain_submit_row">
             @{ if (Model.LocationId > 0)
                { 
-                <button type="submit" id="btnSubmitUpdA4" class="submit_btn" value="Submit">Update</button>
+                <button type="button" id="btnSubmitUpdA4" class="submit_btn" value="Submit">Update</button>
                 <button type="button" id="btnAddNewA4" class="addnew_btn" value="Add New">Add New</button>
                 <button type="button" id="btnDeleteA4" class="delete_btn" value="Delete">Delete</button>
                }
@@ -288,12 +298,21 @@
 </div>
 
 <script type="text/javascript" lang="ja">
-
     // bind slider
     var slidetabs = $('#slidetabs').slidetabs({
         orientation: 'horizontal',
         autoHeight: true,
         touchSupport: true
+    });
+
+    $('#txtWorkingTimeFrom').timepicker({
+        showPeriod: true,
+        showLeadingZero: true
+    });
+
+    $('#txtWorkingTimeTo').timepicker({
+        showPeriod: true,
+        showLeadingZero: true
     });
 
     //if ($.trim($('#txtLocationName').val()) != '') {
@@ -305,7 +324,7 @@
     $('#btnSubmitA4').click(function () {
         var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
         var isFormDataValid = locValidate();
-
+        debugger;
         if (!isFormDataValid) {
             $('.ErrorMsgLoc').attr("style", "display:block");
             $('#LocInvalidMailMsg').attr("style", "display:none");
@@ -341,22 +360,27 @@
 
     /* This is click event for country dropdown list to load */
     getMasterData('Country', '#ddlLocCountry', false, 0, $('#hdLocCountry').val());
-    getMasterData('Location', '#ddlLocationIncharge', true, 0, '');
+    getMasterData('Location', '#ddlLocationIncharge', true, 0, $('#hdLocationInCharge').val());
 
     $("#ddlLocCountry").change(loadEmirates);
     function loadEmirates() {
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("getMasterData")',
-            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlLocCountry').val() },
-            success: function (data) {
-                $("#ddlLocStateEmirate").children().remove();
-                $("#ddlLocStateEmirate").append($('<option />').attr('value', '0').text(''));
-                $.each(data, function () {
-                    $("#ddlLocStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
-                });
-            }
-        });
+        if ($('#ddlLocCountry').val() > 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getMasterData")',
+                data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlLocCountry').val() },
+                success: function (data) {
+                    $("#ddlLocStateEmirate").children().remove();
+                    $("#ddlLocStateEmirate").append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        $("#ddlLocStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
+                }
+            });
+        }
+        else
+            $("#ddlLocStateEmirate").children().remove();
+
     }
 
     function getMasterData(str, ddlCtrl, isGlookup, gLookupId, selValue) {
@@ -378,14 +402,55 @@
         });
     }
 
+    $('#btnDeleteA4').click(function () {
+        var href = '@Url.Action("LocationStatusUpdate")';
+        var LocId = $('#txtLocationID').val();
+        $.ajax({
+            url: href,
+            data: { Id: LocId, Status: false },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function () {
+                $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg");
+                $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
+                $('#spnLocActiveCnt').text(Number($('#spnLocActiveCnt').text()) - 1);
+                $('#spnLocInActiveCnt').text(Number($('#spnLocInActiveCnt').text()) + 1);
+                $('#chkLocActivate').attr("checked", false);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('.ErrorMsgLoc').attr("style", "display:block");
+                $('#LocNetworkErrMsg').attr("style", "display:block");
+                $('#LocSuccessMsg').attr("style", "display:none");
+                slidetabs.setContentHeight();
+            }
+        });
+    });
+
+    $('#btnAddNewA4').click(function () {
+        $.ajax({
+            url: '@Url.Action("LocationSelect", "Master")',
+            data: { id: 0 },
+            type: "POST",
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $('#locAddUpdate').replaceWith(data);
+                slidetabs.setContentHeight();
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('.ErrorMsgLoc').attr("style", "display:block");
+                $('#LocNetworkErrMsg').attr("style", "display:block");
+                $('#LocSuccessMsg').attr("style", "display:none");
+                slidetabs.setContentHeight();
+            }
+        });
+    });
+
     $('#btnSubmitUpdA4').click(function () {
         if (locValidate()) {
             LocInsertUpdate();
             slidetabs.setContentHeight();
-        }
-        else {
-            slidetabs.setContentHeight();
-            return false;
         }
     });
 
@@ -398,13 +463,17 @@
             datatype: "json",
             traditional: true,
             success: function (data) {
-                $('#srchList').html(data);
-                $('.error_msg_bg').css("display", "none");
-                $('.error_msg_sm').css("display", "none");
-                $('.error_msg_exist').css("display", "none");
-                $('.error_msg_spclchar').css("display", "none");
-                $('.error_msg_error').css("display", "none");
-                // alert('Successfully inserted.');
+                if (data.length) {
+                    $('#srchLocList').html(data);
+                    $('#LocSuccessMsg').attr("style", "display:block");
+                    $('.ErrorMsgLoc').attr("style", "display:none");
+                }
+                else {
+                    $('.ErrorMsgLoc').attr("style", "display:block");
+                    $('#LocFailMsg').attr("style", "display:block");
+                    $('#LocExistMsg').attr("style", "display:block");
+                    $('#LocSuccessMsg').attr("style", "display:none");
+                }
                 slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -419,14 +488,18 @@
 
     function locValidate() {
         slidetabs.setContentHeight();
-        if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').text() != '' && $('#ddlLocStateEmirate').text() != '' && $('#ddlLocationIncharge').text() != ''
+        if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').val()>0 && $('#ddlLocStateEmirate').val() > 0 && $('#ddlLocationIncharge').val() > 0
            && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != '') {
             slidetabs.setContentHeight();
             return true;
         } else {
             $('.ErrorMsgLoc').attr("style", "display:block");
             $('#LocFailMsg').attr("style", "display:block");
+            $('#LocReqMsg').attr("style", "display:block");
+            $('#LocExistMsg').attr("style", "display:none");
             $('#LocSuccessMsg').attr("style", "display:none");
+            $('#LocInvalidMailMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
             slidetabs.setContentHeight();
             return false;
         }

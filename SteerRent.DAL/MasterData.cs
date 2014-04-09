@@ -384,6 +384,7 @@ namespace SteerRent.DAL
                        objData.BuId = Convert.ToInt32(item["BuId"]);
                        objData.UserId = Convert.ToInt32(item["CreatedBy"]);
                        objData.IsActive = Convert.ToBoolean(item["IsActive"]);
+                       objData.isLocExist = false;
                        lstData.Add(objData);
                        objData.lstLocation = lstData;
                    }
@@ -453,7 +454,10 @@ namespace SteerRent.DAL
                    {
                        cmd.CommandText = "usp_LocationsInsert";
                        returnData = ExecuteLocationInsertUpdate(cmd, objData);
-                       objReturn = GetLocationData(returnData);
+                       if (returnData > 0)
+                           objReturn = GetLocationData(0);
+                       else
+                           objReturn.isLocExist = true;
                    }
                    if (objData.ActionMode == GlobalEnum.Flag.Update)
                    {
@@ -522,8 +526,11 @@ namespace SteerRent.DAL
            cmd.Parameters.AddWithValue("@RentingAllowed", objData.RentingAllowed);
            cmd.Parameters.AddWithValue("@BuId", objData.BuId);
            cmd.Parameters.AddWithValue("@IsActive", objData.IsActive);
-
-           int id = cmd.ExecuteNonQuery();
+           SqlParameter output = new SqlParameter("@Return_Value", SqlDbType.Int);
+           output.Direction = ParameterDirection.ReturnValue;
+           cmd.Parameters.Add(output);
+           cmd.ExecuteNonQuery();
+           int id = Convert.ToInt32(output.Value);
            return id;
        }
        #endregion

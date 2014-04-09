@@ -243,7 +243,8 @@ namespace SteerRentMVC.Controllers
             {
                 objModel = BuildLocationData(frmLoc,true );
                 objModel = objBal.LocationInsertUpdate(objModel);
-                return PartialView("_LocationSearchResults", objModel);
+                if(objModel.isLocExist)
+                    return Json(objModel);
             }
             return PartialView("_LocationSearchResults", objModel);
         }
@@ -251,7 +252,7 @@ namespace SteerRentMVC.Controllers
         private LocationModel BuildLocationData(FormCollection frmLoc, bool chkRevnue)
         {
             LocationModel objModel = new LocationModel();
-            if (frmLoc["txtLocationID"] != "0" || frmLoc["txtLocationID"] != string.Empty)
+            if (frmLoc["txtLocationID"] != "0")
             { objModel.ActionMode = GlobalEnum.Flag.Update;
             objModel.LocationId = Convert.ToInt32(frmLoc["txtLocationID"]);
                 objModel.IsActive = frmLoc["chkLocActivate"] == null ? false : true;
@@ -294,7 +295,7 @@ namespace SteerRentMVC.Controllers
             return objModel;
         }
 
-        public void LocationStatusUpdate(int Id, bool Status)
+        public ActionResult LocationStatusUpdate(int Id, bool Status)
         {
             LocationModel objModel = new LocationModel();
             objModel.LocationId = Id;
@@ -302,8 +303,9 @@ namespace SteerRentMVC.Controllers
             objModel.BuId = 1;
             objModel.UserId = 1;
             objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
-            objBal.LocationInsertUpdate(objModel);
-
+            LocationModel objGetData = new LocationModel();
+            objGetData = objBal.LocationInsertUpdate(objModel);
+            return PartialView("_LocationSearchResults", objGetData);
         }
         
         #endregion

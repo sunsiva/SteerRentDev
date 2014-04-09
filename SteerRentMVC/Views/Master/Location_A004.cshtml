@@ -1,13 +1,5 @@
 ﻿@model SteerRent.Model.LocationModel
 
-    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.core.min.js"></script>
-    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.widget.min.js"></script>
-    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.tabs.min.js"></script>
-    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.position.min.js"></script>
-    <script type="text/javascript" src="~/Content/timer/jquery.ui.timepicker.js?v=0.3.3"></script>
-    <link rel="stylesheet" href="~/Content/timer/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/timer/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
-    <script src="~/Scripts/steerrent.js"></script>
 
 <!--- START A004 - Locations -->
 <div class="A004 st_view">
@@ -43,16 +35,6 @@
      <script lang="ja" type="text/javascript">
 
          $(document).ready(function () {
-             $('#txtWorkingTimeFrom').timepicker({
-                 showPeriod: true,
-                 showLeadingZero: true
-             });
-
-             $('#txtWorkingTimeTo').timepicker({
-                 showPeriod: true,
-                 showLeadingZero: true
-             });
-
          $('#LocationName').focus(function () { $('#errImg').hide(); $('#valMsg').hide(); $('#errMsg').hide(); });
          @*$('#btnSubmitA4').click(function () {
              if ($('#txtLocationName').val() == '' || $('#txtLocationName').val() == '') {

@@ -53,15 +53,16 @@
                     }
                 </table>
                 @*<div>
-                                                                <input type="button" id="btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
+                                                                <input type="button" id="
+                btnAddNewA4" onclick="fnLocAddUpdate(0)" class="addnew_btn" value="Add New" />
                                                         </div>*@
                 @if (Model.lstLocation != null)
                 {
                     if (Model.lstLocation.Count > 0)
                     {
-                    <h5 style="text-align: right"><span id="spnTotCnt">@Model.lstLocation.Count()</span> records found.
-    <span id="spnActiveCnt">@Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt">@Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+                    <h5 style="text-align: right"><span id="spnLocTotCnt">@Model.lstLocation.Count()</span> records found.
+    <span id="spnLocActiveCnt">@Model.lstLocation.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnLocInActiveCnt">@Model.lstLocation.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
                     }
                 }
 

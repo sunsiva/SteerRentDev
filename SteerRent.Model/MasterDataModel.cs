@@ -96,6 +96,7 @@ namespace SteerRent.Model
         public int UserId { get; set; }
 	    public bool IsActive { get; set; }
         public GlobalEnum.Flag ActionMode { get; set; }
+        public bool isLocExist { get; set; }
         public IList<LocationModel> lstLocation { get; set; }
     }
     
