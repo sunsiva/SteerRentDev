@@ -99,10 +99,12 @@
             $(".numeric9").attr("maxlength", 9)
 
             $(".alpha49").attr("maxlength", 49)
-            $(".alpha9").attr("maxlength", 9)
+            $(".alpha29").attr("maxlength", 29)
             $(".alpha19").attr("maxlength", 19)
-
+            $(".alpha9").attr("maxlength", 9)
+            
             $(".alphaNum90").attr("maxlength", 95)
+            $(".alphaNum49").attr("maxlength", 49)
             $(".email30").attr("maxlength", 30)
 
             $(".numeric20").bind("keypress", function (e) {
@@ -130,12 +132,21 @@
                 var str = /[a-zA-Z ]/;
                 return globalValidation(e, str);
             });
+            $(".alpha29").bind("keypress", function (e) {
+                var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
             $(".alpha19").bind("keypress", function (e) {
                 var str = /[a-zA-Z ]/;
                 return globalValidation(e, str);
             });
             $(".alpha9").bind("keypress", function (e) {
                 var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
+
+            $(".alphaNum49").bind("keypress", function (e) {
+                var str = /[a-zA-Z0-9,./ #]/;
                 return globalValidation(e, str);
             });
 

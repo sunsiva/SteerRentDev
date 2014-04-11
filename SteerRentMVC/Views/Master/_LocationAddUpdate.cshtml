@@ -15,7 +15,7 @@
     }
 <div id="locAddUpdate">
     
-        <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.core.min.js"></script>
     <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.widget.min.js"></script>
     <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="~/Content/timer/ui-1.10.0/jquery.ui.position.min.js"></script>
@@ -36,7 +36,7 @@
                 <p class="label_part">Location Name <span>*</span></p>
                 <div class="label_input_part">
                     @Html.HiddenFor(model => model.lstLocation[0].LocationId)<input name="txtLocationID" id="txtLocationID" type="hidden" value="@Model.LocationId" />
-                    <input name="txtLocationName" id="txtLocationName" type="text" class="alpha49" value="@Model.LocationName" />
+                    <input name="txtLocationName" id="txtLocationName" type="text" class="alphaNum49" value="@Model.LocationName" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -54,14 +54,14 @@
             <div class="contain_left_part">
                 <p class="label_part">Address Line 1 <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtLocAddressLine1" id="txtLocAddressLine1" type="text" class="alpha49" placeholder="" value="@Model.AddressLine1" />
+                    <input name="txtLocAddressLine1" id="txtLocAddressLine1" type="text" class="alphaNum49" placeholder="" value="@Model.AddressLine1" />
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="contain_left_part">
                 <p class="label_part">Address Line 2 <span></span></p>
                 <div class="label_input_part">
-                    <input name="txtLocAddressLine2" id="txtLocAddressLine2" type="text" class="alpha49" placeholder="" value="@Model.AddressLine2" />
+                    <input name="txtLocAddressLine2" id="txtLocAddressLine2" type="text" class="alphaNum49" placeholder="" value="@Model.AddressLine2" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -94,6 +94,7 @@
                     <select name="ddlLocStateEmirate" id="ddlLocStateEmirate">
                         <option value="@Model.EmirateId">@Model.Emirate</option>
                     </select>
+                    <input type="hidden" id="hdLocEmirate" value="@Model.EmirateId" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -112,7 +113,6 @@
                 <p class="label_part">Location Incharge <span>*</span></p>
                 <div class="label_combo_part">
                     <select name="ddlLocationIncharge" id="ddlLocationIncharge">
-                        <option value="@Model.LocationInChargeId">@Model.LocationInCharge</option>
                     </select>
                     <input type="hidden" id="hdLocationInCharge" name="hdLocationInCharge" value="@Model.LocationInChargeId" />
                 </div>
@@ -185,16 +185,16 @@
                 <p class="label_part">Location Type <span>*</span></p>
                 <div class="label_radio_part">
                     <label class="label_radio">
-                        <input name="chkRevenue" id="chkRevenue"  checked="@Model.IsARevenue"  type="checkbox" value="Revenue" />
+                        <input name="chkLocType" id="chkRevenue"  checked="@Model.IsARevenue"  type="checkbox" value="Revenue" />
                         Revenue</label><br />
                     <label class="label_radio">
-                        <input name="chkCounter" id="chkCounter" checked="@Model.IsACounter" type="checkbox" value="Counter" />
+                        <input name="chkLocType" id="chkCounter" checked="@Model.IsACounter" type="checkbox" value="Counter" />
                         Counter</label><br />
                     <label class="label_radio">
-                        <input name="chkWorkshop" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
+                        <input name="chkLocType" id="chkWorkShop" checked="@Model.IsAWorkShop" type="checkbox" value="Workshop" />
                         Workshop</label><br />
                     <label class="label_radio">
-                        <input name="chkVirtual" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
+                        <input name="chkLocType" type="checkbox" checked="@Model.IsAVirtual" id="chkVirtual" value="Virtual" />
                         Virtual</label>
                 </div>
                 <div class="clear"></div>
@@ -203,10 +203,10 @@
                 <p class="label_part">Operations <span>*</span></p>
                 <div class="label_radio_part">
                     <label class="label_radio">
-                        <input name="chkRenting" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Revenue" />
+                        <input name="chkOperation" id="chkRenting" type="checkbox"  checked="@Model.RentingAllowed" value="Renting" />
                         Renting Allowed</label><br />
                                                         <label class="label_radio">
-                                                            <input name="chkLeasing" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Counter" />
+                                                            <input name="chkOperation" type="checkbox" id="chkLeasing" checked="@Model.LeasingAllowed" value="Leasing" />
                                                             Leasing Allowed</label>
                 </div>
                 <div class="clear"></div>
@@ -322,53 +322,40 @@
     //    $('#btnSubmitA4').val('Submit');
 
     $('#btnSubmitA4').click(function () {
-        var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
         var isFormDataValid = locValidate();
-        debugger;
-        if (!isFormDataValid) {
-            $('.ErrorMsgLoc').attr("style", "display:block");
-            $('#LocInvalidMailMsg').attr("style", "display:none");
-            $('#LocExistMsg').attr("style", "display:none");
-            $('#LocNetworkErrMsg').attr("style", "display:none");
-            $('#LocReqMsg').attr("style", "display:block");
-            slidetabs.setContentHeight();
-            return;
-        }
-
-        if (!isValidEmail) {
-            $('.ErrorMsgLoc').attr("style", "display:block");
-            $('#LocInvalidMailMsg').attr("style", "display:block");
-            $('#LocReqMsg').attr("style", "display:none");
-            $('#LocExistMsg').attr("style", "display:none");
-            $('#LocNetworkErrMsg').attr("style", "display:none");
-            slidetabs.setContentHeight();
-            return;
-        }
-        else {
-            $('.ErrorMsgLoc').attr("style", "display:none");
-            $('#LocInvalidMailMsg').attr("style", "display:none");
-            $('#LocReqMsg').attr("style", "display:none");
-            $('#LocExistMsg').attr("style", "display:none");
-            $('#LocNetworkErrMsg').attr("style", "display:none");
-            slidetabs.setContentHeight();
-        }
-
-        if (isFormDataValid && isValidEmail) {
+        if (isFormDataValid) {
             LocInsertUpdate();
         }
     });
 
-    /* This is click event for country dropdown list to load */
     getMasterData('Country', '#ddlLocCountry', false, 0, $('#hdLocCountry').val());
     getMasterData('Location', '#ddlLocationIncharge', true, 0, $('#hdLocationInCharge').val());
 
+    if ($('#txtLocationID').val() > 0) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#hdLocCountry').val() },
+                success: function (data) {
+                    $("#ddlLocStateEmirate").children().remove();
+                    $("#ddlLocStateEmirate").append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        if ($('#hdLocEmirate').val() == this.Value)
+                            $("#ddlLocStateEmirate").append($('<option selected />').attr('value', this.Value).text(this.Text));
+                        else
+                            $("#ddlLocStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
+                }
+        });
+    }
+
     $("#ddlLocCountry").change(loadEmirates);
     function loadEmirates() {
-        if ($('#ddlLocCountry').val() > 0) {
+        if ($("#ddlLocCountry").val() > 0) {
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("getMasterData")',
-                data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlLocCountry').val() },
+                data: { str: 'Emirate', isGlookup: false, gLookupId: $("#ddlLocCountry").val() },
                 success: function (data) {
                     $("#ddlLocStateEmirate").children().remove();
                     $("#ddlLocStateEmirate").append($('<option />').attr('value', '0').text(''));
@@ -380,7 +367,6 @@
         }
         else
             $("#ddlLocStateEmirate").children().remove();
-
     }
 
     function getMasterData(str, ddlCtrl, isGlookup, gLookupId, selValue) {
@@ -428,24 +414,29 @@
     });
 
     $('#btnAddNewA4').click(function () {
+        NewLocation();
+    });
+
+    function NewLocation()
+    {
         $.ajax({
             url: '@Url.Action("LocationSelect", "Master")',
-            data: { id: 0 },
-            type: "POST",
-            datatype: "json",
-            traditional: true,
-            success: function (data) {
-                $('#locAddUpdate').replaceWith(data);
-                slidetabs.setContentHeight();
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                $('.ErrorMsgLoc').attr("style", "display:block");
-                $('#LocNetworkErrMsg').attr("style", "display:block");
-                $('#LocSuccessMsg').attr("style", "display:none");
-                slidetabs.setContentHeight();
-            }
-        });
+        data: { id: 0 },
+        type: "POST",
+        datatype: "json",
+        traditional: true,
+        success: function (data) {
+            $('#locAddUpdate').replaceWith(data);
+            slidetabs.setContentHeight();
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            $('.ErrorMsgLoc').attr("style", "display:block");
+            $('#LocNetworkErrMsg').attr("style", "display:block");
+            $('#LocSuccessMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+        }
     });
+}
 
     $('#btnSubmitUpdA4').click(function () {
         if (locValidate()) {
@@ -465,6 +456,7 @@
             success: function (data) {
                 if (data.length) {
                     $('#srchLocList').html(data);
+                    if ($('#txtLocationID').val() == 0) { NewLocation(); }
                     $('#LocSuccessMsg').attr("style", "display:block");
                     $('.ErrorMsgLoc').attr("style", "display:none");
                 }
@@ -487,11 +479,12 @@
     }
 
     function locValidate() {
-        slidetabs.setContentHeight();
+        var chkLocType = $('input[name=chkLocType]').attr('checked');
+        var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
         if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').val()>0 && $('#ddlLocStateEmirate').val() > 0 && $('#ddlLocationIncharge').val() > 0
-           && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != '') {
+           && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != ''
+            && chkLocType == 'checked' && ($('#chkRenting').attr('checked') || $('#chkLeasing').attr('checked'))) {
             slidetabs.setContentHeight();
-            return true;
         } else {
             $('.ErrorMsgLoc').attr("style", "display:block");
             $('#LocFailMsg').attr("style", "display:block");
@@ -504,6 +497,34 @@
             return false;
         }
 
+        //if (!isFormDataValid) {
+        //    $('.ErrorMsgLoc').attr("style", "display:block");
+        //    $('#LocInvalidMailMsg').attr("style", "display:none");
+        //    $('#LocExistMsg').attr("style", "display:none");
+        //    $('#LocNetworkErrMsg').attr("style", "display:none");
+        //    $('#LocReqMsg').attr("style", "display:block");
+        //    slidetabs.setContentHeight();
+        //    return false;
+        //}
+
+        if (!isValidEmail) {
+            $('.ErrorMsgLoc').attr("style", "display:block");
+            $('#LocInvalidMailMsg').attr("style", "display:block");
+            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+            return false;
+        }
+        else {
+            $('.ErrorMsgLoc').attr("style", "display:none");
+            $('#LocInvalidMailMsg').attr("style", "display:none");
+            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocExistMsg').attr("style", "display:none");
+            $('#LocNetworkErrMsg').attr("style", "display:none");
+            slidetabs.setContentHeight();
+            return true;
+        }
     }
 
 </script>

@@ -33,7 +33,7 @@
                                 {<div id="dvActivate-@item.LocationId" class="label_part">Active</div>}
                                 else
                                 {
-                                    <div id='dvInActivate-@item.LocationId' class="error_msg">InActive</div>
+                                    <div id='dvInActivate-@item.LocationId' style="error_msg" >Inactive</div>
                                 }
                             </td>
                             @*<td>
@@ -104,7 +104,7 @@
                     $('#dvNoDelete-' + LocId).text('');
                 }
                 else {
-                    $('#dvActivate-' + LocId).text('InActive').removeClass("label_part").addClass("error_msg");
+                    $('#dvActivate-' + LocId).text('Inactive').removeClass("label_part").addClass("error_msg");
                     $('#dvActivate-' + LocId).attr('id', 'dvInActivate-' + LocId);
                     $('#dvDelete-' + LocId).text('X'); $('#dvNoDelete-' + LocId).text('X');
                 }

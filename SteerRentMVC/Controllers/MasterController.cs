@@ -283,12 +283,12 @@ namespace SteerRentMVC.Controllers
             objModel.RentalAgreementNoCurrent = Convert.ToInt32(frmLoc["txtRentAgmtNoCurrent"]);
             objModel.LeaseAgreementNoStart = Convert.ToInt32(frmLoc["txtLeaseAgmtNoStart"]);
             objModel.LeaseAgreementNoCurrent = Convert.ToInt32(frmLoc["txtLeaseAgmtNoCurrent"]);
-            objModel.IsARevenue = frmLoc["chkRevenue"] == null?false:true;
-            objModel.IsACounter = frmLoc["chkCounter"] == null ? false : true;
-            objModel.IsAWorkShop = frmLoc["chkWorkShop"] == null ? false : true;
-            objModel.IsAVirtual = frmLoc["chkVirtual"] == null ? false : true;
-            objModel.LeasingAllowed = frmLoc["chkRenting"] == null ? false : true;
-            objModel.RentingAllowed = frmLoc["chkLeasing"] == null ? false : true;
+            objModel.IsARevenue = frmLoc["chkLocType"].Contains("Revenue");
+            objModel.IsACounter = frmLoc["chkLocType"].Contains("Counter");
+            objModel.IsAWorkShop = frmLoc["chkLocType"].Contains("Workshop");
+            objModel.IsAVirtual = frmLoc["chkLocType"].Contains("Virtual");
+            objModel.LeasingAllowed = frmLoc["chkOperation"].Contains("Renting");
+            objModel.RentingAllowed = frmLoc["chkOperation"].Contains("Leasing");
             objModel.UserId = 1;//TODO
             
             objModel.BuId = 1;

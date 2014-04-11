@@ -27,7 +27,7 @@
                             <p class="label_part">Company Name <span>*</span></p>
                             <div class="label_input_part">
                                 <input name="txtCompanyName" value="@Model.OrgName" class="alpha49" id="txtCompanyName" type="text" placeholder="">
-                                <input name="txtOrgID" value="@Model.OrgID" id="txtBUID" type="hidden">
+                                <input name="txtOrgID" value="@Model.OrgID" id="txtOrgID" type="hidden">
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -85,8 +85,8 @@
                             <p class="label_part">State/Emirate <span>*</span></p>
                             <div class="label_combo_part">
                                 <select name="ddlOrgStateEmirate" id="ddlOrgStateEmirate">
-                                    <option value="@Model.OrgEmirate">@Model.OrgEmirateName</option>
                                 </select>
+                                <input type="hidden" id="hdOrgEmirate" value="@Model.OrgEmirate" />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -228,7 +228,7 @@
                             <p class="label_part">Date Format <span>*</span></p>
                             <div class="label_combo_part">
                                 <select name="ddlOrgDateFormat" id="ddlOrgDateFormat">
-                                    <option>-- Select --</option>
+                                    <option></option>
                                     @if(Model.DateFormat == "1")
                                     {
                                     <option selected value="1">DD/MM/YYYY</option>
@@ -291,21 +291,43 @@
     //    }
     //});
 
-    $("#ddlOrgCountry").change(loadEmirates);
-    function loadEmirates()
-    {
+    if ($('#txtOrgID').val() > 0) {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
-            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlOrgCountry').val() },
+            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#hdOrgCountry').val() },
             success: function (data) {
                 $("#ddlOrgStateEmirate").children().remove();
                 $("#ddlOrgStateEmirate").append($('<option />').attr('value', '0').text(''));
                 $.each(data, function () {
-                    $("#ddlOrgStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    if ($('#hdOrgEmirate').val() == this.Value)
+                        $("#ddlOrgStateEmirate").append($('<option selected />').attr('value', this.Value).text(this.Text));
+                    else
+                        $("#ddlOrgStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
                 });
             }
         });
+    }
+
+    $("#ddlOrgCountry").change(loadEmirates);
+    function loadEmirates()
+    {
+        if ($('#ddlOrgCountry').val() > 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getMasterData")',
+                data: { str: 'Emirate', isGlookup: false, gLookupId: $('#ddlOrgCountry').val() },
+                success: function (data) {
+                    $("#ddlOrgStateEmirate").children().remove();
+                    $("#ddlOrgStateEmirate").append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        $("#ddlOrgStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
+                }
+            });
+        }
+        else
+            $("#ddlOrgStateEmirate").children().remove();
     }
     //$('#ddlOrgBaseCurrency').click(function () {
     //    if ($('#ddlOrgBaseCurrency').val() == 0 && $('#ddlOrgBaseCurrency').text() != '') {
