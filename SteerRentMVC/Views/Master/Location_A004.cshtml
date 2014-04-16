@@ -1,6 +1,5 @@
 ﻿@model SteerRent.Model.LocationModel
 
-
 <!--- START A004 - Locations -->
 <div class="A004 st_view">
     <div class="st_view_inner">
@@ -35,7 +34,7 @@
      <script lang="ja" type="text/javascript">
 
          $(document).ready(function () {
-         $('#LocationName').focus(function () { $('#errImg').hide(); $('#valMsg').hide(); $('#errMsg').hide(); });
+             $('#LocationName').focus(function () { $('#LocSuccessMsg').hide(); $('.ErrorMsgLoc').hide();});
          @*$('#btnSubmitA4').click(function () {
              if ($('#txtLocationName').val() == '' || $('#txtLocationName').val() == '') {
                  $('#errImg').show(); $('#valMsg').show();

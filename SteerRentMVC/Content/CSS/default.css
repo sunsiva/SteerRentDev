@@ -83,7 +83,7 @@ body {
 	display:block;
 	float:left;
 	margin:0px 36px 0px 13px;
-	background:url(/images/logo.png) no-repeat 0 0;
+	background:url(/testbed_test1/images/logo.png) no-repeat 0 0;
 }
 .header_dropdown{
 	float:left;
@@ -127,10 +127,10 @@ body {
 	border-left:0px;
 	display:block;
 	cursor:pointer;
-	background:url(/images/search_icon.png) no-repeat center center;
+	background:url(/testbed_test1/images/search_icon.png) no-repeat center center;
 }
 .menu_item{
-	background:#006699 url(/images/down_arrow.png) no-repeat 70px center;
+	background:#006699 url(/testbed_test1/images/down_arrow.png) no-repeat 70px center;
 	padding:7px 6px 9px 6px;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -273,7 +273,7 @@ body {
 	margin-top:10px;
 }
 .tab_contant_inner{
-	min-height:400px;
+	min-height:300px;
 	display:block;
 }
 .header_right_part{
@@ -298,7 +298,7 @@ body {
 	top:50%;
 	margin-top:-2.5px;
 	display:block;
-	background:url(/images/down_arrow_user.png) no-repeat 0px 0px
+	background:url(/testbed_test1/images/down_arrow_user.png) no-repeat 0px 0px
 }
 
 .user_part{
@@ -336,7 +336,7 @@ body {
 	color:#F00;
 	display:block;
 	margin-bottom:8px;
-	background:url(/images/error_icon.png) no-repeat 0 0;
+	background:url(/testbed_test1/images/error_icon.png) no-repeat 0 0;
 }
 .error_msg_sm{
 	font-family:Arial, Helvetica, sans-serif;
@@ -367,7 +367,7 @@ body {
 	color:#0A0;
 	display:block;
 	margin-bottom:1px;
-	background:url(/images/success_icon.png) no-repeat 0 0;
+	background:url(/testbed_test1/images/success_icon.png) no-repeat 0 0;
 }
 .success_msg_sm{
 	font-family:Arial, Helvetica, sans-serif;
@@ -428,6 +428,19 @@ body {
 	margin-bottom:2px;
 	vertical-align: middle;
 }
+.special_combo_for_form{
+	padding:2px;
+	width:90px;
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	display:block;	
+	border-color:#ccc;
+	outline:none;
+	border:1px solid #ccc;
+	margin-top:0px;
+}
+
 .special_combo_for_table{
 	padding:2px;
 	width:160px;
@@ -529,7 +542,35 @@ body {
 	background:#006699;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
-	color:#fff;
+	color:#fff !important;
+	outline:none;
+	border:none;
+	cursor:pointer;
+	margin-left:145px;
+}
+
+.submit_btn{
+	width:150px;
+	height:24px;
+	display:block;
+	background:#006699;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff !important;
+	outline:none;
+	border:none;
+	cursor:pointer;
+	margin-left:145px;
+}
+
+.Upload_btn{
+	width:80px;
+	height:24px;
+	display:block;
+	background:#006699;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff !important;
 	outline:none;
 	border:none;
 	cursor:pointer;
@@ -539,7 +580,7 @@ body {
 	width:80px;
 	height:24px;
 	display:block;
-	background:#A0A0A0;
+	background:#000000;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	float:left;
@@ -723,7 +764,21 @@ table.gridtable_quotation td {
 	font-size:12px;
 	border-radius:0px;
 	color:#000;
-	background:url(/images/calendar.gif) no-repeat 85px center;
+	background:url(/testbed_test1/images/calendar.gif) no-repeat 85px center;
+}
+.baseinput.time{
+	width:100px;
+	height:16px;
+	padding:2px 2px 2px 2px;
+	border:1px solid #ccc;
+	display:block;
+	outline:none;
+	background:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	border-radius:0px;
+	color:#000;
+	background:url(/images/time.gif) no-repeat 85px center;
 }
 .tabicon {
 padding-left: 2px;
@@ -927,6 +982,8 @@ table.popup_doc_gridtable td {
 	border-color: #cccccc;
 	background-color: #ffffff;
 }
+
+
 .popup_input.date{
 	width:100px;
 	height:16px;
@@ -939,5 +996,5 @@ table.popup_doc_gridtable td {
 	margin-bottom:3px;
 	border-radius:0px;
 	color:#000;
-	background:url(/images/calendar.gif) no-repeat 85px center;
+	background:url(/testbed_test1/images/calendar.gif) no-repeat 85px center;
 }

@@ -821,7 +821,7 @@ namespace SteerRent.DAL
                       ServiceCharge = row.Field<decimal>("ServiceCharge"),
                       IsDeductible = row.Field<bool>("IsDeductible"),
                       IsDeductibleWaiver = row.Field<bool>("IsDeductibleWaiver"),
-                      //WaivingPercentage = row.Field<decimal>("WaivingPercentage"),
+                      WaivingPercentage = row.Field<decimal>("WaivingPercentage"),
                       IsSecured = row.Field<bool>("IsSecured"),
                       CreatedOn = row.Field<DateTime>("CreatedOn"),
                       UserID =Convert.ToInt32(row.Field<string>("CreatedBy")),
@@ -856,9 +856,18 @@ namespace SteerRent.DAL
                    {
                        cmd.CommandText = "usp_ChargeCodeMasterInsert";
                        cmd.Parameters.AddWithValue("@CreatedBy", objData.UserID);
-                   }else{cmd.CommandText = "usp_ChargeCodeMasterUpdate";
-                   cmd.Parameters.AddWithValue("@ChargeCodeID", objData.ChargeCodeID);
-                   cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
+                   }
+                   else if (objData.ActionMode == GlobalEnum.Flag.Delete) {
+                       cmd.CommandText = "usp_ChargeCodeMasterDelete";
+                       cmd.Parameters.AddWithValue("@ChargeCodeID", objData.ChargeCodeID);
+                       cmd.ExecuteNonQuery();
+                       return GetChargeCodes(0);
+                   }
+                   else
+                   {
+                       cmd.CommandText = "usp_ChargeCodeMasterUpdate";
+                       cmd.Parameters.AddWithValue("@ChargeCodeID", objData.ChargeCodeID);
+                       cmd.Parameters.AddWithValue("@UpdatedBy", objData.UserID);
                    }
                    cmd.Parameters.AddWithValue("@BuId", objData.BuId);
                    cmd.Parameters.AddWithValue("@ChargeCode", objData.ChargeCode);
@@ -1153,12 +1162,22 @@ namespace SteerRent.DAL
                        objData.LocationId = Convert.ToInt32(item["LocationId"]);
                        //objData.Location = item["Location"].ToString();
                        objData.DOJ = Convert.ToDateTime(item["DOJ"].ToString());
-                       objData.LeavingDate = Convert.ToDateTime(item["LeavingDate"]);
+                       DateTime? emptydate;
+                       if (item["LeavingDate"].ToString() == string.Empty)
+                       {
+                           emptydate = null;
+                           objData.LeavingDate = emptydate;
+                       }
+                       else
+                       {
+                           objData.LeavingDate = Convert.ToDateTime(item["LeavingDate"]);
+                       }
                        objData.Address1 = item["Address1"].ToString();
                        objData.Address2 = item["Address2"].ToString();
-                       objData.Address3 = item["Address3"].ToString();
+                       objData.Zip = item["Zip"].ToString();
                        objData.City = item["City"].ToString();
                        objData.State = item["State"].ToString();
+                       objData.StateId = Convert.ToInt32(item["StateId"]);
                        objData.CountryName = item["CountryName"].ToString();
                        objData.CountryId = Convert.ToInt32(item["CountryId"]);
                        objData.EmergencyContactName = item["EmergencyContactName"].ToString();
@@ -1208,30 +1227,47 @@ namespace SteerRent.DAL
                    con.Open();
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "usp_EmployeeMasterInsertUpdate";
-                    cmd.Parameters.AddWithValue("@EmployeeId", objEmp.EmployeeId);
-                    cmd.Parameters.AddWithValue("@UserId", objEmp.UserId);
-                    cmd.Parameters.AddWithValue("@FirstName", objEmp.FirstName);
-                    cmd.Parameters.AddWithValue("@LastName", objEmp.LastName);
-                    cmd.Parameters.AddWithValue("@MiddleName", objEmp.MiddleName);
-                    cmd.Parameters.AddWithValue("@EmployeeCode", objEmp.EmployeeCode);
-                    cmd.Parameters.AddWithValue("@Gender", objEmp.Gender);
-                    cmd.Parameters.AddWithValue("@DOB", objEmp.DOB);
-                    cmd.Parameters.AddWithValue("@DesignationId", objEmp.DesignationId);
-                    cmd.Parameters.AddWithValue("@BUId", objEmp.BUId);
-                    cmd.Parameters.AddWithValue("@LocationId", objEmp.LocationId);
-                    cmd.Parameters.AddWithValue("@DOJ", objEmp.DOJ);
-                    cmd.Parameters.AddWithValue("@LeavingDate", objEmp.LeavingDate);
-                    cmd.Parameters.AddWithValue("@Address1", objEmp.Address1);
-                    cmd.Parameters.AddWithValue("@Address2", objEmp.Address2);
-                    cmd.Parameters.AddWithValue("@Address3", objEmp.Address3);
-                    cmd.Parameters.AddWithValue("@City", objEmp.City);
-                    cmd.Parameters.AddWithValue("@State", objEmp.State);
-                    cmd.Parameters.AddWithValue("@CountryId", objEmp.CountryId);
-                    cmd.Parameters.AddWithValue("@EmergencyContactName", objEmp.EmergencyContactName);
-                    cmd.Parameters.AddWithValue("@EmergencyContactPhone", objEmp.EmergencyContactPhone);
-                    cmd.Parameters.AddWithValue("@IsActive", objEmp.IsActive);
-                    cmd.Parameters.AddWithValue("@CreatedBy", objEmp.CreatedBy);
+                    if (objEmp.ActionMode == GlobalEnum.Flag.StatusUpdate)
+                    {
+                        cmd.CommandText = "usp_EmployeeStatusUpdate";
+                        cmd.Parameters.AddWithValue("@EmployeeId", objEmp.EmployeeId);
+                        cmd.Parameters.AddWithValue("@UpdatedBy", objEmp.CreatedBy);
+                        cmd.Parameters.AddWithValue("@IsActive", objEmp.IsActive);
+                    }
+                    else
+                    {
+                        cmd.CommandText = "usp_EmployeeMasterInsertUpdate";
+                        cmd.Parameters.AddWithValue("@EmployeeId", objEmp.EmployeeId);
+                        cmd.Parameters.AddWithValue("@UserId", objEmp.UserId);
+                        cmd.Parameters.AddWithValue("@FirstName", objEmp.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", objEmp.LastName);
+                        cmd.Parameters.AddWithValue("@MiddleName", objEmp.MiddleName);
+                        cmd.Parameters.AddWithValue("@EmployeeCode", objEmp.EmployeeCode);
+                        cmd.Parameters.AddWithValue("@Gender", objEmp.Gender);
+                        cmd.Parameters.AddWithValue("@DOB", objEmp.DOB);
+                        cmd.Parameters.AddWithValue("@DesignationId", objEmp.DesignationId);
+                        cmd.Parameters.AddWithValue("@BUId", objEmp.BUId);
+                        cmd.Parameters.AddWithValue("@LocationId", objEmp.LocationId);
+                        cmd.Parameters.AddWithValue("@DOJ", objEmp.DOJ);
+                        if (objEmp.LeavingDate == null)
+                        {
+                            cmd.Parameters.Add("@LeavingDate", SqlDbType.DateTime).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@LeavingDate",objEmp.LeavingDate);
+                        }
+                        cmd.Parameters.AddWithValue("@Address1", objEmp.Address1);
+                        cmd.Parameters.AddWithValue("@Address2", objEmp.Address2);
+                        cmd.Parameters.AddWithValue("@Zip", objEmp.Zip);
+                        cmd.Parameters.AddWithValue("@City", objEmp.City);
+                        cmd.Parameters.AddWithValue("@State", objEmp.StateId);
+                        cmd.Parameters.AddWithValue("@CountryId", objEmp.CountryId);
+                        cmd.Parameters.AddWithValue("@EmergencyContactName", objEmp.EmergencyContactName);
+                        cmd.Parameters.AddWithValue("@EmergencyContactPhone", objEmp.EmergencyContactPhone);
+                        cmd.Parameters.AddWithValue("@IsActive", objEmp.IsActive);
+                        cmd.Parameters.AddWithValue("@CreatedBy", objEmp.CreatedBy);
+                    }
                     cmd.ExecuteNonQuery();
                     ReturnValue=GetEmployeeMasterData(0);
                }

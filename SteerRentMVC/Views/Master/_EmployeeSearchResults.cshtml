@@ -2,19 +2,20 @@
 
 <div id="EmployeeSearch">
     <div class="contain_row">
-        <h5 class="contain_title">Employee Master</h5>
+        @*<h5 class="contain_title">Employee Master</h5>*@
+        <h5 class="label_part">List of Employees</h5>
         <div class="contain_sub_row">
-            <p class="label_part">List of Employees</p>
+            @*<p class="label_part">List of Employees</p>*@
             <div class="label_textarea_part">
                 <table class="gridtable">
                     <tr>
-                        <th>Employee Id
+                        <th width="15%">Employee Id
                         </th>
-                        <th>Employee Name
+                        <th width="40%">Employee Name
                         </th>
-                        <th>Designation
+                        <th width="35%">Designation
                         </th>
-                        <th>Status
+                        <th width="10%">Status
                         </th>
                     </tr>
                     @if (Model != null && Model.Count() > 0)
@@ -35,10 +36,10 @@
                             </td>
                             <td>
                                 @if (item.IsActive == true)
-                                {<div id="dvActivate-@item.EmployeeId" class="label_part">Active</div>}
+                                {<div id="dvEmpActivate-@item.EmployeeId" class="label_part">Active</div>}
                                 else
                                 {
-                                    <div id='dvInActivate-@item.EmployeeId' class="error_msg">InActive</div>
+                                    <div id='dvEmpInActivate-@item.EmployeeId' class="error_msg">Inactive</div>
                                                                             }
                             </td>
                                 </tr>
@@ -55,9 +56,9 @@
                 {
                     if (Model.Count > 0)
                     {
-                    <h5 style="text-align: right"><span id="spnTotCnt">@Model.Count()</span> records found.
-                    <span id="spnActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
-                    <span id="spnInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+                    <h5 style="text-align: right"><span id="spnEmpTotCnt">@Model.Count()</span> records found.
+                    <span id="spnEmpActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
+                    <span id="spnEmpInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
                     }
                 }
             </div>

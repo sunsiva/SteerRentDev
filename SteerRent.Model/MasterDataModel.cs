@@ -118,14 +118,16 @@ namespace SteerRent.Model
         public decimal LocationId { get; set; }
         public string Location { get; set; }
         public DateTime DOJ { get; set; }
-        public DateTime LeavingDate { get; set; }
+        public DateTime? LeavingDate { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public decimal StateId { get; set; }
         public decimal CountryId { get; set; }
         public string CountryName { get; set; }
+        public string Zip { get; set; }
         public string EmergencyContactName { get; set; }
         public string EmergencyContactPhone { get; set; }
         public bool IsActive { get; set; }

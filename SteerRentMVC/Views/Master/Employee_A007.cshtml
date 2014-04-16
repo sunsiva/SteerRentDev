@@ -1,347 +1,42 @@
 ﻿@model List<SteerRent.Model.EmployeeModel>
 
+
 <!--- START A007 - Employee Master -->
 <div class="A007 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
+            <div class="contain_row" id="EmpSuccessMsg">
+                <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
+            </div>
+            <div class="contain_row ErrorMsgEmp">
+                <p class="error_msg_bg" id="EmpFailMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm" id="EmpReqMsg">Please enter all required fields.</p>
+                <p class="error_msg_sm" id="EmpDoBGreaterMsg" >Date of Birth cannot be equal to or greater than today.</p>
+                <p class="error_msg_sm" id="EmpEmpIdExistMsg">The Employee Id should be unique. The Id entered is already assoiciated with another Employee.</p>
+                <p class="error_msg_sm" id="EmpDoJInvalidMsg">Date of Joining cannot be equal to or less than Date of Birth.</p>
+                <p class="error_msg_sm" id="EmpDoLInvalidMsg">Date of Leaving cannot be less than Date of Joining.</p>
+                @*<p class="error_msg_sm" id="EmpInvalidMailMsg">The Email-Id format is incorrect.</p>*@
+                @*<p class="error_msg_sm" id="EmpExistMsg">The Email-Id is already associated with another Employee.</p>*@
+                <p class="error_msg_sm" id="EmpNetworkErrMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            </div>
+            <div id="EmployeeSearch">
+                @Html.Partial("_EmployeeSearchResults", Model)
+            </div>
+            <div id="EmployeeAddUpdate">
+                @Html.Partial("_EmployeeAddUpdate", new SteerRent.Model.EmployeeModel())
+            </div>
 
-            <form name="" method="post">
-                <div class="contain_row">
-                    <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
-                </div>
-                <div class="contain_row">
-                    <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
-                    <p class="error_msg_sm">Please enter all required fields.</p>
-                    <p class="error_msg_sm">Date of Birth cannot be equal to or greater than today.</p>
-                    <p class="error_msg_sm">The Employee Id should be unique. The Id entered is already assoiciated with another Employee.</p>
-                    <p class="error_msg_sm">Date of Joining cannot be equal to or less than Date of Birth.</p>
-                    <p class="error_msg_sm">Date of Leaving cannot be less than Date of Joining.</p>
-                    <p class="error_msg_sm">Date of Joining cannot be less than or equal to Date of Birth.</p>
-                    <p class="error_msg_sm">The Email-Id format is incorrect.</p>
-                    <p class="error_msg_sm">The Email-Id is already associated with another Employee.</p>
-                    <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
-                </div>
-                <div class="contain_row">
-                    <!--<h5 class="contain_title">Employee Master</h5>-->
-                    <div class="contain_sub_row">
-                        <p class="label_part"><b>List of Employees</b></p>
-                        <div class="label_textarea_part">
-                            <table class="gridtable">
-                                <tr>
-                                    <th width="15%">Employee Id
-                                    </th>
-                                    <th width="40%">Employee Name
-                                    </th>
-                                    <th width="35%">Designation
-                                    </th>
-                                    <th width="10%">Status
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Active
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-                                    <td>Row 1
-                                    </td>
-                                    <td>
-                                        <font color="red">Inactive</font>
-                                    </td>
-
-                                </tr>
-                            </table>
-
-                            </br>
-                            <h5 style="text-align: right">xx records found. xx - Active, xx - Inactive.</h5>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="contain_row">
-                    <h5 class="contain_title">Add/Update Employee Information</h5>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">First Name <span>*</span></p>
-                            <div class="label_input_part">
-                                <input name="txtFirstName" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Last Name <span>*</span></p>
-                            <div class="label_input_part">
-                                <input name="txtLastName" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Middle Initial(s) <span></span></p>
-                            <div class="label_input_part">
-                                <input name="txtMiddleInitial" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part"><span></span></p>
-                            <div class="label_input_part">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Gender <span>*</span></p>
-                            <div class="label_radio_part">
-                                <label class="label_radio">
-                                    <input name="radGender" type="radio" value="M">
-                                    Male</label>
-                                <label class="label_radio last">
-                                    <input name="radGender" type="radio" value="F">
-                                    Female</label>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Date of Birth <span>*</span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtDoB" id="datepicker" class="baseinput date">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Employee Id <span>*</span></p>
-                            <div class="label_input_part">
-                                <input name="txtEmpId" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Designation <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlDesignation">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Business Unit <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlBusinessUnit">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Location <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlLocation">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Date of Joining <span>*</span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtDoJ" id="datepicker" class="baseinput date">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Leaving Date <span></span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtDoL" id="datepicker" class="baseinput date">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="contain_row">
-                    <h5 class="contain_title">Contact Details</h5>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Address Line 1 <span>*</span></p>
-                            <div class="label_input_part">
-                                <input name="txtAddrLine1" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Address Line 2 <span></span></p>
-                            <div class="label_input_part">
-                                <input name="txtAddrLine2" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">City <span></span></p>
-                            <div class="label_input_part">
-                                <input name="txtCity" type="text" placeholder="">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Country <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlCountry">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">State/Emirate <span>*</span></p>
-                            <div class="label_combo_part">
-                                <select name="ddlStateEmirate">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Pin/Zip <span>*</span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtPinZip">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div>&nbsp;</div>
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part">Emergency Contact <span>*</span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtEmergencyContact">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <p class="label_part">Emergency Phone <span>*</span></p>
-                            <div class="label_input_part">
-                                <input type="text" name="txtEmergencyPhone">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="contain_row">
-                    <div class="contain_sub_row">
-                        <div class="contain_left_part">
-                            <p class="label_part"><span></span></p>
-                            <div class="label_radio_part">
-                                <label class="label_radio">
-                                    <input name="chkActivate" type="checkbox" value="Activate">
-                                    Activate Employee</label>
-
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="contain_left_part">
-                            <h5>&nbsp;</h5>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="submit_part">
-                    <div class="contain_submit_row">
-                        <button type="submit" class="submit_btn" value="Submit">Submit</button>
-                        <button type="button" class="addnew_btn" value="Add New">Add New</button>
-                        <button type="button" class="delete_btn" value="Delete">Delete</button>
-                    </div>
-                </div>
-
-            </form>
         </div>
     </div>
 </div>
 <!-- END A007 -->
 
 <script lang="ja" type="text/javascript">
-
     function fnEmpAddUpdate(id) {
         $.get('@Url.Action("GetEmployeeDetails", "Master")/' + id, function (data) {
             $('#EmployeeAddUpdate').replaceWith(data);
         });
     }
 
-    $('#txtEmpCountry').click(function () {
-        if ($('#txtEmpCountry').val() == 0) {
-            getMasterData('Country', '#txtEmpCountry',false,0);
-        }
-    });
-
-    $('#ddlEmpDesignation').click(function () {
-        if ($('#ddlEmpDesignation').val() == 0) {
-            getMasterData('Designation', '#ddlEmpDesignation', true, 0);
-        }
-    });
     
-
-    function getMasterData(str, ddlCtrl, isGlookup,gLookupId) {
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("getMasterData")',
-            data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
-            success: function (data) {
-                $(ddlCtrl).empty();
-                $.each(data, function () {
-                    $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
-                });
-            }
-        });
-    }
-
-    $('#ddlEmpLocation').click(function () {
-        if ($('#ddlEmpLocation').val() == 0) {
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("GetLocationsForEmployee")',
-                data: { str: $('#ddlEmpLocation').val() },
-            success: function (data) {
-                $(ddlEmpLocation).empty();
-                $.each(data, function () {
-                    $(ddlEmpLocation).append($('<option />').attr('value', this.Value).text(this.Text));
-                });
-            }
-            });
-        }
-    });
-
-
 </script>

@@ -11,16 +11,24 @@
         });
 
         $(function () {
+            $.trim = function (text) {
+                return text.replace(/^\s+|\s+$/g, '');
+            };
+
             $('.ErrorMsg').attr("style", "display:none");
             $('.ErrorMsgHLook').attr("style", "display:none");
             $('.ErrorMsgOrg').attr("style", "display:none");
             $('.ErrorMsgLoc').attr("style", "display:none");
-
+            $('.ErrorMsgEmp').attr("style", "display:none");
+            $('.ErrorMsgCC').attr("style", "display:none");
+            
             $('#OrgSuccessMsg').attr("style", "display:none");
             $('#GLookupSuccessMsg').attr("style", "display:none");
             $('#HLookupSuccessMsg').attr("style", "display:none");
             $('#LocSuccessMsg').attr("style", "display:none");
-
+            $('#EmpSuccessMsg').attr("style", "display:none");
+            $('#CCSuccessMsg').attr("style", "display:none");
+            
 
             $("#txtGLookupValue").attr("maxlength", 50)
             $("#txtGLookupValue").bind("keypress", function (e) {
@@ -40,15 +48,6 @@
                 return globalValidation(e, str);
             });
         });
-
-        $.ValidateEmail = function (obj) {
-            var email = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-            if (!obj.match(email)) {
-                return false;
-            }
-            else
-                return true;
-        }
 
         $.ErrorHide = function () {
             $('.ErrorMsg').attr("style", "display:none");
@@ -89,14 +88,12 @@
             $('#LocNetworkErrMsg').attr("style", "display:none");
         }
 
-        $.trim = function (text) {
-            return text.replace(/^\s+|\s+$/g, '');
-        };
-
         $(function () {
             $(".numeric20").attr("maxlength", 20)
             $(".numeric19").attr("maxlength", 19)
             $(".numeric9").attr("maxlength", 9)
+
+            $(".numOnly9").attr("maxlength", 9)
 
             $(".alpha49").attr("maxlength", 49)
             $(".alpha29").attr("maxlength", 29)
@@ -105,6 +102,7 @@
             
             $(".alphaNum90").attr("maxlength", 95)
             $(".alphaNum49").attr("maxlength", 49)
+            $(".alphaNum9").attr("maxlength", 9)
             $(".email30").attr("maxlength", 30)
 
             $(".numeric20").bind("keypress", function (e) {
@@ -128,6 +126,13 @@
             $(".numeric9").bind("paste", function (e) { return false; });
             $(".numeric9").bind("drop", function (e) { return false; });
 
+            $(".numOnly9").bind("keypress", function (e) {
+                var str = /[0-9.]/;
+                return globalValidation(e, str);
+            });
+            $(".numOnly9").bind("paste", function (e) { return false; });
+            $(".numOnly9").bind("drop", function (e) { return false; });
+
             $(".alpha49").bind("keypress", function (e) {
                 var str = /[a-zA-Z ]/;
                 return globalValidation(e, str);
@@ -142,6 +147,11 @@
             });
             $(".alpha9").bind("keypress", function (e) {
                 var str = /[a-zA-Z ]/;
+                return globalValidation(e, str);
+            });
+
+            $(".alphaNum9").bind("keypress", function (e) {
+                var str = /[a-zA-Z0-9,./ #]/;
                 return globalValidation(e, str);
             });
 
@@ -164,6 +174,51 @@
     /* END:  MASTER*/
 
     /* BEGIN: General */
+
+
+        $.ValidateEmail = function (obj) {
+            var email = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            if (!obj.match(email)) {
+                return false;
+            }
+            else
+                return true;
+        }
+
+        $.isCurrentDateGreater = function (obj) {
+            var date = obj.substring(0, 2);
+            var month = obj.substring(3, 5);
+            var year = obj.substring(6, 10);
+            var myDate = new Date(year, month - 1, date);
+            var today = new Date();
+            if (myDate > today) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        $.isDoJValid = function (oDoB, oDoJ) {
+            if (oDoJ > oDoB || oDoJ == oDoB) {
+                return true;
+            }
+            else {
+               return false;
+            }
+        }
+
+        $.isDoLValid = function (oDoJ, oDoL) {
+            if (oDoL > oDoJ || oDoJ == oDoL) {
+                //alert("DoJ is greater/equal to DoB");
+                return true;
+            }
+            else {
+                //alert("Entered date is less than today's date ");
+                return false;
+            }
+        }
+
         function disposeStorage() {
             sessionStorage.removeItem('tabClick');
         }

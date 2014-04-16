@@ -300,8 +300,8 @@ namespace SteerRentMVC.Controllers
             LocationModel objModel = new LocationModel();
             objModel.LocationId = Id;
             objModel.IsActive = Status;
-            objModel.BuId = 1;
-            objModel.UserId = 1;
+            objModel.BuId = 1; //TODO
+            objModel.UserId = 1;//TODO
             objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
             LocationModel objGetData = new LocationModel();
             objGetData = objBal.LocationInsertUpdate(objModel);
@@ -409,6 +409,13 @@ namespace SteerRentMVC.Controllers
             getLocationsdata = lstObjModel.lstLocation.AsEnumerable().Select(m => new SelectListItem() { Text = m.LocationName, Value = m.LocationId.ToString() });
             return Json(new SelectList(getLocationsdata, "Value", "Text", null));
         }
+        public JsonResult GetCompanyForEmp()
+        {
+            SelectListItem getLocationsdata = new SelectListItem();
+            objBal = new MasterData();
+            CompanySetup objData = objBal.GetCompanyDetails(0);
+            return Json(objData);
+        }
 
         public ActionResult GetEmployeeDetails(decimal id)
         {
@@ -426,6 +433,18 @@ namespace SteerRentMVC.Controllers
             }
         }
 
+        public ActionResult EmployeeStatusUpdate(int Id, bool Status)
+        {
+            EmployeeModel objModel = new EmployeeModel();
+            List<EmployeeModel> lstEmpModel = new List<EmployeeModel>();
+            objModel.ActionMode = GlobalEnum.Flag.StatusUpdate;
+            objModel.EmployeeId = Id;
+            objModel.IsActive = Status;
+            objModel.CreatedBy = "1";//TODO
+            lstEmpModel=objBal.EmployeeInsertUpdate(objModel);
+            return PartialView("_EmployeeSearchResults", lstEmpModel);
+         }
+
         public ActionResult EmployeeInsertUpdate(FormCollection frmEmp)
         {
             EmployeeModel objModel = new EmployeeModel();
@@ -433,7 +452,10 @@ namespace SteerRentMVC.Controllers
             if (frmEmp.Count > 0)
             {
                 objModel = BuildEmployeeData(frmEmp);
-                lstEmpModel=objBal.EmployeeInsertUpdate(objModel);
+                if (objModel.FirstName != null)
+                    lstEmpModel=objBal.EmployeeInsertUpdate(objModel);
+                else
+                    return Json(0);
             }
             return PartialView("_EmployeeSearchResults", lstEmpModel);
         }
@@ -446,8 +468,19 @@ namespace SteerRentMVC.Controllers
             {
                 objFrmEmp.ActionMode = GlobalEnum.Flag.Insert;
                 objFrmEmp.EmployeeId = 0;
-                MembershipUser newUser = Membership.CreateUser(frmEmp["txtEmpFirstName"], "Admin@123");
-                userId = new Guid(newUser.ProviderUserKey.ToString());
+                try
+                {
+                    MembershipUser newUser = Membership.CreateUser(frmEmp["txtEmployeeCode"], "Admin@123");
+                    userId = new Guid(newUser.ProviderUserKey.ToString());
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("already"))
+                    {
+                        return objFrmEmp;
+                    }
+                }
+                
             }
             else
             {
@@ -459,19 +492,27 @@ namespace SteerRentMVC.Controllers
             objFrmEmp.LastName = frmEmp["txtEmpLastName"];
             objFrmEmp.EmployeeCode = frmEmp["txtEmployeeCode"];
             objFrmEmp.MiddleName = frmEmp["txtEmpMiddleInitial"];
-            objFrmEmp.Gender = Convert.ToInt16(frmEmp["radEmpGender"]=="M"?1:0);
+            objFrmEmp.Gender = Convert.ToInt16(frmEmp["ddlEmpGender"]);
             objFrmEmp.DOB = Convert.ToDateTime(frmEmp["txtEmpDoB"]);
-            objFrmEmp.DesignationId = 0;// Convert.ToInt32(frmEmp["ddlEmpDesignation"]);
-            objFrmEmp.BUId = 0;// Convert.ToInt32(frmEmp["ddlEmpBusinessUnit"]);
+            objFrmEmp.DesignationId = Convert.ToInt32(frmEmp["ddlEmpDesignation"]);
+            objFrmEmp.BUId = Convert.ToInt32(frmEmp["ddlEmpBusinessUnit"]);
             objFrmEmp.LocationId = Convert.ToInt32(frmEmp["ddlEmpLocation"]);
             objFrmEmp.DOJ = Convert.ToDateTime(frmEmp["txtEmpDoJ"]);
+            DateTime? emptydate;
+            if (frmEmp["txtEmpDoL"] == "")
+            { emptydate = null;
+            objFrmEmp.LeavingDate = emptydate;
+            }
+            else {
             objFrmEmp.LeavingDate = Convert.ToDateTime(frmEmp["txtEmpDoL"]);
+            }
+            
             objFrmEmp.Address1 = frmEmp["txtEmpAddrLine1"];
             objFrmEmp.Address2 = frmEmp["txtEmpAddrLine2"];
-            objFrmEmp.Address3 = frmEmp["txtEmpAddrLine3"];
+            objFrmEmp.Zip = frmEmp["txtEmpPinZip"];
             objFrmEmp.City = frmEmp["txtEmpCity"];
-            objFrmEmp.State = frmEmp["txtEmpStateEmirate"];
-            objFrmEmp.CountryId = Convert.ToInt32(frmEmp["txtEmpCountry"]);
+            objFrmEmp.StateId = Convert.ToInt32(frmEmp["ddlEmpStateEmirate"]);
+            objFrmEmp.CountryId = Convert.ToInt32(frmEmp["ddlEmpCountry"]);
             objFrmEmp.EmergencyContactName = frmEmp["txtEmpEmergencyContact"];
             objFrmEmp.EmergencyContactPhone = frmEmp["txtEmpEmergencyPhone"];
             objFrmEmp.IsActive = frmEmp["chkEmpActivate"] == null ? false : true;
@@ -516,29 +557,39 @@ namespace SteerRentMVC.Controllers
             ChargeCodeModel objCC = new ChargeCodeModel();
             objCC.ChargeCode = frmCC["txtChargeCode"];
             objCC.ChargeCodeDesc = frmCC["txtChargeCodeDesc"];
-            objCC.BuId = 1;
+            objCC.BuId = 1; //TODO
             objCC.GroupDriven = frmCC["chkGroupDriven"] == null ? false : true;
             objCC.UnitDriven = frmCC["chkUnitDriven"] == null ? false : true;
             objCC.AdhocValue = frmCC["chkAdhoc"] == null ? false : true;
-            objCC.IsInsurance = frmCC["chkInsurance"] == null ? false : true;
-            objCC.IsRental = frmCC["chkRental"] == null ? false : true;
-            objCC.IsDeductible = false;// frmCC["chkDiscount"] == null ? false : true;
-            objCC.IsNonRental = frmCC["chkNonRental"] == null ? false : true;
-            objCC.IsTrafficViolation = frmCC["chkTrafficViolation"] == null ? false : true;
-            objCC.IsOtherCompliance = frmCC["chkOtherCompliance"] == null ? false : true;
-            objCC.IsVasWhileRenting = frmCC["chkVASWhileRenting"] == null ? false : true;
-            objCC.IsVasWhileClosing = frmCC["chkVASWhileClosing"] == null ? false : true;
+            var otype = frmCC["ddlCCType"].ToString();
+            objCC.IsDeductible = otype == "1" ? true : false;
+            objCC.IsInsurance = otype == "2" ? true : false;
+            objCC.IsRental = otype == "3" ? true : false;
+            objCC.IsNonRental = otype == "4" ? true : false;
+            objCC.IsTrafficViolation = otype == "5" ? true : false;
+            objCC.IsVasWhileRenting = otype == "6" ? true : false;
+            objCC.IsVasWhileClosing = otype == "7" ? true : false;
+            objCC.IsOtherVas = otype == "8" ? true : false;
+            objCC.IsOtherCompliance = otype == "9" ? true : false;
+            //objCC.IsDeductible = frmCC["chkDiscount"] == null ? false : true;
+            //objCC.IsInsurance = frmCC["chkInsurance"] == null ? false : true;
+            //objCC.IsRental = frmCC["chkRental"] == null ? false : true;
+            //objCC.IsNonRental = frmCC["chkNonRental"] == null ? false : true;
+            //objCC.IsTrafficViolation = frmCC["chkTrafficViolation"] == null ? false : true;
+            //objCC.IsOtherVas = frmCC["chkVAS"] == null ? false : true;
+            //objCC.IsVasWhileRenting = frmCC["chkVASWhileRenting"] == null ? false : true;
+            //objCC.IsVasWhileClosing = frmCC["chkVASWhileClosing"] == null ? false : true;
+            //objCC.IsOtherCompliance = frmCC["chkOtherCompliance"] == null ? false : true;
+
+            objCC.ServiceChargeType = frmCC["ddlServiceType"];
+            objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargeAppl"]);
+            objCC.WaivingPercentage = Convert.ToDecimal(frmCC["txtWaiveValue"]);
+            objCC.IsSecured = frmCC["chkIsSecured"] == null ? false : true;
+
             objCC.ServiceChargeApplicable = frmCC["chkServiceChargesApplicable"] == null ? false : true;
-            if (frmCC["radServiceType"] == "Fixed")
-            { objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargeFixed"]);
-            objCC.ServiceChargeType = "F";
-            }
-            else { objCC.ServiceCharge = Convert.ToDecimal(frmCC["txtServiceChargePerc"]); objCC.ServiceChargeType = "P"; }
-            objCC.WaivingPercentage = Convert.ToDecimal(frmCC["txtDeductibleAccident"]);
             objCC.IsDeductibleWaiver = frmCC["txtDeductibleAccident"] == null ? false : true;
-            objCC.IsOtherVas = frmCC["chkVAS"] == null ? false : true;
-            objCC.IsSecured = false;// frmCC["txtDeductibleAccident"];
-            objCC.IsActive = frmCC["chkActivate"] == null?false:true;
+
+            objCC.IsActive = frmCC["chkCCActivate"] == null ? false : true;
             objCC.UserID = 1;
             return objCC;
         }
@@ -577,6 +628,19 @@ namespace SteerRentMVC.Controllers
             objCC = BindChargeCodeData(frmCC);
             objCC.ActionMode = GlobalEnum.Flag.Update;
             objCC.ChargeCodeID = Convert.ToDecimal(frmCC["txtChargeCodeID"]);
+            return PartialView("_ChargeCodeSearchResults", objBal.ChargeCodesInsertUpdate(objCC));
+        }
+
+        /// <summary>
+        /// Update of charge codes
+        /// </summary>
+        /// <param name="frmCharge"></param>
+        /// <returns></returns>
+        public ActionResult ChargeCodeDelete(int id)
+        {
+            ChargeCodeModel objCC = new ChargeCodeModel();
+            objCC.ActionMode = GlobalEnum.Flag.Delete;
+            objCC.ChargeCodeID = id;
             return PartialView("_ChargeCodeSearchResults", objBal.ChargeCodesInsertUpdate(objCC));
         }
 

@@ -297,7 +297,25 @@
     </div>
 </div>
 
+
+<script src="~/Content/DateTimePick/date-functions.js"></script>
+<link href="~/Content/DateTimePick/jquery.datetimepicker.css" rel="stylesheet" />
+<script src="~/Content/DateTimePick/jquery.datetimepicker.js"></script>
+
 <script type="text/javascript" lang="ja">
+
+    $('#txtWorkingTimeFrom').datetimepicker({
+       datepicker: false,
+        format: 'H:i',
+        step: 5
+    });
+
+    $('#txtWorkingTimeTo').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        step: 5
+    });
+
     // bind slider
     var slidetabs = $('#slidetabs').slidetabs({
         orientation: 'horizontal',
@@ -305,15 +323,15 @@
         touchSupport: true
     });
 
-    $('#txtWorkingTimeFrom').timepicker({
-        showPeriod: true,
-        showLeadingZero: true
-    });
+    //$('#txtWorkingTimeFrom').timepicker({
+    //    showPeriod: true,
+    //    showLeadingZero: true
+    //});
 
-    $('#txtWorkingTimeTo').timepicker({
-        showPeriod: true,
-        showLeadingZero: true
-    });
+    //$('#txtWorkingTimeTo').timepicker({
+    //    showPeriod: true,
+    //    showLeadingZero: true
+    //});
 
     //if ($.trim($('#txtLocationName').val()) != '') {
     //    $('#btnSubmitA4').val('Update');

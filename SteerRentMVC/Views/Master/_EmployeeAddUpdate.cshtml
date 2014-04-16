@@ -1,14 +1,23 @@
 ﻿@model SteerRent.Model.EmployeeModel
 
+@{
+    var objDoB = Model.DOB.ToString().Contains("1/1/0001") == true ? "" : Model.DOB.ToShortDateString();
+    var objDoJ = Model.DOJ.ToString().Contains("1/1/0001") == true ? "" : Model.DOJ.ToShortDateString();
+    
+    }
 <div id="EmployeeAddUpdate">
+    <script src="~/Scripts/steerrent.js" lang="ja" type="text/javascript"></script>
     <form id="frmEmp" method="get">
         <div class="contain_row">
-            <h5 class="contain_title">Employee Information</h5>
+            @if(Model.EmployeeId>0)
+            {<h5 class="contain_title">Update Employee Information</h5>}
+            else
+            {<h5 class="contain_title">Add Employee Information</h5>}
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">First Name <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpFirstName" id="txtEmpFirstName" class="alpha" type="text" placeholder="" value="@Model.FirstName" />
+                        <input name="txtEmpFirstName" id="txtEmpFirstName" class="alphaNum49" type="text" placeholder="" value="@Model.FirstName" />
                         <input name="txtEmployeeId" id="txtEmployeeId" type="hidden" value="@Model.EmployeeId"/>
                     </div>
                     <div class="clear"></div>
@@ -16,18 +25,18 @@
                 <div class="contain_left_part">
                     <p class="label_part">Last Name <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpLastName" id="txtEmpLastName" class="alpha" type="text" placeholder="" value="@Model.LastName" />
+                        <input name="txtEmpLastName" id="txtEmpLastName" class="alphaNum49" type="text" placeholder="" value="@Model.LastName" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
+
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">Middle Initial(s) <span></span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" class="alpha" type="text" placeholder=""  value="@Model.MiddleName"/>
+                        <input name="txtEmpMiddleInitial" id="txtEmpMiddleInitial" class="alphaNum49" type="text" placeholder=""  value="@Model.MiddleName"/>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -39,35 +48,38 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">Gender <span>*</span></p>
-                    <div class="label_radio_part">
-                        <label class="label_radio">
-                            <input name="radEmpGender" type="radio" value="M" checked>
-                            Male</label>
-                        <label class="label_radio last">
-                            <input name="radEmpGender" type="radio" value="F">
-                            Female</label>
+                    <div class="label_combo_part">
+                        <select name="ddlEmpGender" id="ddlEmpGender">
+                            <option></option>
+                            @if(Model.Gender == 1)
+                            {<option selected value="@Model.Gender">Male</option>
+                                <option value="2">Female</option>
+                            }else if(Model.Gender == 2)
+                                 {<option value="1">Male</option>
+                            <option selected value="@Model.Gender">Female</option>}
+                            else{<option value="1">Male</option>
+                            <option value="2">Female</option>}
+                        </select>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Date of Birth <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpDoB" class="datepicker popup_input date" id="txtEmpDoB" value="@Model.DOB" type="text" placeholder="" />
+                        <input name="txtEmpDoB" class="baseinput time" id="txtEmpDoB" value="@objDoB" type="text" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">Employee Id <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmployeeCode" id="txtEmployeeCode" class="alpha" type="text" value="@Model.EmployeeCode" placeholder="" />
+                        <input name="txtEmployeeCode" id="txtEmployeeCode" class="alphaNum49" type="text" value="@Model.EmployeeCode" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -75,20 +87,20 @@
                     <p class="label_part">Designation <span>*</span></p>
                     <div class="label_combo_part">
                         <select name="ddlEmpDesignation" id="ddlEmpDesignation">
-                            <option></option>
+                            <option value="@Model.DesignationId">@Model.Designation</option>
                         </select>
+                        <input type="hidden" id="hdEmpDesignation" value="@Model.DesignationId" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">Business Unit <span>*</span></p>
                     <div class="label_combo_part">
-                        <select name="ddlEmpBusinessUnit">
-                            <option></option>
+                        <select name="ddlEmpBusinessUnit" id="ddlEmpBusinessUnit">
+                            <option selected value="@Model.BUId">@Model.BU</option>
                         </select>
                     </div>
                     <div class="clear"></div>
@@ -97,26 +109,26 @@
                     <p class="label_part">Location <span>*</span></p>
                     <div class="label_combo_part">
                         <select name="ddlEmpLocation" id="ddlEmpLocation">
-                            <option></option>
+                            <option value="@Model.LocationId">@Model.Location</option>
                         </select>
+                        <input type="hidden" id="hdEmpLocation" value="@Model.LocationId" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
             <div class="contain_sub_row">
                 <div class="contain_left_part">
                     <p class="label_part">Date of Joining <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpDoJ" class="datepicker popup_input date" id="txtEmpDoJ" value="@Model.DOJ" type="text" placeholder="" />
+                        <input name="txtEmpDoJ"  class="baseinput time" id="txtEmpDoJ" value="@objDoJ" type="text" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Leaving Date <span></span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpDoL" class="datepicker popup_input date" value="@Model.LeavingDate" id="txtEmpDoL" placeholder="" />
+                        <input type="text" name="txtEmpDoL" readonly="true"  class="baseinput time" value="@Model.LeavingDate" id="txtEmpDoL" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -129,52 +141,54 @@
                 <div class="contain_left_part">
                     <p class="label_part">Address Line 1 <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpAddrLine1" type="text" class="alphaNum" placeholder="" value="@Model.Address1" id="txtEmpAddrLine1" />
+                        <input name="txtEmpAddrLine1" type="text" class="alphaNum49" placeholder="" value="@Model.Address1" id="txtEmpAddrLine1" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
-                    <p class="label_part">Address Line 2 <span>*</span></p>
+                    <p class="label_part">Address Line 2 <span></span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpAddrLine2" type="text" placeholder="" class="alphanum" value="@Model.Address2" id="txtEmpAddrLine2" />
+                        <input name="txtEmpAddrLine2" type="text" placeholder="" class="alphaNum49" value="@Model.Address2" id="txtEmpAddrLine2" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div>&nbsp;</div>
             <div class="contain_sub_row">
-                <div class="contain_left_part">
-                    <p class="label_part">Address Line 3 <span></span></p>
-                    <div class="label_input_part">
-                        <input name="txtEmpAddrLine3" type="text" placeholder="" class="alphanum" value="@Model.Address3" id="txtEmpAddrLine3" />
-                    </div>
-                    <div class="clear"></div>
-                </div>
                 <div class="contain_left_part">
                     <p class="label_part">City <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpCity" type="text" placeholder="" class="alpha" value="@Model.City" id="txtEmpCity" />
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div>&nbsp;</div>
-            <div class="contain_sub_row">
-                <div class="contain_left_part">
-                    <p class="label_part">State/Emirate <span>*</span></p>
-                    <div class="label_input_part">
-                        <input type="text" name="txtEmpStateEmirate" class="alpha" id="txtEmpStateEmirate" value="@Model.State" />
+                        <input name="txtEmpCity" type="text" placeholder="" class="alphaNum9" value="@Model.City" id="txtEmpCity" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Country <span>*</span></p>
                     <div class="label_combo_part">
-                        <select name="txtEmpCountry" id="txtEmpCountry">
+                        <select name="ddlEmpCountry" id="ddlEmpCountry">
                             <option value="@Model.CountryId">@Model.CountryName</option>
                         </select>
+                        <input type="hidden" id="hdEmpCountry" value="@Model.CountryId" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="contain_sub_row">
+                <div class="contain_left_part">
+                    <p class="label_part">State/Emirate <span>*</span></p>
+                    <div class="label_combo_part">
+                        <select name="ddlEmpStateEmirate" id="ddlEmpStateEmirate">
+                            <option value="@Model.StateId">@Model.State</option>
+                    </select>
+                    <input type="hidden" id="hdEmpEmirate" value="@Model.StateId" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="contain_left_part">
+                    <p class="label_part">Pin/Zip <span>*</span></p>
+                    <div class="label_input_part">
+                        <input type="text" name="txtEmpPinZip" value="@Model.Zip" class="alphaNum49" id="txtEmpPinZip">
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -185,14 +199,14 @@
                 <div class="contain_left_part">
                     <p class="label_part">Emergency Contact <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpEmergencyContact" class="alpha" id="txtEmpEmergencyContact"  value="@Model.EmergencyContactName"/>
+                        <input type="text" name="txtEmpEmergencyContact" class="alphaNum49" id="txtEmpEmergencyContact"  value="@Model.EmergencyContactName"/>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Emergency Phone <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpEmergencyPhone" class="numeric" id="txtEmpEmergencyPhone"  value="@Model.EmergencyContactPhone"/>
+                        <input type="text" name="txtEmpEmergencyPhone"  class="numeric20" id="txtEmpEmergencyPhone"  value="@Model.EmergencyContactPhone"/>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -204,13 +218,14 @@
                 <div class="contain_left_part">
                     <p class="label_part"><span></span></p>
                     <div class="label_radio_part">
-                        <label class="label_radio"><input name="chkEmpActivate" id="chkEmpActivate" checked="@Model.IsActive" type="checkbox" value="Activate"> Activate Employee</label>
+                        <label class="label_radio">
+                            <input name="chkEmpActivate" id="chkEmpActivate" checked="@Model.IsActive" type="checkbox" value="Activate">
+                            Activate Employee</label>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
-                    @*<h5>If set as Inactive the employee record will be inactivated and access to the system will be Blocked. However, if the employee record is currently inactive and is being set to Active state the user credentials that were blocked previously must be reactivated manually.
-</h5>*@
+                    <h5>&nbsp;</h5>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
@@ -219,19 +234,55 @@
         <div class="submit_part">
             <div class="contain_submit_row">
                 @{ if (Model.EmployeeId > 0)
-            { 
-             <input type="button" id="btnUpdate_A007" class="submit_btn" value="Update" />
-             <input type="button" id="btnAddNewA7" onclick="fnEmpAddUpdate(0)" class="addnew_btn" value="Add New" />
-            }
-            else
-            {<input type="button" id="btnSubmit_A007" class="submit_btn" value="Submit" />} 
-        }
+                   { 
+                    <button type="button" id="btnUpdate_A007" class="submit_btn" value="Update">Update</button>
+                    <button type="button" id="btnAddNewA7" onclick="fnEmpAddUpdate(0)" class="addnew_btn" value="Add New">Add New</button>
+                    <button type="button" id="btnDeleteA7" class="delete_btn" value="Delete">Delete</button>
+                   }
+                   else
+                   {<input type="button" id="btnSubmit_A007" class="submit_btn" value="Submit" />} 
+                }
             </div>
         </div>
     </form>
 </div>
-<script type="text/javascript" src="~/Scripts/script.js"></script>
-<script>
+
+<script src="~/Content/DateTimePick/date-functions.js"></script>
+<link href="~/Content/DateTimePick/jquery.datetimepicker.css" rel="stylesheet" />
+<script src="~/Content/DateTimePick/jquery.datetimepicker.js"></script>
+
+<script type="text/javascript" lang="ja">
+
+    $('#txtEmpDoB').datetimepicker({
+        //yearOffset:222,
+        lang:'en',
+        timepicker:false,
+        format:'d/m/Y',
+        formatDate:'Y/m/d',
+        //minDate:'-1970/01/02', // yesterday is minimum date
+        //maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+
+        //Timer only
+        //datepicker: false,
+        //format: 'H:i',
+        //step: 5
+    });
+
+    $('#txtEmpDoJ').datetimepicker({
+        lang: 'en',
+        timepicker: false,
+        format: 'd/m/Y',
+        formatDate: 'Y/m/d',
+    });
+
+    if ($('#txtEmployeeId').val() > 0) {
+        $('#txtEmpDoL').datetimepicker({
+            lang: 'en',
+            timepicker: false,
+            format: 'd/m/Y',
+            formatDate: 'Y/m/d',
+        });
+    }
 
     // bind slider
     var slidetabs = $('#slidetabs').slidetabs({
@@ -239,6 +290,94 @@
         autoHeight: true,
         touchSupport: true
     });
+
+    getMasterData('Country', '#ddlEmpCountry', false, 0, $('#hdEmpCountry').val());
+    getMasterData('Designation', '#ddlEmpDesignation', true, 0, $('#hdEmpDesignation').val());
+    $("#ddlEmpCountry").change(loadEmirates);
+    function loadEmirates() {
+        if ($("#ddlEmpCountry").val() > 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getMasterData")',
+                data: { str: 'Emirate', isGlookup: false, gLookupId: $("#ddlEmpCountry").val() },
+                success: function (data) {
+                    $("#ddlEmpStateEmirate").children().remove();
+                    $("#ddlEmpStateEmirate").append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        $("#ddlEmpStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
+                }
+            });
+        }
+        else
+            $("#ddlEmpStateEmirate").children().remove();
+    }
+
+    if ($('#txtEmployeeId').val() > 0) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#hdEmpCountry').val() },
+            success: function (data) {
+                $("#ddlEmpStateEmirate").children().remove();
+                $("#ddlEmpStateEmirate").append($('<option />').attr('value', '0').text(''));
+                $.each(data, function () {
+                    if ($('#hdEmpEmirate').val() == this.Value)
+                        $("#ddlEmpStateEmirate").append($('<option selected />').attr('value', this.Value).text(this.Text));
+                    else
+                        $("#ddlEmpStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                });
+            }
+        });
+    }
+
+    function getMasterData(str, ddlCtrl, isGlookup, gLookupId, selValue) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getMasterData")',
+            data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
+            success: function (data) {
+                $(ddlCtrl).empty();
+                $(ddlCtrl).append($('<option />').attr('value', '0').text(''));
+                $.each(data, function () {
+                    if (this.Value == selValue)
+                    { $(ddlCtrl).append($('<option selected />').attr('value', this.Value).text(this.Text)); } else {
+                        $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                    }
+                });
+                slidetabs.setContentHeight();
+            }
+        });
+    }
+
+   //Bind Locations list to combo box..
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetLocationsForEmployee")',
+                data: { str: $('#ddlEmpLocation').val() },
+                success: function (data) {
+                    $('#ddlEmpLocation').empty();
+                    $('#ddlEmpLocation').append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        if (this.Value == $('#hdEmpLocation').val()) {
+                            $('#ddlEmpLocation').append($('<option selected />').attr('value', this.Value).text(this.Text));
+                        } else { $('#ddlEmpLocation').append($('<option />').attr('value', this.Value).text(this.Text)); }
+                    });
+        }
+    });
+
+    //Bind Company code to BU combo box
+@*    $.ajax({
+        type: "POST",
+        url: '@Url.Action("GetCompanyForEmp")',
+        data: { str: $('#ddlEmpBusinessUnit').val() },
+        success: function (data) {
+            if ($('#txtEmployeeId').val() > 0)
+                $('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', data.OrgID).text(data.OrgCode));
+            else
+                $('#ddlEmpBusinessUnit').append($('<option />').attr('value', data.OrgID).text(data.OrgCode));
+        }
+    });*@
 
     $('#btnSubmit_A007').click(function () {
         
@@ -272,77 +411,113 @@
             datatype: "json",
             traditional: true,
             success: function (data) {
-                $('#EmployeeSearch').html(data);
-                $('.error_msg_bg').css("display", "none");
-                $('.error_msg_sm').css("display", "none");
-                $('.error_msg_exist').css("display", "none");
-                $('.error_msg_spclchar').css("display", "none");
-                $('.error_msg_error').css("display", "none");
-                // alert('Successfully inserted.');
+                if (data.length) {
+                    $('#EmployeeSearch').html(data);
+                    $('#EmpSuccessMsg').css("display", "block");
+                    $('.ErrorMsgEmp').css("display", "none");
+                } else {
+                    $('.ErrorMsgEmp').css("display", "block");
+                    $('#EmpFailMsg').css("display", "block");
+                    $('#EmpEmpIdExistMsg').css("display", "block");
+                    $('#LocSuccessMsg').attr("style", "display:none");
+                    $('#EmpNetworkErrMsg').css("display", "none");
+                    $('#EmpReqMsg').css("display", "none");
+                    $('#EmpDoBGreaterMsg').css("display", "none");
+                    $('#EmpDoJInvalidMsg').css("display", "none");
+                    $('#EmpDoLInvalidMsg').css("display", "none");
+                }
                 slidetabs.setContentHeight();
             },
             error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-                $('.error_msg_bg').css("display", "block");
-                $('.error_msg_error').css("display", "block");
-                //alert("Error:Action is aborted.Please try again later.");
+                $('.ErrorMsgEmp').css("display", "block");
+                $('#EmpFailMsg').css("display", "block");
+                $('#EmpNetworkErrMsg').css("display", "block");
+                $('#LocSuccessMsg').attr("style", "display:none");
+                $('#EmpReqMsg').css("display", "none");
+                $('#EmpDoBGreaterMsg').css("display", "none");
+                $('#EmpDoJInvalidMsg').css("display", "none");
+                $('#EmpDoLInvalidMsg').css("display", "none");
                 slidetabs.setContentHeight();
             }
         });
     }
 
+    $('#btnDeleteA7').click(function () {
+        var href = '@Url.Action("EmployeeStatusUpdate")';
+        var EmpId = $('#txtEmployeeId').val();
+        if (EmpId > 0) {
+            $.ajax({
+                url: href,
+                data: { Id: EmpId, Status: false },
+                type: "POST",
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#EmployeeSearch').html(data);
+                    //$('#dvEmpActivate-' + EmpId).text('Inactive').removeClass("label_part").addClass("error_msg");
+                    //$('#dvEmpActivate-' + EmpId).attr('id', 'dvEmpInActivate-' + EmpId);
+                    //$('#spnEmpActiveCnt').text(Number($('#spnEmpActiveCnt').text()) - 1);
+                    //$('#spnEmpInActiveCnt').text(Number($('#spnEmpInActiveCnt').text()) + 1);
+                    $('#chkEmpActivate').attr("checked", false);
+                    slidetabs.setContentHeight();
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('.ErrorMsgLoc').attr("style", "display:block");
+                    $('#LocNetworkErrMsg').attr("style", "display:block");
+                    $('#LocSuccessMsg').attr("style", "display:none");
+                    slidetabs.setContentHeight();
+                }
+            });
+        }
+    });
+
     function EmpValidate() {
-        
-        if ($('#txtEmpFirstName').val() != '' && $('#txtEmpLastName').val() != '' && $('#txtEmpDoB').val() != '' //&& $('#ddlEmpDesignation').val() != ''
-             && $('#txtEmpDoJ').val() != '' && $('#txtEmpAddrLine1').val() != '' && $('#txtEmpAddrLine2').val() != ''
-             && $('#txtEmpCity').val() != '' && $('#txtEmpStateEmirate').val() != '' && $('#txtEmpEmergencyContact').val() != '' && $('#txtEmpEmergencyPhone').val() != ''
+        var isReq = "none"; var isDOBValid = "none"; 
+        var objDoJValid = "none"; var objDoLValid = "none"; var isEmpIdExist = "none";
+        if ($.trim($('#txtEmpFirstName').val()) != '' && $.trim($('#txtEmpLastName').val()) != '' && $('#txtEmpDoB').val() != '' && $('#ddlEmpDesignation').val() > 0 && $('#ddlEmpGender').val()>0
+             && $('#txtEmpDoJ').val() != '' && $.trim($('#txtEmpAddrLine1').val()) != '' && $('#txtEmployeeCode').val() != '' && $('#ddlEmpBusinessUnit').val() > 0 && $('#ddlEmpLocation').val() > 0
+             && $.trim($('#txtEmpCity').val()) != '' && $('#ddlEmpStateEmirate').val() > 0 && $("#ddlEmpCountry").val() > 0 && $.trim($("#txtEmpPinZip").val()) != '' && $.trim($('#txtEmpEmergencyContact').val()) != '' && $.trim($('#txtEmpEmergencyPhone').val()) != ''
             ) {
-            return true;
+            isReq = "none";
         } else {
-            $('.error_msg_bg').css("display", "block");
-            $('.error_msg_sm').css("display", "block");
-            return false;
+            isReq = "block";
+        }
+        if ($('#txtEmpDoB').val() != '')
+        {
+            if ($.isCurrentDateGreater($('#txtEmpDoB').val()))
+                isDOBValid = "block";
+        }
+        //if ($.trim($('#txtEmployeeCode').val()) != '')
+        //{
+        //    //isEmpIdExist = "block";
+        //}
+        if ($('#txtEmpDoJ').val() != '' && $('#txtEmpDoB').val() != '') {
+            if (!$.isDoJValid($('#txtEmpDoB').val(), $('#txtEmpDoJ').val()))
+                objDoJValid = "block";
+        }
+        if ($('#txtEmpDoJ').val() != '' && $('#txtEmpDoL').val() != '') {
+            if (!$.isDoLValid($('#txtEmpDoJ').val(), $('#txtEmpDoL').val()))
+                objDoLValid = "block";
+        }
+        if ($('#txtEmpDoJ').val() != '' && $('#txtEmpDoL').val() != '') {
+            if (!$.isDoLValid($('#txtEmpDoJ').val(), $('#txtEmpDoL').val()))
+                objDoLValid = "block";
         }
 
+        if (isReq == "block" || isDOBValid == "block" || isEmpIdExist == "block" || objDoLValid == "block" || objDoJValid == "block") {
+            $('.ErrorMsgEmp').css("display", "block");
+            $('#EmpReqMsg').css("display", isReq);
+            $('#EmpDoBGreaterMsg').css("display", isDOBValid);
+            $('#EmpEmpIdExistMsg').css("display", isEmpIdExist);
+            $('#EmpDoJInvalidMsg').css("display", objDoJValid);
+            $('#EmpDoLInvalidMsg').css("display", objDoLValid);
+            //$('#EmpExistMsg').css("display", isExist);
+
+            $('#EmpSuccessMsg').css("display", "none");
+            $('#EmpNetworkErrMsg').css("display", "none");
+            slidetabs.setContentHeight();
+            return false;
+        }
+        else { $('.ErrorMsgEmp').css("display", "none"); slidetabs.setContentHeight(); return true; }
     }
-
-    $(function () {
-        $(".numeric").attr("maxlength", 11)
-        $(".alpha").attr("maxlength", 20)
-        $(".email").attr("maxlength", 20)
-        $(".alphaNumeric").attr("maxlength", 30)
-
-        $(".numeric").bind("keypress", function (e) {
-            var str = /[0-9,.+-]/;
-            return globalValidation(e, str);
-        });
-
-        $(".numeric").bind("paste", function (e) {
-            return false;
-        });
-        $(".numeric").bind("drop", function (e) {
-            return false;
-        });
-
-        $(".alpha").bind("keypress", function (e) {
-            var str = /[a-zA-Z ]/;
-            return globalValidation(e, str);
-        });
-
-        
-        $(".alphaNum").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9,./ #]/;
-            return globalValidation(e, str);
-        });
-
-        $("#txtEmpAddrLine2").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9,./ #]/;
-            return globalValidation(e, str);
-        });
-
-        $("#txtEmpAddrLine3").bind("keypress", function (e) {
-            var str = /[a-zA-Z0-9,./ #]/;
-            return globalValidation(e, str);
-        });
-    });
 </script>
