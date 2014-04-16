@@ -16,7 +16,7 @@ span#st_spinner {
 	height: 66px;
 	margin: -38px 0 0 -59px;
 	padding: 25px;
-	background: #fff url("/images/spinner.gif") no-repeat 50% 50%;
+	background: #fff url("/testbed_test1/images/spinner.gif") no-repeat 50% 50%;
 	border: 1px solid #e3e3e3;
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
@@ -45,7 +45,7 @@ div.clean_rounded-horizontal > div.st_tabs a.st_next { /* Directional buttons (p
 	text-indent:-999em;
 	border:1px solid #ccc;
 	outline:none;
-	background:#fff url("/images/arrows_h.gif") no-repeat;
+	background:#fff url("/testbed_test1/images/arrows_h.gif") no-repeat;
 }
 div.clean_rounded-horizontal > div.st_tabs a.st_prev { /* Previous button */
 	left:0px;
@@ -278,7 +278,7 @@ div.clean_rounded-vertical > div.st_tabs a.st_next { /* Directional buttons (pre
 	border:1px solid #ccc;
 	border-top:0 none;
 	outline:none;	
-	background:#fff url("/images/arrows_v.gif") no-repeat;
+	background:#fff url("/testbed_test1/images/arrows_v.gif") no-repeat;
 }
 div.clean_rounded-vertical > div.st_tabs a.st_prev { /* Previous button */
 	margin-left:-1px;
@@ -521,7 +521,7 @@ div.clean_rounded-vertical.align_right.st_sliding_active > div.st_views { /* Mai
 	text-indent:-999em;
 	border:1px solid #ccc;
 	outline:none;
-	background:#fff url("/images/arrows_h.gif") no-repeat;
+	background:#fff url("/testbed_test1/images/arrows_h.gif") no-repeat;
 }
 #demo_container div.clean_rounded-horizontal > div.st_tabs a.st_prev { /* Previous button */
 	left:auto;

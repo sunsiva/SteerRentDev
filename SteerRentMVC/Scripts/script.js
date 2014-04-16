@@ -11,7 +11,7 @@ $(document).ready(function (e) {
 	});
 	
 	//body background
-	$('body').backstretch("/images/body_bg1.jpg");
+	$('body').backstretch("/testbed_test1/images/body_bg1.jpg");
 	
 	//$('body').css({ background: 'url(/images/body_bg1.jpg)  no-repeat fixed bottom left' });
 
