@@ -15,7 +15,7 @@ namespace SteerRentMVC.Controllers
     {
         MasterData objBal = new MasterData();
         LookupCategoryModel objModel;
-        List<LookupCategoryModel> lstObjModel;
+        List<LookupCategoryModel> lstObjModel; 
 
         #region "Lookup"
         //
