@@ -346,11 +346,21 @@ body {
 	margin-bottom:2px;
 	margin-left:27px;
 }
+
+
 .error_msg{
+		width:140px;
+	height:20px;
+	float:left;
+	margin-right:10px;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:11px;
-	color:#F00;
+	font-size:12px;
+	color:#000;
 	display:block;
+	line-height:100%;
+	margin-top:4px;
+	vertical-align: middle;
+	color:#F00;
 }
 
 .error_popup_bg{
@@ -778,7 +788,7 @@ table.gridtable_quotation td {
 	font-size:12px;
 	border-radius:0px;
 	color:#000;
-	background:url(/images/time.gif) no-repeat 85px center;
+	background:url(/testbed_test1/images/time.gif) no-repeat 85px center;
 }
 .tabicon {
 padding-left: 2px;

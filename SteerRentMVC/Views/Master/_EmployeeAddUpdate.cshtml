@@ -1,8 +1,8 @@
 ﻿@model SteerRent.Model.EmployeeModel
 
 @{
-    var objDoB = Model.DOB.ToString().Contains("1/1/0001") == true ? "" : Model.DOB.ToShortDateString();
-    var objDoJ = Model.DOJ.ToString().Contains("1/1/0001") == true ? "" : Model.DOJ.ToShortDateString();
+    var objDoB = Model.DOB.ToString().Contains("1/1/0001") == true ? "" : Model.DOB.ToShortDateString().Replace('-', '/');
+    var objDoJ = Model.DOJ.ToString().Contains("1/1/0001") == true ? "" : Model.DOJ.ToShortDateString().Replace('-', '/');
     
     }
 <div id="EmployeeAddUpdate">
@@ -69,7 +69,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">Date of Birth <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpDoB" class="baseinput time" id="txtEmpDoB" value="@objDoB" type="text" placeholder="" />
+                        <input name="txtEmpDoB" class="baseinput date" id="txtEmpDoB" value="@objDoB" type="text" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -100,7 +100,7 @@
                     <p class="label_part">Business Unit <span>*</span></p>
                     <div class="label_combo_part">
                         <select name="ddlEmpBusinessUnit" id="ddlEmpBusinessUnit">
-                            <option selected value="@Model.BUId">@Model.BU</option>
+                            <option value="@Model.BUId"></option>
                         </select>
                     </div>
                     <div class="clear"></div>
@@ -121,14 +121,14 @@
                 <div class="contain_left_part">
                     <p class="label_part">Date of Joining <span>*</span></p>
                     <div class="label_input_part">
-                        <input name="txtEmpDoJ"  class="baseinput time" id="txtEmpDoJ" value="@objDoJ" type="text" placeholder="" />
+                        <input name="txtEmpDoJ"  class="baseinput date" id="txtEmpDoJ" value="@objDoJ" type="text" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="contain_left_part">
                     <p class="label_part">Leaving Date <span></span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpDoL" readonly="true"  class="baseinput time" value="@Model.LeavingDate" id="txtEmpDoL" placeholder="" />
+                        <input type="text" name="txtEmpDoL" readonly="true"  class="baseinput date" value="@Model.LeavingDate" id="txtEmpDoL" placeholder="" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -188,7 +188,7 @@
                 <div class="contain_left_part">
                     <p class="label_part">Pin/Zip <span>*</span></p>
                     <div class="label_input_part">
-                        <input type="text" name="txtEmpPinZip" value="@Model.Zip" class="alphaNum49" id="txtEmpPinZip">
+                        <input type="text" name="txtEmpPinZip" value="@Model.Zip" class="numeric20" id="txtEmpPinZip">
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -367,20 +367,20 @@
     });
 
     //Bind Company code to BU combo box
-@*    $.ajax({
+    $.ajax({
         type: "POST",
         url: '@Url.Action("GetCompanyForEmp")',
         data: { str: $('#ddlEmpBusinessUnit').val() },
         success: function (data) {
-            if ($('#txtEmployeeId').val() > 0)
+            debugger;
+            //if ($('#txtEmployeeId').val() > 0)
                 $('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', data.OrgID).text(data.OrgCode));
-            else
-                $('#ddlEmpBusinessUnit').append($('<option />').attr('value', data.OrgID).text(data.OrgCode));
+            //else
+            //    $('#ddlEmpBusinessUnit').append($('<option />').attr('value', data.OrgID).text(data.OrgCode));
         }
-    });*@
+    });
 
     $('#btnSubmit_A007').click(function () {
-        
         if (EmpValidate()) {
             EmpInsertUpdate();
         }
@@ -472,8 +472,7 @@
     });
 
     function EmpValidate() {
-        var isReq = "none"; var isDOBValid = "none"; 
-        var objDoJValid = "none"; var objDoLValid = "none"; var isEmpIdExist = "none";
+        var isReq = "none"; var isDOBValid = "none"; var objDoJValid = "none"; var objDoLValid = "none"; var isEmpIdExist = "none";
         if ($.trim($('#txtEmpFirstName').val()) != '' && $.trim($('#txtEmpLastName').val()) != '' && $('#txtEmpDoB').val() != '' && $('#ddlEmpDesignation').val() > 0 && $('#ddlEmpGender').val()>0
              && $('#txtEmpDoJ').val() != '' && $.trim($('#txtEmpAddrLine1').val()) != '' && $('#txtEmployeeCode').val() != '' && $('#ddlEmpBusinessUnit').val() > 0 && $('#ddlEmpLocation').val() > 0
              && $.trim($('#txtEmpCity').val()) != '' && $('#ddlEmpStateEmirate').val() > 0 && $("#ddlEmpCountry").val() > 0 && $.trim($("#txtEmpPinZip").val()) != '' && $.trim($('#txtEmpEmergencyContact').val()) != '' && $.trim($('#txtEmpEmergencyPhone').val()) != ''

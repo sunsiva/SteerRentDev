@@ -2,7 +2,7 @@
 
     /* BEGIN:  MASTER*/
 
-    //  BEGIN: General lookup
+    // BEGIN: General lookup
     // Bind slider
         var slidetabs = $('#slidetabs').slidetabs({
             orientation: 'horizontal',
@@ -100,9 +100,11 @@
             $(".alpha19").attr("maxlength", 19)
             $(".alpha9").attr("maxlength", 9)
             
-            $(".alphaNum90").attr("maxlength", 95)
+            $(".alphaNum90").attr("maxlength", 90)
             $(".alphaNum49").attr("maxlength", 49)
+            $(".alphaNum29").attr("maxlength", 29)
             $(".alphaNum9").attr("maxlength", 9)
+
             $(".email30").attr("maxlength", 30)
 
             $(".numeric20").bind("keypress", function (e) {
@@ -111,21 +113,18 @@
             });
             $(".numeric20").bind("paste", function (e) {    return false;});
             $(".numeric20").bind("drop", function (e) { return false;});
-
             $(".numeric19").bind("keypress", function (e) {
                 var str = /[0-9,.+-]/;
                 return globalValidation(e, str);
             });
             $(".numeric19").bind("paste", function (e) { return false; });
             $(".numeric19").bind("drop", function (e) { return false; });
-
             $(".numeric9").bind("keypress", function (e) {
                 var str = /[0-9,.+-]/;
                 return globalValidation(e, str);
             });
             $(".numeric9").bind("paste", function (e) { return false; });
             $(".numeric9").bind("drop", function (e) { return false; });
-
             $(".numOnly9").bind("keypress", function (e) {
                 var str = /[0-9.]/;
                 return globalValidation(e, str);
@@ -160,6 +159,11 @@
                 return globalValidation(e, str);
             });
 
+            $(".alphaNum29").bind("keypress", function (e) {
+                var str = /[a-zA-Z0-9,./ #]/;
+                return globalValidation(e, str);
+            });
+
             $(".alphaNum95").bind("keypress", function (e) {
                 var str = /[a-zA-Z0-9,./ #]/;
                 return globalValidation(e, str);
@@ -174,7 +178,6 @@
     /* END:  MASTER*/
 
     /* BEGIN: General */
-
 
         $.ValidateEmail = function (obj) {
             var email = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -191,7 +194,8 @@
             var year = obj.substring(6, 10);
             var myDate = new Date(year, month - 1, date);
             var today = new Date();
-            if (myDate > today) {
+           
+            if (myDate.toDateString() <= today.toDateString()) {
                 return true;
             }
             else {
@@ -200,16 +204,16 @@
         }
 
         $.isDoJValid = function (oDoB, oDoJ) {
-            if (oDoJ > oDoB || oDoJ == oDoB) {
+            if (oDoJ > oDoB) {
                 return true;
             }
             else {
-               return false;
+                return false;
             }
         }
 
         $.isDoLValid = function (oDoJ, oDoL) {
-            if (oDoL > oDoJ || oDoJ == oDoL) {
+            if (oDoL > oDoJ) {
                 //alert("DoJ is greater/equal to DoB");
                 return true;
             }

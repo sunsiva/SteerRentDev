@@ -12,6 +12,8 @@
     reciptStart = reciptStart == 0 ? string.Empty : reciptStart;
     dynamic reciptCurrent = Model.ReceiptNoCurrent;
     reciptCurrent = reciptCurrent == 0 ? string.Empty : reciptCurrent;
+    var oWorkingFrm = Model.WorkFrom == null ? "" : Model.WorkFrom.Substring(0, 5);
+    var oWorkingTill = Model.WorksTill == null ? "" : Model.WorksTill.Substring(0, 5);
     }
 <div id="locAddUpdate">
     
@@ -166,14 +168,14 @@
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - From <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom"  value="@Model.WorkFrom" type="text" class="numeric9 baseinput time" />
+                    <input name="txtWorkingTimeFrom" id="txtWorkingTimeFrom"  value="@oWorkingFrm" type="text" class="numeric9 baseinput time" />
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="contain_left_part">
                 <p class="label_part">Working Hrs - To <span>*</span></p>
                 <div class="label_input_part">
-                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" value="@Model.WorksTill" class="numeric9 baseinput time" />
+                    <input name="txtWorkingTimeTo" id="txtWorkingTimeTo" type="text" value="@oWorkingTill" class="numeric9 baseinput time" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -498,48 +500,35 @@
 
     function locValidate() {
         var chkLocType = $('input[name=chkLocType]').attr('checked');
-        var isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val()));
-        if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $('#ddlLocCountry').val()>0 && $('#ddlLocStateEmirate').val() > 0 && $('#ddlLocationIncharge').val() > 0
-           && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val()) != '' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != ''
+        var isValidEmail = '';
+        if ($.trim($('#txtLocEmail').val()) != '')
+        { isValidEmail = $.ValidateEmail($.trim($('#txtLocEmail').val())); }
+        var isValid = "none";
+        if ($.trim($('#txtLocationName').val()) != '' && $.trim($('#txtLocationCode').val()) != '' && $.trim($('#txtLocAddressLine1').val()) != '' && $.trim($('#txtLocCity').val()) != '' && $('#ddlLocCountry').val() > 0 && $('#ddlLocStateEmirate').val() > 0 && $('#ddlLocationIncharge').val() > 0
+           && $.trim($('#txtLocLandlineNo').val()) != '' && $.trim($('#txtLocMobile').val()) != '' && $.trim($('#txtLocEmail').val())!='' && $.trim($('#txtWorkingTimeFrom').val()) != '' && $.trim($('#txtWorkingTimeTo').val()) != '' && $.trim($('#txtRecNoStart').val()) != '' && $.trim($('#txtRecNoCurrent').val()) != '' && $.trim($('#txtRentAgmtNoStart').val()) != '' && $.trim($('#txtRentAgmtNoCurrent').val()) != '' && $.trim($('#txtLeaseAgmtNoStart').val()) != '' && $.trim($('#txtLeaseAgmtNoCurrent').val()) != ''
             && chkLocType == 'checked' && ($('#chkRenting').attr('checked') || $('#chkLeasing').attr('checked'))) {
-            slidetabs.setContentHeight();
+            isValid = "none";
         } else {
-            $('.ErrorMsgLoc').attr("style", "display:block");
-            $('#LocFailMsg').attr("style", "display:block");
-            $('#LocReqMsg').attr("style", "display:block");
-            $('#LocExistMsg').attr("style", "display:none");
-            $('#LocSuccessMsg').attr("style", "display:none");
-            $('#LocInvalidMailMsg').attr("style", "display:none");
-            $('#LocNetworkErrMsg').attr("style", "display:none");
-            slidetabs.setContentHeight();
-            return false;
+            isValid = "block";
         }
 
-        //if (!isFormDataValid) {
-        //    $('.ErrorMsgLoc').attr("style", "display:block");
-        //    $('#LocInvalidMailMsg').attr("style", "display:none");
-        //    $('#LocExistMsg').attr("style", "display:none");
-        //    $('#LocNetworkErrMsg').attr("style", "display:none");
-        //    $('#LocReqMsg').attr("style", "display:block");
-        //    slidetabs.setContentHeight();
-        //    return false;
-        //}
+        if (!isValidEmail && $.trim($('#txtLocEmail').val()) != '') {
+            isValidEmail = "block";
+        } else
+            isValidEmail = "none";
 
-        if (!isValidEmail) {
+        if (isValid == "block" || isValidEmail == "block") {
             $('.ErrorMsgLoc').attr("style", "display:block");
-            $('#LocInvalidMailMsg').attr("style", "display:block");
-            $('#LocReqMsg').attr("style", "display:none");
+            $('#LocFailMsg').attr("style", "display:block");
+            $('#LocReqMsg').attr("style", "display:" + isValid);
+            $('#LocInvalidMailMsg').attr("style", "display:" + isValidEmail);
             $('#LocExistMsg').attr("style", "display:none");
+            $('#LocSuccessMsg').attr("style", "display:none");
             $('#LocNetworkErrMsg').attr("style", "display:none");
             slidetabs.setContentHeight();
             return false;
         }
         else {
-            $('.ErrorMsgLoc').attr("style", "display:none");
-            $('#LocInvalidMailMsg').attr("style", "display:none");
-            $('#LocReqMsg').attr("style", "display:none");
-            $('#LocExistMsg').attr("style", "display:none");
-            $('#LocNetworkErrMsg').attr("style", "display:none");
             slidetabs.setContentHeight();
             return true;
         }
