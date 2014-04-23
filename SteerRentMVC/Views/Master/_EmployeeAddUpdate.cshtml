@@ -313,72 +313,75 @@
             $("#ddlEmpStateEmirate").children().remove();
     }
 
-    if ($('#txtEmployeeId').val() > 0) {
+    $(document).ready(function () {
+
+        if ($('#txtEmployeeId').val() > 0) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getMasterData")',
+                data: { str: 'Emirate', isGlookup: false, gLookupId: $('#hdEmpCountry').val() },
+                success: function (data) {
+                    $("#ddlEmpStateEmirate").children().remove();
+                    $("#ddlEmpStateEmirate").append($('<option />').attr('value', '0').text(''));
+                    $.each(data, function () {
+                        if ($('#hdEmpEmirate').val() == this.Value)
+                            $("#ddlEmpStateEmirate").append($('<option selected />').attr('value', this.Value).text(this.Text));
+                        else
+                            $("#ddlEmpStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    });
+                }
+            });
+        }
+
+        
+        //Bind Locations list to combo box..
         $.ajax({
             type: "POST",
-            url: '@Url.Action("getMasterData")',
-            data: { str: 'Emirate', isGlookup: false, gLookupId: $('#hdEmpCountry').val() },
+            url: '@Url.Action("GetLocationsForEmployee")',
+            data: { str: $('#ddlEmpLocation').val() },
             success: function (data) {
-                $("#ddlEmpStateEmirate").children().remove();
-                $("#ddlEmpStateEmirate").append($('<option />').attr('value', '0').text(''));
+                $('#ddlEmpLocation').empty();
+                $('#ddlEmpLocation').append($('<option />').attr('value', '0').text(''));
                 $.each(data, function () {
-                    if ($('#hdEmpEmirate').val() == this.Value)
-                        $("#ddlEmpStateEmirate").append($('<option selected />').attr('value', this.Value).text(this.Text));
-                    else
-                        $("#ddlEmpStateEmirate").append($('<option />').attr('value', this.Value).text(this.Text));
+                    if (this.Value == $('#hdEmpLocation').val()) {
+                        $('#ddlEmpLocation').append($('<option selected />').attr('value', this.Value).text(this.Text));
+                    } else { $('#ddlEmpLocation').append($('<option />').attr('value', this.Value).text(this.Text)); }
                 });
             }
         });
-    }
+
+        //Bind Company code to BU combo box
+        //$('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', 1).text('sonata'));
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCompanyForEmp")',
+            data: { id: 0 },
+            success: function (data) {
+                    //$('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', 1).text('sonata'));
+                    $('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', data.OrgID).text(data.OrgCode));
+            }
+        });
+    });
 
     function getMasterData(str, ddlCtrl, isGlookup, gLookupId, selValue) {
         $.ajax({
             type: "POST",
             url: '@Url.Action("getMasterData")',
-            data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
-            success: function (data) {
-                $(ddlCtrl).empty();
-                $(ddlCtrl).append($('<option />').attr('value', '0').text(''));
-                $.each(data, function () {
-                    if (this.Value == selValue)
-                    { $(ddlCtrl).append($('<option selected />').attr('value', this.Value).text(this.Text)); } else {
-                        $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
-                    }
-                });
-                slidetabs.setContentHeight();
-            }
-        });
-    }
-
-   //Bind Locations list to combo box..
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("GetLocationsForEmployee")',
-                data: { str: $('#ddlEmpLocation').val() },
+                data: { str: str, isGlookup: isGlookup, gLookupId: gLookupId },
                 success: function (data) {
-                    $('#ddlEmpLocation').empty();
-                    $('#ddlEmpLocation').append($('<option />').attr('value', '0').text(''));
+                    $(ddlCtrl).empty();
+                    $(ddlCtrl).append($('<option />').attr('value', '0').text(''));
                     $.each(data, function () {
-                        if (this.Value == $('#hdEmpLocation').val()) {
-                            $('#ddlEmpLocation').append($('<option selected />').attr('value', this.Value).text(this.Text));
-                        } else { $('#ddlEmpLocation').append($('<option />').attr('value', this.Value).text(this.Text)); }
+                        if (this.Value == selValue)
+                        { $(ddlCtrl).append($('<option selected />').attr('value', this.Value).text(this.Text)); } else {
+                            $(ddlCtrl).append($('<option />').attr('value', this.Value).text(this.Text));
+                        }
                     });
+                    slidetabs.setContentHeight();
+                }
+            });
         }
-    });
 
-    //Bind Company code to BU combo box
-    $.ajax({
-        type: "POST",
-        url: '@Url.Action("GetCompanyForEmp")',
-        data: { str: $('#ddlEmpBusinessUnit').val() },
-        success: function (data) {
-            debugger;
-            //if ($('#txtEmployeeId').val() > 0)
-                $('#ddlEmpBusinessUnit').append($('<option selected />').attr('value', data.OrgID).text(data.OrgCode));
-            //else
-            //    $('#ddlEmpBusinessUnit').append($('<option />').attr('value', data.OrgID).text(data.OrgCode));
-        }
-    });
 
     $('#btnSubmit_A007').click(function () {
         if (EmpValidate()) {

@@ -409,7 +409,7 @@ namespace SteerRentMVC.Controllers
             getLocationsdata = lstObjModel.lstLocation.AsEnumerable().Select(m => new SelectListItem() { Text = m.LocationName, Value = m.LocationId.ToString() });
             return Json(new SelectList(getLocationsdata, "Value", "Text", null));
         }
-        public JsonResult GetCompanyForEmp()
+        public JsonResult GetCompanyForEmp(int id)
         {
             SelectListItem getLocationsdata = new SelectListItem();
             objBal = new MasterData();

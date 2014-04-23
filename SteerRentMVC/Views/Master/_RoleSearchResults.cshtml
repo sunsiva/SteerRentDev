@@ -1,80 +1,75 @@
 ﻿@model List<SteerRent.Model.RoleModel>
-
-<div class="contain_row">
-                                        	<h5 class="contain_title">User Roles</h5>
-                                            <div class="contain_sub_row">
-                                            	<p class="label_part">List of Roles</p>
-                                                <div class="label_textarea_part">
-                                                        <table class="gridtable">
-                                                            <tr>
-                                                                <th>
-                                                                    Sl. No.
-                                                                </th>
-                                                                <th>
-                                                                    Role Name
-                                                                </th>
-                                                                <th>
-                                                                    Activate
-                                                                </th>
-                                                                <th>
-                                                                    @*Created By / *@
-                                                                    Created Date
-                                                                </th>
-                                                                <th>
-                                                                    Delete
-                                                                </th>
-                                                            </tr>
-                                                            @if (Model != null)
-                                                                {
-                                                                    var cnt = 0;
-                                                                    foreach (var item in Model)
-                                                                    {
-                                                                        cnt = cnt + 1;
-                                                            <tr>
-                                                                <td>
+<span id="dvRoleSearch">
+                <table class="gridtable">
+                    <tr>
+                        <th>Role Name
+                        </th>
+                        <th>Activate
+                        </th>
+                        <th>Created By / Created Date
+                        </th>
+                        <th>Delete
+                        </th>
+                    </tr>
+                    @if (Model != null)
+                    {
+                        if (Model.Count > 0)
+                        {
+                        var cnt = 0;
+                        foreach (var item in Model)
+                        {
+                            cnt = cnt + 1;
+                        <tr>
+                            @*<td>
                                                                     @Html.Raw(cnt)
-                                                                </td>
-                                                                <td>
-                                                                    @item.RoleName
-                                                                </td>
-                                                                <td>
-                                                                    @*@if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))*@
-                                                                    @if (item.RoleName.Contains("Admin"))
-                                                                    {
-                                                                    <input type="checkbox" disabled name="chkStateDisable" checked="@item.IsActive" class="checkbox-mrg" />
+                                                                </td>*@
+                            <td>
+                                @item.RoleName
+                            </td>
+                            <td>
+                                @*@if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))*@
+                                @if (item.RoleName.Contains("Admin"))
+                                {
+                                    <input type="checkbox" disabled name="chkStateDisable" checked="@item.IsActive" class="checkbox-mrg" />
                                                                     }
-                                                                    else
-                                                                    {<input type="checkbox" id="@item.RoleId"  name="chkRoleState" checked="@item.IsActive" class="checkbox-mrg" />}
-                                                                </td>
-                                                                <td>
-                                                                    @*@item.UserID /*@
-                                                                     @item.CreatedOn
-                                                                </td>
-                                                                <td><div id='dvRoleDelete-@item.RoleId' data-name="dvRoleDelete"></div>
-                                                                    
-                                                                </td>
-                                                            </tr>
-                                                            }
-                                                            }
-                                                            else
-                                                                    {
-                                                                    <tr><td colspan="5"><span  class="error_msg">No record(s) found.</span></td></tr>
-                                                                }
-                                                              
-                                                    </table>
-                                                    
-                                                    <br />
-                                                    @if (Model != null)
-                                                    {
-                                                        if (Model != null)
-                                                        {
-                                                        <h5 style="text-align: right"><span id="spnTotCnt">@Model.Count()</span> records found.
-    <span id="spnActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
-    <span id="spnInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
-        }
-    }
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
+                                else
+                                {<input type="checkbox" id="@item.RoleId"  name="chkRoleState" checked="@item.IsActive" class="checkbox-mrg" />}
+                            </td>
+                            <td>
+                                @*@item.UserID /*@
+                                @item.CreatedOn
+                            </td>
+                            <td>
+                                <div id='dvRoleDelete-@item.RoleId' data-name="dvRoleDelete"></div>
+
+                            </td>
+                        </tr>
+                                                                    }
+                                                                    }else
+                    {
+                        <tr>
+                            <td colspan="4"><span class="error_msg">No record(s) found.</span></td>
+                        </tr>
+                                                                    }
+                                                                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4"><span class="error_msg">No record(s) found.</span></td>
+                        </tr>
+                                                                    }
+
+                </table>
+
+                <br />
+                @if (Model != null)
+                {
+                    if (Model.Count > 0)
+                    {
+                    <h5 style="text-align: right"><span id="spnRoleTotCnt">@Model.Count()</span> records found.
+    <span id="spnRoleActiveCnt">@Model.Where(m => m.IsActive == true).Count()</span> - Active,
+    <span id="spnRoleInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
+                                                        }
+                                                    }
+        </span>
 

@@ -21,14 +21,15 @@
             $('.ErrorMsgLoc').attr("style", "display:none");
             $('.ErrorMsgEmp').attr("style", "display:none");
             $('.ErrorMsgCC').attr("style", "display:none");
-            
+            $('.ErrorMsgRole').attr("style", "display:none");
+
             $('#OrgSuccessMsg').attr("style", "display:none");
             $('#GLookupSuccessMsg').attr("style", "display:none");
             $('#HLookupSuccessMsg').attr("style", "display:none");
             $('#LocSuccessMsg').attr("style", "display:none");
             $('#EmpSuccessMsg').attr("style", "display:none");
             $('#CCSuccessMsg').attr("style", "display:none");
-            
+            $('#RoleSuccessMsg').attr("style", "display:none");
 
             $("#txtGLookupValue").attr("maxlength", 50)
             $("#txtGLookupValue").bind("keypress", function (e) {
