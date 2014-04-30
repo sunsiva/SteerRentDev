@@ -113,29 +113,27 @@
                                         </td>
                                     </tr>
                                     }
-
                                     @{var lstOfFleet = Model.Where(x => x.ModuleName == "Fleet Management");
-                                      var isFleet = true;
-                                      }
+                                      var isFleet = true;}
                                     @foreach (var item in lstOfFleet)
                                     {
                                         if (lstOfFleet.Count() > 0 && isFleet) 
-                                    {
-                                           isFleet=false;
+                                        {
+                                               isFleet=false;
+                                            <tr>
+                                            <td>
+                                                <b>Fleet Management</b>
+                                            </td>
+                                            <td></td>
+                                        </tr>
                                         <tr>
-                                        <td>
-                                            <b>Fleet Management</b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b><i>Vehicle</i></b>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    }   
-                                    <tr>
+                                            <td>
+                                                <b><i>Vehicle</i></b>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        }   
+                                     <tr>
                                         <td>@item.PageDetails</td>
                                         <td>
                                             <input name="chkRoleActivateFleet" id="@item.PageId" type="checkbox" checked="@item.isActive" class="checkbox-mrg" />
@@ -152,3 +150,27 @@
                             </div>
                             <div class="clear"></div>
                         </div>
+<script>
+    if ($("#ddlPrivileges option:selected").text() == 'Application Administrator') {
+            $('#trAdminSection').show();
+            $('input[name="chkRoleActivate"]').each(function () {
+                this.checked = true;
+                this.disabled = true;
+            });
+
+            //$('input[name="chkRoleActivateFleet"]').each(function () {
+            //    this.checked = true;
+            //    this.disabled = true;
+            //});
+            slidetabs.setContentHeight();
+        }
+    //else {
+    //        $('#trAdminSection').hide();
+    //        $('input[name="chkRoleActivateFleet"]').each(function () {
+    //            this.checked = false;
+    //            this.disabled = false;
+    //        });
+    //        //$('#btnSubmitA010').disabled = false;
+    //        slidetabs.setContentHeight();
+    //    }
+</script>

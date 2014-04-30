@@ -651,10 +651,9 @@ namespace SteerRentMVC.Controllers
         public ActionResult Users_A010()
         {
             objBal = new MasterData();
-            objModel = new LookupCategoryModel();
-            objModel.PageMode = GlobalEnum.MasterPages.Lookup;
-            objModel.ActionMode = GlobalEnum.Flag.Select;
-            return PartialView();
+            List<UserModel> objModel = new List<UserModel>();
+            //objModel = objBal.GetEmployeeMasterData(0);
+            return PartialView(objModel);
         }
         #endregion
 

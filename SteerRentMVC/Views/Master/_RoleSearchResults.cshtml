@@ -1,5 +1,5 @@
 ﻿@model List<SteerRent.Model.RoleModel>
-<span id="dvRoleSearch">
+<div id="dvRoleSearch">
                 <table class="gridtable">
                     <tr>
                         <th>Role Name
@@ -28,20 +28,20 @@
                             </td>
                             <td>
                                 @*@if (item.RoleName.Contains("Manager") || item.RoleName.Contains("Admin") || item.RoleName.Contains("Supervisor"))*@
-                                @if (item.RoleName.Contains("Admin"))
+                                @if (item.RoleName.Contains("Admin") || item.RoleName.Contains("Accountant") || item.RoleName.Contains("Branch Manager") || item.RoleName.Contains("Counter Supervisor"))
                                 {
                                     <input type="checkbox" disabled name="chkStateDisable" checked="@item.IsActive" class="checkbox-mrg" />
                                                                     }
                                 else
-                                {<input type="checkbox" id="@item.RoleId"  name="chkRoleState" checked="@item.IsActive" class="checkbox-mrg" />}
+                                {<input type="checkbox" id='@item.RoleId'  name="chkRoleState" checked="@item.IsActivated" class="checkbox-mrg" />}
                             </td>
                             <td>
-                                @*@item.UserID /*@
+                                Admin / 
                                 @item.CreatedOn
                             </td>
                             <td>
-                                <div id='dvRoleDelete-@item.RoleId' data-name="dvRoleDelete"></div>
-
+                                @if(item.IsActivated == false){
+                                <div id='dvRoleDelete-@item.RoleId' class="del_btn" data-name="dvRoleDelete">X</div>}
                             </td>
                         </tr>
                                                                     }
@@ -71,5 +71,16 @@
     <span id="spnRoleInActiveCnt">@Model.Where(m => m.IsActive == false).Count()</span> - Inactive.</h5>
                                                         }
                                                     }
-        </span>
+        </div>
+<script>
+    $('[data-name="dvRoleDelete"]').click(function () {
+        alert(this.id);
+        var id = this.id;
+        id = id.replace('dvRoleDelete-', '');
+        RefreshGrid('', id, 'Update', false, false);
+    });
 
+    $("input[name=chkRoleState]").change(function () {
+        RefreshGrid('', this.id, 'Update', true, this.checked);
+    });
+</script>

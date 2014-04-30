@@ -1,0 +1,74 @@
+﻿@model List<SteerRent.Model.UserModel>
+<div id="dvUserSearch">
+                                <table class="gridtable">
+                                <tr>
+                                    <th width="10%">Sl. No.
+                                    </th>
+                                    <th width="25%">Employee Name
+                                    </th>
+                                    <th width="20%">E-Mail Id/Login
+                                    </th>
+                                    <th width="25%">Role Assignment
+                                    </th>
+                                    <th width="10%">Activation
+                                    </th>
+                                    <th width="10%">Rst Pw
+                                    </th>
+
+                                </tr>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.Count > 0)
+                                        {
+                                            var cnt = 0;
+                                            foreach (var item in Model)
+                                            {
+                                                cnt = cnt + 1;
+                                <tr>
+                                    <td>@cnt
+                                    </td>
+                                    <td>@item.EmployeeCode
+                                    </td>
+                                    <td>E-Mail Id/Login
+                                    </td>
+                                    <td>
+                                        <select class="special_combo_for_table">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="chkUserActivate" id="chkUserActivate" type="checkbox" checked="@item.IsActive" class="checkbox-mrg" />
+                                    </td>
+                                    <td>
+                                        <input name="chkResetPw" type="checkbox" class="checkbox-mrg" />
+                                    </td>
+
+                                </tr>
+                                            }
+                                        }
+                                    }
+                                @*<tr>
+                                    <td>2.
+                                    </td>
+                                    <td>Full Name
+                                    </td>
+                                    <td>E-Mail Id/Login
+                                    </td>
+                                    <td>
+                                        <select class="special_combo_for_table">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="chkActivate" type="checkbox" class="checkbox-mrg" />
+                                    </td>
+                                    <td></td>
+
+                                </tr>*@
+                            </table>
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+</div>

@@ -2,28 +2,26 @@
 @{
 
     }
+<script src="~/Scripts/steerrent.js"></script>
 <!--- START A009 - Privileges-->
 <div class="A009 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
-            <div class="contain_row">
+            <div class="contain_row" id="PrivSuccessMsg">
                 <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
             </div>
-            <div class="contain_row">
-                <p class="error_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
-                <p class="error_msg_sm">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
+            <div class="contain_row ErrorMsgPriv">
+                <p class="error_msg_bg" id="PrivFailMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                <p class="error_msg_sm" id="PrivNetworkErrMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
             </div>
-            <form name="" method="post">
-
+            <form name="frmPrivilege" method="post">
                 <div class="contain_row">
                     <!--<h5 class="contain_title">Privileges</h5>-->
                     <div class="contain_sub_row">
                         <div class="contain_left_part">
                             <p class="label_part">Choose Role <span>*</span></p>
                             <div class="label_combo_part">
-                                <select name="ddlRoles">
-                                    <option></option>
-                                </select>
+                                @Html.DropDownList("Roles", new SelectList(Model.roleList, "RoleId", "RoleName"), "", new { @id = "ddlPrivileges", onchange = "LoadPrivileges()" })
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -34,8 +32,8 @@
                         <div class="clear"></div>
                     </div>
                     <div>&nbsp;</div>
-                    <div class="contain_sub_row">
-                        <p class="label_part">Assign Privileges</p>
+                    <div class="contain_sub_row" id="dvPrivileges" style="display:none" >
+                        @*<p class="label_part">Assign Privileges</p>
                         <div class="label_textarea_part">
                             <table class="gridtable">
                                 <tr>
@@ -117,12 +115,12 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="clear"></div>
+                        <div class="clear"></div>*@
                     </div>
                 </div>
-                <div class="submit_part">
+                <div class="submit_part" id="btnPriv" style="display:none">
                     <div class="contain_submit_row">
-                        <button type="submit" class="submit_btn" value="Submit">Submit</button>
+                        <button type="button" class="submit_btn" id="btnSubmitA009" value="Submit">Submit</button>
                     </div>
                 </div>
             </form>
@@ -149,7 +147,6 @@
             frmPrevilege = tempData.replace('undefined|', '');
             if (frmPrevilege != null) {
                 var href = '@Url.Action("PrivilegesInsertUpdate")';
-
                 $.ajax({
                     url: href,
                     data: { formCollection: frmPrevilege, RoleId: $('#ddlPrivileges').val() },
@@ -157,7 +154,18 @@
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-
+                        $('#PrivSuccessMsg').css("display", "block");
+                        $('.ErrorMsgPriv').css("display", "none");
+                        $('#PrivFailMsg').css("display", "none");
+                        $('#PrivNetworkErrMsg').css("display", "none");
+                        slidetabs.setContentHeight();
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('#PrivSuccessMsg').css("display", "none");
+                        $('.ErrorMsgPriv').css("display", "block");
+                        $('#PrivFailMsg').css("display", "block");
+                        $('#PrivNetworkErrMsg').css("display", "block");
+                        slidetabs.setContentHeight();
                     }
                 });
             }
@@ -165,44 +173,32 @@
         });
 
     function LoadPrivileges() {
+        if ($("#ddlPrivileges option:selected").text() == '') {
+            $('#dvPrivileges').hide(); $('#btnPriv').hide();
+            slidetabs.setContentHeight();
+            return;
+        }
         $('#dvPrivileges').show();
-        var href = '@Url.Action("GetPrivileges")';
-        $.ajax({
-            url: href,
-            data: { RoleId: $('#ddlPrivileges').val() },
-            type: "POST",
-            datatype: "json",
-            traditional: true,
-            success: function (data) {
-                $('#dvPrivileges').replaceWith(data);
-                slidetabs.setContentHeight();
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                $('#errMsg').show();
-                //alert("Error:Action is aborted.Please try again later.");
-            }
-        });
-
-        //if ($("#ddlPrivileges option:selected").text() == 'Admin') {
-        //    $('#trAdminSection').show();
-        //    $('input[name="chkRoleActivate"]').each(function () {
-        //        this.checked = true;
-        //        this.disabled = true;
-        //    });
-
-        //    //$('input[name="chkRoleActivateFleet"]').each(function () {
-        //    //    this.checked = true;
-        //    //    this.disabled = true;
-        //    //});
-        //}
-        //else {
-        //    $('#trAdminSection').hide();
-        //    $('input[name="chkRoleActivateFleet"]').each(function () {
-        //        this.checked = false;
-        //        this.disabled = false;
-        //    });
-        //    //$('#btnSubmitA010').disabled = false;
-        //}
-        slidetabs.setContentHeight();
-    }
+        $('#btnPriv').show();
+            var href = '@Url.Action("GetPrivileges")';
+            $.ajax({
+                url: href,
+                data: { RoleId: $('#ddlPrivileges').val() },
+                type: "POST",
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#dvPrivileges').replaceWith(data);
+                    $('#PrivSuccessMsg').css("display", "none");
+                    $('.ErrorMsgPriv').css("display", "none");
+                    $('#PrivFailMsg').css("display", "none");
+                    $('#PrivNetworkErrMsg').css("display", "none");
+                    slidetabs.setContentHeight();
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('#errMsg').show();
+                    //alert("Error:Action is aborted.Please try again later.");
+                }
+            });
+        }
 </script>

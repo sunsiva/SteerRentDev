@@ -265,4 +265,15 @@ namespace SteerRent.Model
         public bool isActive { get; set; }
         public int UserID { get; set; }
     }
+
+    public class UserModel
+    {
+        public List<EmployeeModel> lstEmployeeList { get; set; }
+        public List<RoleModel> lstRolesList { get; set; }
+        public decimal EmployeeId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid RoleId { get; set; }
+        public string UserEMailId { get; set; }
+        public bool isActive { get; set; }
+    }
 }

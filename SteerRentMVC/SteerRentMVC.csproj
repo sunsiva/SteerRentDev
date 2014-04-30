@@ -355,6 +355,7 @@
     <Content Include="Views\Master\_EmployeeAddUpdate.cshtml" />
     <Content Include="Views\Master\_EmployeeSearchResults.cshtml" />
     <Content Include="Views\Master\_PrivilegesSearchResults.cshtml" />
+    <Content Include="Views\Master\_UsersSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\ImageTemp\" />

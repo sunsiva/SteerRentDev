@@ -4,22 +4,23 @@
 <div class="A008 st_view">
     <div class="st_view_inner">
         <div class="tab_contant_inner">
-            <form name="frmRoles" method="post">
-                <div class="contain_row" id="RoleSuccessMsg">
+            <div class="contain_row" id="RoleSuccessMsg">
                     <p class="success_msg_bg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opeartion was successful</p>
                 </div>
                 <div class="contain_row  ErrorMsgRole">
                     <p class="error_msg_bg" id="RoleFailMsg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error(s)</p>
+                    <p class="error_msg_sm" id="RoleReqMsg">Please enter the required field.</p>
                     <p class="error_msg_sm" id="RoleIdExistMsg">The Role Name already exists. Please try a different value.</p>
                     @*<p class="error_msg_sm">Numbers/Special characters are not allowed in Role Name.</p>*@
                     <p class="error_msg_sm" id="RoleNetworkErrMsg">Unable to process your request. Please try again. Contact your administrator if the issue persists.</p>
                 </div>
+            <form name="frmRoles" id="frmRoles" method="post">
                 <div class="contain_row">
                     <!--<h5 class="contain_title">User Roles</h5>-->
                     <div class="contain_sub_row">
                         <p class="label_part"><b>User Roles</b></p>
                         <div class="label_textarea_part">
-             <span id="dvRoleSearch">@Html.Partial("_RoleSearchResults",Model)</span>
+                        <div id="dvRoleSearch">@Html.Partial("_RoleSearchResults",Model)</div>
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -30,12 +31,11 @@
                         <div class="contain_left_part">
                             <p class="label_part">Role Name <span>*</span></p>
                             <div class="label_input_part">
-                                <input name="txtRoleName" id="txtRoleName" type="text" placeholder="">
+                                <input name="txtRoleName" class="alphaNum49" id="txtRoleName" type="text" placeholder="">
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="contain_left_part">
-
                             <div class="label_input_part">
                             </div>
                             <div class="clear"></div>
@@ -43,6 +43,7 @@
                         <div class="clear"></div>
                     </div>
                 </div>
+                <div class="clear"></div>
                 <div class="submit_part">
                     <div class="contain_submit_row">
                         <button type="button" class="submit_btn" id="btnSubmitA8" value="Submit">Submit</button>
@@ -64,29 +65,28 @@
             touchSupport: true
         });
 
-        $(document).ready(function () {
-
-            $('[data-name="dvRoleDelete"]').click(function () {
-                var id = this.id;
-                id = id.replace('dvRoleDelete-', '');
-                RefreshGrid('', id, 'Update', false,false);
-            });
-
-            $("input[name=chkRoleState]").change(function () {
-                RefreshGrid('', this.id, 'Update', true, this.checked);
-            });
-
             $('#btnSubmitA8').click(function () {
-                if ($('#txtRoleName').val().toUpperCase() == 'ADMIN') {
+                if ($('#txtRoleName').val().toUpperCase() == 'ADMIN' || $('#txtRoleName').val().toUpperCase() == 'ACCOUNTANT'
+                    || $('#txtRoleName').val().toUpperCase() == 'COUNTER SUPERVISOR'
+                    || $('#txtRoleName').val().toUpperCase() == 'BRANCH MANAGER') {
                     $('#RoleIdExistMsg').css("display", "block");
                     $('#RoleFailMsg').css("display", "block");
                     $('.ErrorMsgRole').css("display", "block");
+                    $('#RoleReqMsg').css("display", "none");
                     $('#RoleNetworkErrMsg').css("display", "none");
                     slidetabs.setContentHeight();
                     return false;
                 }
                 if ($('#txtRoleName').val() != '') {
-                    RefreshGrid($('#txtRoleName').val(),'0','Insert',true,false);
+                    RefreshGrid($('#txtRoleName').val(), '0', 'Insert', true, false);
+                }
+                else {
+                    $('.ErrorMsgRole').css("display", "block");
+                    $('#RoleFailMsg').css("display", "block");
+                    $('#RoleReqMsg').css("display", "block");
+                    $('#RoleSuccessMsg').css("display", "none");
+                    $('#RoleIdExistMsg').css("display", "none");
+                    $('#RoleNetworkErrMsg').css("display", "none");
                 }
                 slidetabs.setContentHeight();
             });
@@ -102,11 +102,18 @@
                     traditional: true,
                     success: function (data) {
                         if (data == 1)
-                        { $('.error_msg_bg').css("display", "block"); $('.error_msg_exist').css("display", "block"); }
+                        {
+                            $('#RoleIdExistMsg').css("display", "block");
+                            $('#RoleFailMsg').css("display", "block");
+                            $('.ErrorMsgRole').css("display", "block");
+                            $('#RoleReqMsg').css("display", "none");
+                            $('#RoleNetworkErrMsg').css("display", "none");
+                        }
                         else {
+                            $('#dvRoleSearch').replaceWith(data);
                             $('#txtRoleName').val('');
                             $('.ErrorMsgRole').css("display", "none");
-                            $('.RoleSuccessMsg').css("display", "block");
+                            $('#RoleSuccessMsg').css("display", "block");
                         }
                         if (isActivated == true) {
                             $('#dvRoleDelete-' + id).text('').removeClass("del_btn");
@@ -118,7 +125,7 @@
                         slidetabs.setContentHeight();
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
-                        $('.RoleSuccessMsg').css("display", "none");
+                        $('#RoleSuccessMsg').css("display", "none");
                         $('.ErrorMsgRole').css("display", "block");
                         $('#RoleNetworkErrMsg').css("display", "block");
                         $('#RoleFailMsg').css("display", "block");
@@ -126,6 +133,5 @@
                     }
                 });
             }
-        });
 
     </script>
